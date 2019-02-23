@@ -3,12 +3,20 @@ const User = require('../Models/User');
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 const keys = require("../Config/keys");
+const validate = require("../Util/validations");
 
 const authCntrl = {
 	register: (req, res, next) =>{
+		const { errors, isValid } = validate.registration(req.body);
+		
+		if(!isValid){
+			return res.status(400).json(errors);
+		};
+
 		User.findOne({ email: req.body.email }).then(user =>{
 			if(user){
-				return res.status(400).json({ error:{ email: "Email already exists" } });
+				errors.email = "Email already exists!";
+				return res.status(400).json(errors);
 			} else {
 				const newUser = new User({
 					email: req.body.email,
@@ -28,12 +36,19 @@ const authCntrl = {
 	},
 
 	login: (req, res, next) =>{
+		const { errors, isValid } = validate.login(req.body);
+		
+		if(!isValid){
+			return res.status(400).json(errors);
+		};
+
 		const email = req.body.email;
 		const password = req.body.password;
 
 		User.findOne({ email }).then((user) =>{
 			if(!user){
-				return res.status(404).json({ error:{ email: "User not found!" } });
+				errors.email = "User not found!";
+				return res.status(404).json(errors);
 			};
 
 			bcrypt.compare(password, user.password).then((isMatch) => {
@@ -44,7 +59,8 @@ const authCntrl = {
 						res.status(200).json({token: `Bearer ${token}`})
 					});
 				} else {
-					return res.status(400).json({ error: {password: "Password incorrect!"} });
+					errors.password = "Password incorrect!";
+					return res.status(400).json(errors);
 				}
 			})
 		})
