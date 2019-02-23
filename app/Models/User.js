@@ -29,4 +29,15 @@ const UserSchema = new Schema({
 	avatar: {type: String, default: "http://lorempixel.com/400/200/people"}
 }, {timestamps: true});
 
+UserSchema.methods.detailsToJSON = function(){
+	const userinfo = {
+		_id: this._id,
+		username: this.username,
+		email: this.email,
+		avatar: this.avatar
+	};
+
+	return userinfo;
+};
+
 module.exports = User = mongoose.model("User", UserSchema);

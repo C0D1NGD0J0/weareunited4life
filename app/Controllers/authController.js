@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 const keys = require("../Config/keys");
 
-const userCntrl = {
+const authCntrl = {
 	register: (req, res, next) =>{
 		User.findOne({ email: req.body.email }).then(user =>{
 			if(user){
@@ -51,4 +51,4 @@ const userCntrl = {
 	}
 };
 
-module.exports = userCntrl;
+module.exports = authCntrl;

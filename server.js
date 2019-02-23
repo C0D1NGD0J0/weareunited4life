@@ -1,6 +1,8 @@
 const express = require('express');
 const logger = require('morgan');
 const dotenv = require('dotenv');
+const passport = require("passport");
+const passportConfig = require("./app/Config/passportConfig");
 const bodyParser = require('body-parser');
 const PORT = (process.env.PORT || 3000);
 const app = express();
@@ -9,7 +11,11 @@ const app = express();
 dotenv.config();
 app.use(logger('dev'));
 app.use(bodyParser.json());
+app.use(passport.initialize());
 app.use(bodyParser.urlencoded({extended: false}));
+
+// Passport JWT Config
+passportConfig(passport);
 
 // Database Connection
 require('./app/Database');
@@ -20,7 +26,7 @@ require('./app/Models/User');
 
 // Routes
 app.use('/api/auth', require('./app/Routes/auth'));
-app.use('/api', require('./app/Routes/user'));
+app.use('/api/users', require('./app/Routes/user'));
 // app.use('/api', require('./app/Routes/post'));
 
 // Error Handling
