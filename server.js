@@ -19,7 +19,7 @@ require('./app/Models/User');
 // require('./app/Models/Post');
 
 // Routes
-app.use('/api', require('./app/Routes/auth'));
+app.use('/api/auth', require('./app/Routes/auth'));
 app.use('/api', require('./app/Routes/user'));
 // app.use('/api', require('./app/Routes/post'));
 

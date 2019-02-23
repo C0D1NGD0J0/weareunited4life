@@ -21,15 +21,12 @@ const UserSchema = new Schema({
 		required: true,
 		minlength: 6
 	},
-	avatar: {
-		type: String,
-		required: true
-	},
 	active: {type: Boolean, default: false},
 	activationToken: {type: String, default: ""},
 	activationTokenExpires: {type: Date, default: Date.now},
 	passwordResetToken: {type: String, default:''},
-	passwordResetExpires: {type: Date, default: Date.now}
+	passwordResetExpires: {type: Date, default: Date.now},
+	avatar: {type: String, default: "http://lorempixel.com/400/200/people"}
 }, {timestamps: true});
 
 module.exports = User = mongoose.model("User", UserSchema);
