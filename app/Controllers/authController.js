@@ -1,6 +1,8 @@
 "use strict";
 const User = require('../Models/User');
 const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
+const keys = require("../Config/keys");
 
 const userCntrl = {
 	register: (req, res, next) =>{
@@ -36,7 +38,11 @@ const userCntrl = {
 
 			bcrypt.compare(password, user.password).then((isMatch) => {
 				if(isMatch){
-					res.status(200).json({msg: "Success"});
+					const payload = { id: user.id, username: user.username, avatar: user.avatar };
+
+					jwt.sign(payload, keys.secret, { expiresIn: 3600 }, (err, token) =>{
+						res.status(200).json({token: `Bearer ${token}`})
+					});
 				} else {
 					return res.status(400).json({ error: {password: "Password incorrect!"} });
 				}
