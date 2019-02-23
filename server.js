@@ -15,10 +15,13 @@ app.use(bodyParser.urlencoded({extended: false}));
 require('./app/Database');
 
 // Models
-require('./app/Models/post');
+require('./app/Models/User');
+// require('./app/Models/Post');
 
 // Routes
-app.use('/api', require('./app/Routes/post'));
+app.use('/api', require('./app/Routes/auth'));
+app.use('/api', require('./app/Routes/user'));
+// app.use('/api', require('./app/Routes/post'));
 
 // Error Handling
 
