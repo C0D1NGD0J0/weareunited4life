@@ -141,15 +141,15 @@ const authCntrl = {
 			passwordResetToken: token, 
 			passwordResetExpires: {$gt: Date.now()}}, (err, user) =>{
 				if(!user || err) {
-					return res.status(404).json({error: "invalid token, please generate a new token."});
+					return res.status(404).json({error: "invalid reset token, please generate a new token."});
 				};
 
-				user.password = user.encryptPassword(req.body.password);
+				user.password = bcrypt.hashSync(req.body.password, 10);
 				user.passwordResetToken = "";
 				user.passwordResetExpires = "";
 				
 				user.save()
-					.then(() => res.json({message: "Password reset was successful.", token: ""}))
+					.then(() => res.json("Password reset was successful."))
 					.catch((err) => res.status(404).json({error: err}));
 		});
 	}
