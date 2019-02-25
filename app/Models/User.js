@@ -24,9 +24,9 @@ const UserSchema = new Schema({
 	},
 	active: {type: Boolean, default: false},
 	activationToken: {type: String, default: ""},
-	activationTokenExpires: {type: Date, default: Date.now},
-	passwordResetToken: {type: String, default:''},
-	passwordResetExpires: {type: Date, default: Date.now},
+	activationTokenExpires: {type: Date, default: ""},
+	passwordResetToken: {type: String, default:""},
+	passwordResetExpires: {type: Date, default: ""},
 	avatar: {type: String, default: "http://lorempixel.com/400/200/people"}
 }, {timestamps: true});
 
