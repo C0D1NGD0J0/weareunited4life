@@ -112,7 +112,7 @@ const authCntrl = {
 					return res.status(400).json(errors);
 				}
 			})
-		})
+		}).catch((err) => res.status(400).json(err));
 	},
 
 	accountActivation: async (req, res, next) =>{

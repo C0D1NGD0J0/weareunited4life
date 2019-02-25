@@ -27,7 +27,6 @@ require('./app/Models/User');
 // Routes
 app.use('/api/auth', require('./app/Routes/auth'));
 app.use('/api/users', require('./app/Routes/user'));
-// app.use('/api', require('./app/Routes/post'));
 
 // Error Handling
 
