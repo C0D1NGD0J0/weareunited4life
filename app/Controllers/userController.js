@@ -37,9 +37,14 @@ const userCntrl = {
 
 	update: async (req, res, next) =>{
 		const updateData = {};
-		const errors = {};
 		const { userId } = req.params;
 		const isAuthorized = req.user.id.equals(userId);
+		
+		const { errors, isValid } = validate.updateuser(req.body);
+		
+		if(!isValid){
+			return res.status(400).json(errors);
+		};
 
 		if(isAuthorized){
 			updateData.username = req.body.username;

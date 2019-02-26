@@ -13,10 +13,10 @@ const PostSchema = new Schema({
 		minlength: 4,
 		maxlength: 100
 	},
-	body: {
+	text: {
 		type: String,
 		required: [true, "Post body is required"],
-		minlength: 5,
+		minlength: 2,
 		maxlength: 200
 	},
 	likes: {

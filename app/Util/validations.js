@@ -112,6 +112,69 @@ const validate = {
 		}
 
 		return {errors, isValid: isEmpty(errors)}
+	},
+	
+	updateuser: (data) =>{
+		let errors = {};
+		
+		data.username = !isEmpty(data.username) ? data.username : "";
+		data.email = !isEmpty(data.email) ? data.email : "";
+		data.password = !isEmpty(data.password) ? data.password : "";
+
+		if(!Validator.isLength(data.username, { min: 5, max: 20 })){
+			errors.username = `${data.username} must be between 5 and 20 characters.`;
+		};
+		
+		if(Validator.isEmpty(data.username)){
+			errors.username = "Username field is required.";
+		};
+
+		if(Validator.isEmpty(data.email)){
+			errors.email = "Email field is required.";
+		};
+
+		if(!Validator.isEmail(data.email)){
+			errors.email = "Email is invalid.";
+		};
+
+		if(Validator.isEmpty(data.password)){
+			errors.password = "Password field is required.";
+		};
+
+		if(!Validator.isLength(data.password, {min: 6, max: 15})){
+			errors.password = "Password must be at least 6 characters long.";
+		};
+
+		return {errors, isValid: isEmpty(errors)};
+	},
+
+	newpost: (data) =>{
+		const errors = {};
+
+		data.title = !isEmpty(data.title) ? data.title : "";
+		data.text = !isEmpty(data.text) ? data.text : "";
+
+		if(Validator.isEmpty(data.title)){
+			errors.title = "Post title is required.";
+		};
+
+		if(!Validator.isLength(data.title, {min: 5, max: 100})){
+			errors.title = "Title should be between 5 and 100 characters.";
+		};
+		
+		if(Validator.isEmpty(data.text)){
+			errors.text = "Post body is required.";
+		};
+
+		if(!Validator.isLength(data.text, {min: 2, max: 200})){
+			errors.text = "Post body should be between 2 and 200 characters.";
+		};
+
+		if(Validator.isEmpty(data.tags)){
+			errors.tags = "Post tags needs to be provided.";
+		};
+
+		return { errors, isValid: isEmpty(errors) };
 	}
 }
 
