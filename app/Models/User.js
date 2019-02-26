@@ -1,3 +1,4 @@
+"use strict";
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -41,4 +42,5 @@ UserSchema.methods.detailsToJSON = function(){
 	return userinfo;
 };
 
-module.exports = User = mongoose.model("User", UserSchema);
+const user = mongoose.model("User", UserSchema);
+module.exports = user;
