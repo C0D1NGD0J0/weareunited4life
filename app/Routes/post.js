@@ -6,6 +6,8 @@ const postController = require("../Controllers/postcontroller");
 
 router.get("/", passport.authenticate('jwt', {session: false}), postController.index);
 
+router.get("/:postId", postController.show);
+
 router.post("/", passport.authenticate('jwt', {session: false}), postController.create);
 
 module.exports = router;
