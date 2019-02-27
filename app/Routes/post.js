@@ -2,16 +2,20 @@
 const express = require('express');
 const router = express.Router();
 const passport = require("passport");
-const postController = require("../Controllers/postcontroller");
+const postCntrl = require("../Controllers/postcontroller");
 
-router.get("/", passport.authenticate('jwt', {session: false}), postController.index);
+router.get("/", passport.authenticate('jwt', {session: false}), postCntrl.index);
 
-router.get("/:postId", postController.show);
+router.post("/", passport.authenticate('jwt', {session: false}), postCntrl.create);
 
-router.put("/:postId", passport.authenticate('jwt', {session: false}), postController.update);
+router.put("/:postId/like", passport.authenticate('jwt', {session: false}), postCntrl.like);
 
-router.post("/", passport.authenticate('jwt', {session: false}), postController.create);
+router.put("/:postId/unlike", passport.authenticate('jwt', {session: false}), postCntrl.unlike);
 
-router.delete("/:postId", passport.authenticate('jwt', {session: false}), postController.delete);
+router.get("/:postId", postCntrl.show);
+
+router.put("/:postId", passport.authenticate('jwt', {session: false}), postCntrl.update);
+
+router.delete("/:postId", passport.authenticate('jwt', {session: false}), postCntrl.delete);
 
 module.exports = router;

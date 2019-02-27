@@ -87,6 +87,49 @@ const postCntrl = {
 			errors.msg = "You are not permitted to perform this action.";
 			res.status(401).json(errors);
 		}
+	},
+
+	like: (req, res, next) =>{
+		const { postId } = req.params;
+		const errors = {};
+
+		Post.findById(postId).then((post) =>{
+			const alreadyLiked = post.likes.users.map(item => item.toString()).includes(req.user.id);
+			if(alreadyLiked){
+				errors.msg = "Unable to like same post twice..";
+				return res.status(400).json(errors);
+			};
+			
+			post.likes.users.push(req.user.id);
+			post.likes.count += 1;
+
+			post.save().then(post => res.json(post))
+		}).catch((err) => {
+			errors.msg = "Post not found.";
+			return res.status(404).json(errors);
+		});
+	},
+
+	unlike: (req, res, next) =>{
+		const { postId } = req.params;
+		const errors = {};
+
+		Post.findById(postId).then((post) =>{
+			const alreadyLiked = post.likes.users.map(item => item.toString()).includes(req.user.id);
+			
+			if(!alreadyLiked){
+				errors.msg = "You have not yet liked this post.";
+				return res.status(400).json(errors);
+			};
+
+			post.likes.users.filter(user => user.toString() !== req.user.id);
+			post.likes.count > 0 ? post.likes.count -= 1 : post.likes.count = 0;
+
+			post.save().then(post => res.json(post))
+		}).catch((err) => {
+			errors.msg = "Post not found.";
+			return res.status(404).json(errors);
+		});
 	}
 };
 
