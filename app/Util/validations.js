@@ -175,6 +175,22 @@ const validate = {
 		};
 
 		return { errors, isValid: isEmpty(errors) };
+	},
+
+	newcomment: (data) =>{
+		const errors = {};
+
+		data.comment = isEmpty(data.comment) ? "" : data.comment;
+
+		if(Validator.isEmpty(data.comment)){
+			errors.comment = "Comment needs to be provided.";
+		}
+
+		if(!Validator.isLength(data.comment, {min: 5, max: 200})){
+			errors.comment = "Exceeded comment characters length of 200";
+		}
+
+		return {errors, isValid: isEmpty(errors)};
 	}
 }
 

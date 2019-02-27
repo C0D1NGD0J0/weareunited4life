@@ -23,11 +23,13 @@ require('./app/Database');
 // Models
 require('./app/Models/User');
 require('./app/Models/Post');
+require('./app/Models/Comment');
 
 // Routes
 app.use('/api/auth', require('./app/Routes/auth'));
 app.use('/api/users', require('./app/Routes/user'));
 app.use('/api/posts', require('./app/Routes/post'));
+app.use('/api/', require('./app/Routes/comment'));
 
 // Error Handling
 
