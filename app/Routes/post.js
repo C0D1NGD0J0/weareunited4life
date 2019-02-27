@@ -8,11 +8,11 @@ router.get("/", passport.authenticate('jwt', {session: false}), postCntrl.index)
 
 router.post("/", passport.authenticate('jwt', {session: false}), postCntrl.create);
 
+router.get("/:postId", postCntrl.show);
+
 router.put("/:postId/like", passport.authenticate('jwt', {session: false}), postCntrl.like);
 
 router.put("/:postId/unlike", passport.authenticate('jwt', {session: false}), postCntrl.unlike);
-
-router.get("/:postId", postCntrl.show);
 
 router.put("/:postId", passport.authenticate('jwt', {session: false}), postCntrl.update);
 

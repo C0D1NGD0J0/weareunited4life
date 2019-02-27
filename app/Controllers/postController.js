@@ -6,7 +6,7 @@ const postCntrl = {
 	index: (req, res, next) =>{
 		const errors = {};
 
-		Post.find({}).sort({date: -1}).then((posts) =>{
+		Post.find({}).sort({createdAt: -1}).then((posts) =>{
 			return res.status(200).json(posts);
 		}).catch((err) =>{
 			errors.msg = err.message;
@@ -14,23 +14,26 @@ const postCntrl = {
 		});
 	},
 
-	create: (req, res, next) =>{
+	create: async (req, res, next) =>{
 		const { errors, isValid } = validate.newpost(req.body);
 		
 		if(!isValid){
 			return res.status(400).json(errors);
 		};
-
-		const newpost = new Post({
+		
+		const post = new Post({
 			text: req.body.text,
 			title: req.body.title,
 			tags: req.body.tags,
 			author: req.user.id
 		});
-		
-		newpost.save()
-			.then((post) => res.status(200).json(post))
-			.catch((err) => res.status(404).json(err));
+
+		try {
+			const newpost = await post.save();
+			return res.status(200).json(newpost);
+		} catch(err){
+			return res.status(404).json(err)
+		}
 	},
 
 	show: async (req, res, next) =>{
