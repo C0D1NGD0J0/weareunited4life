@@ -48,12 +48,45 @@ const postCntrl = {
 		};
 	},
 
-	update: (req, res, next) =>{
+	update: async (req, res, next) =>{
+		const { postId } = req.params;
+		const updatedPost = {};
+		const errors = {};
+		
+		if(req.body.title) updatedPost.title = req.body.title;
+		if(req.body.text) updatedPost.text = req.body.text;
+		if(req.body.tags) updatedPost.tags = req.body.tags;
 
+		try {
+			const post = await Post.findById(postId).exec();
+			if(post.author._id.equals(req.user.id)){
+				Post.findOneAndUpdate({_id: postId}, {$set: updatedPost}, {new: true}).then((post) =>{
+					return res.json(post);
+				}).catch((err) => res.status(404).json(err));
+			} else {
+				errors.msg = "You are not permitted to perform this action.";
+				return res.status(401).json(errors);
+			};
+		} catch(err) {
+			console.log(err)
+			return res.status(404).json(err);
+		}
 	},
 
-	delete: (req, res, next) =>{
+	delete: async (req, res, next) =>{
+		const errors = {};
+		const { postId } = req.body;
+		const post = await Post.findById(postId).exec();
 		
+		if(!post) return res.status(404).json("Post not found");
+		if(post.author._id.equals(req.user.id)){
+			Post.findOneAndRemove({_id: postId}).then((post) =>{
+				return res.json(post);
+			}).catch((err) => res.status(404).json(err));
+		} else {
+			errors.msg = "You are not permitted to perform this action.";
+			res.status(401).json(errors);
+		}
 	}
 };
 
