@@ -23,6 +23,8 @@ const UserSchema = new Schema({
 		required: true,
 		minlength: 6
 	},
+	location: {String},
+	birthday: {type: Date},
 	active: {type: Boolean, default: false},
 	activationToken: {type: String, default: ""},
 	activationTokenExpires: {type: Date, default: ""},

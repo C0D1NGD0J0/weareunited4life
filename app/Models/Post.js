@@ -26,7 +26,9 @@ const PostSchema = new Schema({
 	tags: [{type: String, required: true}],
 	photos: [{String}],
 	comments:[{type: Schema.Types.ObjectId, ref: "Comment"}],
-	allowComments: {type: Boolean, default: false}
+	allowComments: {type: Boolean, default: false},
+	result: {type: String},
+	type:{type: String, default: 'article', lowercase: true} 
 }, {timestamps: true});
 
 const post = mongoose.model("Post", PostSchema);
