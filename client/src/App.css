@@ -7,11 +7,61 @@ html {
 }
 
 body {
+  color: #06000A;
   font-weight: 400;
   line-height: 1.6;
-  color: #06000A;
+  padding-top: 5.5rem;
   font-family: 'Nunito', sans-serif;
   text-rendering: optimizeLegibility;
+}
+
+/*========================
+    NAVIGATION SECTION
+=========================*/
+.navbar{
+  background-color: rgba(0,0,0,1);
+}
+
+.navbar-nav{
+  float: right;
+}
+
+.navbar-inverse .navbar-brand {
+  color: #fff;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+}
+
+.nav.navbar-nav > li > a{
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all ease-out 0.2s;
+}
+
+.navbar .nav > .active > a{
+  color: #C70101;
+  background-color: transparent;
+}
+
+.nav.navbar-nav > li > a:hover,
+.nav.navbar-nav > li > a:focus {
+  color: #C70101;
+  background: none;
+  transition: all ease-in 0.2s;
+}
+
+.navbar-inverse .navbar-toggle{
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 1px solid #fccd04;
+}
+
+.navbar.transparent{
+  background: transparent;
+  padding: 10px 0;
+  border: none;
 }
 
 #content_wrapper {
