@@ -14,7 +14,7 @@ const commentCntrl = {
 		
 		const comment = new Comment();
 		comment.body = req.body.comment;
-		comment.author._id = req.user.id;
+		comment.author.id = req.user.id;
 		comment.author.username = req.user.username;
 		comment.author.avatar = req.user.avatar;
 		comment.post = postId;
@@ -36,19 +36,26 @@ const commentCntrl = {
 	delete: (req, res, next) =>{
 		const { postId, commentId } = req.params;
 		const errors = {};
-		// console.log("hello there");
-		Comment.findByIdAndRemove(commentId).then((comment) =>{
-			Post.findById(postId).then((post) =>{
-				const isCommentIdIncluded = post.comments.map(comm_id => comm_id.toString()).includes(commentId);
-				if(isCommentIdIncluded){
+		
+
+		Comment.findById(commentId).then((comment) =>{
+			if(comment.author.id.toString() === req.user.id){
+				comment.remove();
+				Post.findById(postId).then((post) =>{
+					const isCommentIdIncluded = post.comments.map(comm_id => comm_id.toString()).includes(commentId);
+					
+					if(!isCommentIdIncluded){
+						errors.msg = "Comment not found.";
+						return res.status(404).json(errors);
+					};
+					
 					let comment = post.comments.filter(item => item.toString() !== commentId );
 					post.comments = comment;
 					return post.save().then(post => res.json(post));
-				};
-
-				errors.msg = "Comment not found.";
-				return res.status(404).json(errors);
-			}).catch((err) => res.status(400).json(err));
+				}).catch((err) => res.status(400).json(err));
+			} else{
+				return res.status(401).json("Unauthorized action performed.");
+			};
 		}).catch((err) => res.status(404).json(err));
 	}
 };
