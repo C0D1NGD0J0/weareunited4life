@@ -9,9 +9,9 @@ router.post("/posts/:postId/comments",
 	commentCntrl.create
 );
 
-// router.delete("posts/:postId/comments/:commentId", 
-// 	passport.authenticate('jwt', {session: false}), 
-// 	commentCntrl.delete
-// );
+router.delete("/posts/:postId/comments/:commentId", 
+	passport.authenticate('jwt', {session: false}), 
+	commentCntrl.delete
+);
 
 module.exports = router;

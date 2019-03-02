@@ -22,7 +22,7 @@ const postCntrl = {
 		};
 		
 		const post = new Post({
-			text: req.body.text,
+			text: req.body.description,
 			title: req.body.title,
 			tags: req.body.tags,
 			author: req.user.id

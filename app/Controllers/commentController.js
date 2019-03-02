@@ -31,6 +31,25 @@ const commentCntrl = {
 			errors.msg = err.message;
 			return res.status(400).json(errors);
 		};
+	},
+
+	delete: (req, res, next) =>{
+		const { postId, commentId } = req.params;
+		const errors = {};
+		// console.log("hello there");
+		Comment.findByIdAndRemove(commentId).then((comment) =>{
+			Post.findById(postId).then((post) =>{
+				const isCommentIdIncluded = post.comments.map(comm_id => comm_id.toString()).includes(commentId);
+				if(isCommentIdIncluded){
+					let comment = post.comments.filter(item => item.toString() !== commentId );
+					post.comments = comment;
+					return post.save().then(post => res.json(post));
+				};
+
+				errors.msg = "Comment not found.";
+				return res.status(404).json(errors);
+			}).catch((err) => res.status(400).json(err));
+		}).catch((err) => res.status(404).json(err));
 	}
 };
 
