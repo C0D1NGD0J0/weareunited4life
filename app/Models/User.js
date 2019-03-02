@@ -25,6 +25,8 @@ const UserSchema = new Schema({
 	},
 	location: {String},
 	birthday: {type: Date},
+	following: [{type: Schema.Types.ObjectId, ref: 'User'}],
+	followers: [{type: Schema.Types.ObjectId, ref: 'User'}],
 	active: {type: Boolean, default: false},
 	activationToken: {type: String, default: ""},
 	activationTokenExpires: {type: Date, default: ""},
@@ -42,6 +44,25 @@ UserSchema.methods.detailsToJSON = function(){
 	};
 
 	return userinfo;
+};
+
+UserSchema.methods.follow = function(id){
+	if(!this.following.includes(id)){
+		this.following.unshift(id);
+	};
+
+	return this.save();
+}
+
+UserSchema.methods.unfollow = function(id){
+	this.following.remove(id);
+	return this.save();
+};
+
+UserSchema.methods.isFollowing = function(id){
+	return this.following.some(function(followid){
+		return id.toString() === followid.toString();
+	});
 };
 
 const user = mongoose.model("User", UserSchema);

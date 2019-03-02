@@ -14,7 +14,7 @@ const userCntrl = {
 		const errors = {};
 		try {
 			const user = await User.findById(req.user.id);
-			return res.status(200).json(user);
+			return res.status(200).json(user.detailsToJSON());
 		} catch(e) {
 			errors.msg = "User doesn't exist.";
 			return res.status(404).json(errors);
@@ -73,7 +73,7 @@ const userCntrl = {
 
 		if(isAuthorized){
 			User.findByIdAndRemove(userId).then((user) =>{
-				return res.status(200).json(user);
+				return res.status(200).json(user.detailsToJSON());
 			}).catch((err) => {
 				errors.msg = err.message;
 				return res.status(404).json(errors);
@@ -82,6 +82,37 @@ const userCntrl = {
 		
 		errors.msg = "You are not permitted to perform this action.";
 		return res.status(401).json(errors);
+	},
+
+	follow: (req, res, next) =>{
+		const errors = {};
+		const { followId } = req.param;
+		errors.msg = "User not found!";
+
+		User.findById(req.user.id).then((user) =>{
+			if(!user) return res.status(401).json(errors);
+			user.follow(followId).then(() =>{
+				return res.json(user.detailsToJSON());
+			});
+		}).catch((err) => res.status(404).json(err));
+	},
+
+	unfollow: (req, res, next) =>{
+		const errors = {};
+		const { followId } = req.params;
+
+		User.findById(req.user.id).then((user) =>{
+			if(!user){
+				errors.msg = "User not found!";
+				res.status(400).json(errors);
+			};
+
+			return user.unfollow(followId).then(() =>{
+				return res.status(200).json(user.detailsToJSON());
+			});
+		}).catch((err) =>{
+			return res.status(404).json(err);
+		});
 	}
 };
 
