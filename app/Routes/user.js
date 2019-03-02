@@ -4,7 +4,7 @@ const router = express.Router();
 const passport = require("passport");
 const userCntrl = require("../Controllers/userController");
 
-router.get("/", passport.authenticate('jwt', {session: false}), userCntrl.index);
+router.get("/", userCntrl.index);
 
 router.put("/:followId/follow", passport.authenticate('jwt', {session: false}), userCntrl.follow);
 

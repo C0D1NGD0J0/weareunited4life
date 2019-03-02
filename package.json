@@ -4,8 +4,11 @@
   "description": "Social media app for manchester united fans",
   "main": "server.js",
   "scripts": {
+    "dev": "concurrently \"mongod\" \"npm run server\" \"npm run client\"",
     "start": "node server.js",
-    "server": "nodemon server"
+    "server": "nodemon server",
+    "client": "npm start --prefix client",
+    "client-install": "npm install --prefix client"
   },
   "author": "c0d1ngd0j0",
   "license": "ISC",
@@ -13,6 +16,7 @@
     "async-waterfall": "0.1.5",
     "bcryptjs": "2.4.3",
     "body-parser": "1.18.3",
+    "concurrently": "^4.1.0",
     "dotenv": "6.2.0",
     "express": "4.16.4",
     "jsonwebtoken": "8.5.0",

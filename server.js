@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const passport = require("passport");
 const passportConfig = require("./app/Config/passportConfig");
 const bodyParser = require('body-parser');
-const PORT = (process.env.PORT || 3000);
+const PORT = (process.env.PORT || 3001);
 const app = express();
 
 // Middleware
