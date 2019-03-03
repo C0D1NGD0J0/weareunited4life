@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import  { Link } from "react-router-dom";
 
 class Navbar extends Component {
 	render() {
@@ -16,15 +17,15 @@ class Navbar extends Component {
 			    </div>
 			    <div id="navbar" className="collapse navbar-collapse">
 			      <ul className="nav navbar-nav navbar-right">
-			        <li className="active"><a href="index.html"><i className="fa fa-home"></i> Home</a></li>
-			        <li><a href="#"><i className="fa fa-soccer-ball-o"></i> Match-Day</a></li>
-			        <li><a href="posts.html"><i className="fa fa-list"></i> Posts</a></li>
-			        <li><a href="messages.html"><i className="fa fa-envelope"></i> Messages</a></li>
+			        <li className="active"><Link to="/"><i className="fa fa-home"></i> Home</Link></li>
+			        <li><Link to="#"><i className="fa fa-soccer-ball-o"></i> Match-Day</Link></li>
+			        <li><Link to="/posts"><i className="fa fa-list"></i> Posts</Link></li>
+			        <li><Link to="/messages"><i className="fa fa-envelope"></i> Messages</Link></li>
 			        <li className="dropdown">
-			          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span className="caret"></span></a>
+			          <Link to="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span className="caret"></span></Link>
 			          <ul className="dropdown-menu">
-			            <li><a href="#">Update Profile</a></li>
-			            <li><a href="#">Add New Post</a></li>
+			            <li><Link to="#">Update Profile</Link></li>
+			            <li><Link to="#">Add New Post</Link></li>
 			          </ul>
 			        </li>
 			      </ul>
