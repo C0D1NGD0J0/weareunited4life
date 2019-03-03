@@ -3,9 +3,9 @@ const express = require('express');
 const router = express.Router();
 const authCntrl = require("../Controllers/authController");
 
-router.get("/account_activation/:token", authCntrl.accountActivation);
+router.post("/signup", authCntrl.signup);
 
-router.post("/register", authCntrl.register);
+router.get("/account_activation/:token", authCntrl.accountActivation);
 
 router.post("/login", authCntrl.login);
 

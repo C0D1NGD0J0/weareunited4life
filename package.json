@@ -4,7 +4,7 @@
   "description": "Social media app for manchester united fans",
   "main": "server.js",
   "scripts": {
-    "dev": "concurrently \"mongod\" \"npm run server\" \"npm run client\"",
+    "dev": "concurrently \"npm run server\" \"npm run client\" \"mongod\"",
     "start": "node server.js",
     "server": "nodemon server",
     "client": "npm start --prefix client",

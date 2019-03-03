@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const passport = require("passport");
 const passportConfig = require("./app/Config/passportConfig");
 const bodyParser = require('body-parser');
-const PORT = (process.env.PORT || 3001);
+const PORT = (process.env.PORT || 5000);
 const app = express();
 
 // Middleware
@@ -32,7 +32,6 @@ app.use('/api/posts', require('./app/Routes/post'));
 app.use('/api/', require('./app/Routes/comment'));
 
 // Error Handling
-
 
 // Initialize Server
 app.listen(PORT, (err) =>{

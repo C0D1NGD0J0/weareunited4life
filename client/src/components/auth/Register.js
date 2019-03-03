@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class Register extends Component {
 	constructor(){
@@ -9,12 +10,8 @@ class Register extends Component {
 			location: '',
 			birthday: '',
 			password: '',
-			passwordConfirm: ''
+			password2: ''
 		}
-	}
-	
-	componentWillUnmount(){
-
 	}
 
 	onFormInputChange = (e) =>{
@@ -29,10 +26,12 @@ class Register extends Component {
 			location: this.state.location,
 			birthday: this.state.birthday,
 			password: this.state.password,
-			passwordConfirm: this.state.passwordConfirm
+			password2: this.state.password2
 		};
 
-		console.log(user);
+		axios.post("/api/auth/signup", user).then((res) =>{
+			return console.log(res.data);
+		}).catch(err => console.log(err.response.data));
 	}
 
 	onFormReset = (e) =>{
@@ -114,11 +113,11 @@ class Register extends Component {
 	          <label>Confirm Password<small>(required)</small></label>
 	          <input 
 	          	type="password" 
-	          	name="passwordConfirm"
+	          	name="password2"
 	          	onChange={this.onFormInputChange}
 	          	placeholder="Password Confirmation"
 	          	className="form-control" 
-	          	value={this.state.passwordConfirm}
+	          	value={this.state.password2}
 	          />
 	        </div>
 
