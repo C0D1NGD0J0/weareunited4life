@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 const pStyle = {
-	paddingTop: "1rem", 
+	paddingTop: "2rem", 
 	marginTop: "1rem",
 	borderTop: ".1rem solid rgba(238, 238, 238, .3)"
 };
@@ -45,7 +45,7 @@ const footer = (props) => {
 		        </ul>
 		      </div>
 		    </div>
-		    <p className="text-center" style={pStyle}>Copyright &copy;</p>
+		    <p className="text-center" style={pStyle}>Copyright &copy; {new Date().getFullYear()}</p>
 		  </div>
 		</footer>
   );
