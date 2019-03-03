@@ -45,7 +45,6 @@ const footer = (props) => {
 		        </ul>
 		      </div>
 		    </div>
-		    <p className="text-center" style={pStyle}>Copyright &copy; {new Date().getFullYear()}</p>
 		  </div>
 		</footer>
   );
