@@ -9,22 +9,49 @@ class Login extends Component {
 		}
 	}
 
+	onFormInputChange = (e) =>{
+		this.setState({[e.target.name]: e.target.value});
+	};
+
+	onFormSubmit = (e) =>{
+		e.preventDefault();
+		const user = {
+			email: this.state.email,
+			password: this.state.password
+		};
+
+		console.log(user);
+	}
+
 	render() {
 		return (
 			<div role="tabpanel" className="tab-pane active" id="login">
-	    	<form action="login.html" className="form">
+	    	<form onSubmit={this.onFormSubmit} className="form">
 	        <div className="form-group">
 	          <label>Email <small>(required)</small></label>
-	          <input type="text" className="form-control" placeholder="Enter Email"/>
+	          <input 
+	          	type="text" 
+	          	name="email"
+	          	className="form-control"
+	          	value={this.state.email}
+	          	placeholder="Enter email..."
+	          	onChange={this.onFormInputChange}
+	          />
 	        </div>
 
 	        <div className="form-group">
 	          <label>Password <small>(required)</small></label>
-	          <input type="password" className="form-control" placeholder="Password"/>
-	        </div>
-					<br/>
-	        <input type="submit" value="Login" className="btn btn-danger btn-block"/>
-					<br/>
+	          <input 
+	          	type="password"
+	          	name="password"
+	          	className="form-control"
+	          	value={this.state.password}
+	          	placeholder="Enter password..."
+	          	onChange={this.onFormInputChange} 
+	          />
+	        </div><br/>
+	        
+	        <input type="submit" value="Login" className="btn btn-danger btn-block"/><br/>
 	        <a href="#">Forgot Password?</a>
 	      </form>
 	    </div>

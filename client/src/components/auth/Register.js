@@ -12,6 +12,10 @@ class Register extends Component {
 			passwordConfirm: ''
 		}
 	}
+	
+	componentWillUnmount(){
+
+	}
 
 	onFormInputChange = (e) =>{
 		this.setState({[e.target.name]: e.target.value});
@@ -29,6 +33,17 @@ class Register extends Component {
 		};
 
 		console.log(user);
+	}
+
+	onFormReset = (e) =>{
+		this.setState({
+			email: '',
+			username: '',
+			location: '',
+			birthday: '',
+			password: '',
+			passwordConfirm: ''
+		})
 	}
 
 	render() {
