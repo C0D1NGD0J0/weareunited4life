@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
+import FormInputField from "../../helpers/FormElements/FormInputField";
+import InputSubmitBtn from "../../helpers/FormElements/InputSubmit";
 
 class Login extends Component {
 	constructor(){
@@ -31,32 +33,32 @@ class Login extends Component {
 		return (
 			<div role="tabpanel" className="tab-pane" id="login">
 	    	<form onSubmit={this.onFormSubmit} className="form">
-	        <div className={classnames("form-group", {"has-errors": errors.email})}>
-	          <label>Email <small>(required)</small></label>
-	          <input 
-	          	type="text" 
-	          	name="email"
-	          	className="form-control"
-	          	value={this.state.email}
-	          	placeholder="Enter email..."
-	          	onChange={this.onFormInputChange}
-	          />
-	          {errors.email && (<small className="help-block text-muted">{errors.email}</small>)}
-	        </div>
 
-	        <div className="form-group">
-	          <label>Password <small>(required)</small></label>
-	          <input 
-	          	type="password"
-	          	name="password"
-	          	className="form-control"
-	          	value={this.state.password}
-	          	placeholder="Enter password..."
-	          	onChange={this.onFormInputChange} 
-	          />
-	        </div><br/>
+	    		<FormInputField
+	    			label="email"
+	    			name="email"
+	    			type="email"
+	    			labelinfo="(required)"
+	    			value={this.state.email}
+	    			onChange={this.onFormInputChange}
+	    			placeholder="Enter Email..."
+	    			error={errors.email}
+	    			isDisabled={false}
+	    		/>
+					
+					<FormInputField
+	    			label="password"
+	    			name="password"
+	    			type="password"
+	    			labelinfo="(required)"
+	    			value={this.state.password}
+	    			onChange={this.onFormInputChange}
+	    			placeholder="Enter Password..."
+	    			error={errors.password}
+	    			isDisabled={false}
+	    		/><br/>
 	        
-	        <input type="submit" value="Login" className="btn btn-danger btn-block"/><br/>
+	        <InputSubmitBtn value="login" btnclass="btn-danger btn-block" /><br/>
 	        <a href="#">Forgot Password?</a>
 	      </form>
 	    </div>

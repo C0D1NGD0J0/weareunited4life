@@ -97,7 +97,7 @@ section {
   border-radius: 0;
   font-size: 1.2rem;
   text-align: center;
-  padding: .5rem 1.5rem;
+  padding: .8rem 1rem;
   text-transform: uppercase;
 }
 
@@ -206,6 +206,7 @@ section {
 }
 
 .form input[type="tel"],
+.form input[type="date"],
 .form input[type="text"],
 .form input[type="email"],
 .form input[type="password"] {

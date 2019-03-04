@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import classnames from 'classnames';
+import FormInputField from "../../helpers/FormElements/FormInputField";
+import InputSubmitBtn from "../../helpers/FormElements/InputSubmit";
 
 class Register extends Component {
 	constructor(){
@@ -53,82 +55,76 @@ class Register extends Component {
 		return (
 			<div role="tabpanel" className="tab-pane active" id="signup">
 	    	<form onSubmit={this.onFormSubmit} className="form">
-	        <div className={classnames("form-group", {"has-error": errors.username})}>
-	          <label>Username <small>(required)</small></label>
-	          <input 
-	          	type="text" 
-	          	name="username"
-	          	onChange={this.onFormInputChange}
-	          	className="form-control"
-	          	placeholder="Enter Username" 
-	          	value={this.state.username}
-	          />
-	          {errors.username && (<small className="help-block text-muted">{errors.username}</small>)}
-	        </div>
+	    		<FormInputField
+	    			label="Username"
+	    			name="username"
+	    			labelinfo="(required)"
+	    			value={this.state.username}
+	    			onChange={this.onFormInputChange}
+	    			placeholder="Enter Username..."
+	    			error={errors.username}
+	    			isDisabled={false}
+	    		/>
 
-	        <div className="form-group">
-	          <label>Email <small>(required)</small></label>
-	          <input 
-	          	type="email"
-	          	name="email"
-	          	onChange={this.onFormInputChange}
-	          	className="form-control" 
-	          	value={this.state.email}
-	          	placeholder="Enter Email"
-	          />
-	        </div>
+	    		<FormInputField
+	    			label="Email"
+	    			name="email"
+	    			type="email"
+	    			labelinfo="(required)"
+	    			value={this.state.email}
+	    			onChange={this.onFormInputChange}
+	    			placeholder="Enter Email..."
+	    			error={errors.email}
+	    			isDisabled={false}
+	    		/>
 
-	        <div className="form-group">
-	          <label>Location <small>(required)</small></label>
-	          <input
-	          	type="text"
-	          	name="location"
-	          	onChange={this.onFormInputChange}
-	          	className="form-control"
-	          	value={this.state.location}
-	          	placeholder="Enter Location"
-	          />
-	        </div>
+	    		<FormInputField
+	    			label="location"
+	    			name="location"
+	    			labelinfo="(required)"
+	    			value={this.state.location}
+	    			onChange={this.onFormInputChange}
+	    			placeholder="Enter location..."
+	    			error={errors.location}
+	    			isDisabled={false}
+	    		/>
 
-	        <div className="form-group">
-	          <label>Birthday <small>(required)</small></label>
-	          <input 
-	          	type="date" 
-	          	name="birthday"
-	          	onChange={this.onFormInputChange}
-	          	className="form-control" 
-	          	placeholder="Enter D.o.B"
-	          	value={this.state.birthday}
-	          />
-	        </div>
+	    		<FormInputField
+	    			label="birthday"
+	    			name="birthday"
+	    			type="date"
+	    			labelinfo="(required)"
+	    			value={this.state.birthday}
+	    			onChange={this.onFormInputChange}
+	    			placeholder="Enter Birthday..."
+	    			error={errors.birthday}
+	    			isDisabled={false}
+	    		/>
 
-	        <div className="form-group">
-	          <label>Password <small>(required)</small></label>
-	          <input 
-	          	type="password" 
-	          	name="password"
-	          	onChange={this.onFormInputChange}
-	          	placeholder="Password"
-	          	className="form-control" 
-	          	value={this.state.password}
-	          />
-	        </div>
+	    		<FormInputField
+	    			label="password"
+	    			name="password"
+	    			type="password"
+	    			labelinfo="(required)"
+	    			value={this.state.password}
+	    			onChange={this.onFormInputChange}
+	    			placeholder="Enter Password..."
+	    			error={errors.password}
+	    			isDisabled={false}
+	    		/>
 
-	        <div className="form-group">
-	          <label>Confirm Password<small>(required)</small></label>
-	          <input 
-	          	type="password" 
-	          	name="password2"
-	          	onChange={this.onFormInputChange}
-	          	placeholder="Password Confirmation"
-	          	className="form-control" 
-	          	value={this.state.password2}
-	          />
-	        </div>
-
-					<br/>
-	        <input type="submit" value="Signup" className="btn btn-danger btn-block"/>
-					<br/>
+	    		<FormInputField
+	    			label="confirm password"
+	    			name="password2"
+	    			labelinfo="(required)"
+	    			value={this.state.password2}
+	    			onChange={this.onFormInputChange}
+	    			placeholder="Password Confirmation..."
+	    			error={errors.password2}
+	    			isDisabled={false}
+	    		/><br/>
+	    		
+					<InputSubmitBtn value="signup" btnclass="btn-danger btn-block" />
 	      </form>
 	      <a href="#">Forgot Password?</a>
 	    </div>
