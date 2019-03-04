@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import classnames from 'classnames';
 
 class Login extends Component {
 	constructor(){
 		super();
 		this.state = {
 			email: '',
-			password: ''
+			password: '',
+			errors: {}
 		}
 	}
 
@@ -24,10 +26,12 @@ class Login extends Component {
 	}
 
 	render() {
+		const { errors } = this.state;
+
 		return (
 			<div role="tabpanel" className="tab-pane" id="login">
 	    	<form onSubmit={this.onFormSubmit} className="form">
-	        <div className="form-group">
+	        <div className={classnames("form-group", {"has-errors": errors.email})}>
 	          <label>Email <small>(required)</small></label>
 	          <input 
 	          	type="text" 
@@ -37,6 +41,7 @@ class Login extends Component {
 	          	placeholder="Enter email..."
 	          	onChange={this.onFormInputChange}
 	          />
+	          {errors.email && (<small className="help-block text-muted">{errors.email}</small>)}
 	        </div>
 
 	        <div className="form-group">
