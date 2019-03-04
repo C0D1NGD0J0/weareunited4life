@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import classnames from 'classnames';
 
 class Register extends Component {
 	constructor(){
@@ -10,7 +11,8 @@ class Register extends Component {
 			location: '',
 			birthday: '',
 			password: '',
-			password2: ''
+			password2: '',
+			errors: {}
 		}
 	}
 
@@ -31,7 +33,7 @@ class Register extends Component {
 
 		axios.post("/api/auth/signup", user).then((res) =>{
 			return console.log(res.data);
-		}).catch(err => console.log(err.response.data));
+		}).catch(err => this.setState({errors: err.response.data}));
 	}
 
 	onFormReset = (e) =>{
@@ -46,10 +48,12 @@ class Register extends Component {
 	}
 
 	render() {
+		const { errors } = this.state;
+	
 		return (
-			<div role="tabpanel" className="tab-pane" id="signup">
+			<div role="tabpanel" className="tab-pane active" id="signup">
 	    	<form onSubmit={this.onFormSubmit} className="form">
-	        <div className="form-group">
+	        <div className={classnames("form-group", {"has-error": errors.username})}>
 	          <label>Username <small>(required)</small></label>
 	          <input 
 	          	type="text" 
@@ -59,6 +63,7 @@ class Register extends Component {
 	          	placeholder="Enter Username" 
 	          	value={this.state.username}
 	          />
+	          {errors.username && (<small className="help-block text-muted">{errors.username}</small>)}
 	        </div>
 
 	        <div className="form-group">

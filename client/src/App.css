@@ -216,7 +216,7 @@ section {
   font-weight: 400;
   line-height: 5rem;
   border-radius: 0;
-  outline: none;
+  /*outline: none;*/
 }
 
 .form textarea {

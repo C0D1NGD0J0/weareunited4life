@@ -7,22 +7,17 @@ const authTab = (props) => {
 		<div className="header-right">
 			<div className="well header-right_auth-forms">
 				<ul className="nav nav-tabs" role="tablist">
-					<li role="presentation" className="active">
-						<a 
-							href="#login" 
-							aria-controls="profile" 
-							role="tab"
-							data-toggle="tab"
-						>Login</a>
-					</li>
-			    <li role="presentation">
+			    <li role="presentation" className="active">
 			    	<a href="#signup" aria-controls="home" role="tab" data-toggle="tab">Signup</a>
 			    </li>
+					<li role="presentation">
+						<a href="#login" aria-controls="profile" role="tab" data-toggle="tab">Login</a>
+					</li>
 			  </ul>
 
 			  <div className="tab-content">
-			  	<Login />
 			    <Register />
+			  	<Login />
 			  </div>
 			</div>
 		</div>

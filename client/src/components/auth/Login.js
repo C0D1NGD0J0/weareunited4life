@@ -25,7 +25,7 @@ class Login extends Component {
 
 	render() {
 		return (
-			<div role="tabpanel" className="tab-pane active" id="login">
+			<div role="tabpanel" className="tab-pane" id="login">
 	    	<form onSubmit={this.onFormSubmit} className="form">
 	        <div className="form-group">
 	          <label>Email <small>(required)</small></label>
