@@ -15,9 +15,17 @@ class Login extends Component {
 		}
 	}
 
+	static getDerivedStateFromProps(nextProps, prevState){
+		if(nextProps.errors !== prevState.errors){
+			return {errors: nextProps.errors};
+		};
+
+		return null;
+	}
+
 	onFormInputChange = (e) =>{
 		this.setState({[e.target.name]: e.target.value});
-	};
+	}
 
 	onFormSubmit = (e) =>{
 		e.preventDefault();
@@ -35,7 +43,6 @@ class Login extends Component {
 		return (
 			<div role="tabpanel" className="tab-pane" id="login">
 	    	<form onSubmit={this.onFormSubmit} className="form">
-
 	    		<FormInputField
 	    			label="email"
 	    			name="email"
@@ -70,11 +77,13 @@ class Login extends Component {
 
 Login.propTypes = {
 	loginAction: PropTypes.func.isRequired,
-	auth: PropTypes.object.isRequired
+	auth: PropTypes.object.isRequired,
+	errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) =>({
-	auth: state.auth
+	auth: state.auth,
+	errors: state.errors
 });
 
 export default connect(mapStateToProps, { loginAction })(Login);

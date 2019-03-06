@@ -24,7 +24,6 @@ const UserSchema = new Schema({
 		minlength: 6
 	},
 	location: {String},
-	birthday: {type: Date},
 	following: [{type: Schema.Types.ObjectId, ref: 'User'}],
 	followers: [{type: Schema.Types.ObjectId, ref: 'User'}],
 	active: {type: Boolean, default: false},

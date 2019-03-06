@@ -13,7 +13,6 @@ class Register extends Component {
 			email: '',
 			username: '',
 			location: '',
-			birthday: '',
 			password: '',
 			password2: '',
 			errors: {}
@@ -38,7 +37,6 @@ class Register extends Component {
 			username: this.state.username,
 			email: this.state.email,
 			location: this.state.location,
-			birthday: this.state.birthday,
 			password: this.state.password,
 			password2: this.state.password2
 		};
@@ -51,7 +49,6 @@ class Register extends Component {
 			email: '',
 			username: '',
 			location: '',
-			birthday: '',
 			password: '',
 			password2: ''
 		})
@@ -94,18 +91,6 @@ class Register extends Component {
 	    			onChange={this.onFormInputChange}
 	    			placeholder="Enter location..."
 	    			error={errors.location}
-	    			isDisabled={false}
-	    		/>
-
-	    		<FormInputField
-	    			label="birthday"
-	    			name="birthday"
-	    			type="date"
-	    			labelinfo="(required)"
-	    			value={this.state.birthday}
-	    			onChange={this.onFormInputChange}
-	    			placeholder="Enter Birthday..."
-	    			error={errors.birthday}
 	    			isDisabled={false}
 	    		/>
 

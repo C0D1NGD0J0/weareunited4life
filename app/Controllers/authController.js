@@ -37,7 +37,6 @@ const authCntrl = {
 
 				const newUser = new User({
 					email: req.body.email,
-					birthday: req.body.birthday,
 					location: req.body.location,
 					username: req.body.username,
 					password: req.body.password,

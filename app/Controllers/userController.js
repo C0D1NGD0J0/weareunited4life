@@ -40,15 +40,15 @@ const userCntrl = {
 		const isAuthorized = req.user.id.equals(userId);
 		
 		const { errors, isValid } = validate.updateuser(req.body);
-		
 		if(!isValid){
 			return res.status(400).json(errors);
 		};
 
 		try {
 			if(isAuthorized){
-				updateData.username = req.body.username;
 				updateData.email = req.body.email;
+				updateData.username = req.body.username;
+				updateData.location = req.body.location;
 
 				if(req.body.password){
 					updateData.password = req.body.password;
