@@ -1,4 +1,4 @@
-import { SET_AUTHENTICATED_USER, GET_ERRORS } from "../Actions/types";
+import { SET_AUTHENTICATED_USER } from "../Actions/types";
 import _ from 'lodash';
 
 const initialState = {

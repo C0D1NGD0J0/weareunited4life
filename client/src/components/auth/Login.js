@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import { loginAction } from "../../Actions/authAction";
 import FormInputField from "../../helpers/FormElements/FormInputField";
 import InputSubmitBtn from "../../helpers/FormElements/InputSubmit";
@@ -34,7 +35,14 @@ class Login extends Component {
 			password: this.state.password
 		};
 
-		this.props.loginAction(user);
+		this.props.loginAction(user, this.props.history);
+	}
+
+	onFormReset = (e) =>{
+		this.setState({
+			email: '',
+			password: ''
+		});
 	}
 
 	render() {
@@ -86,4 +94,4 @@ const mapStateToProps = (state) =>({
 	errors: state.errors
 });
 
-export default connect(mapStateToProps, { loginAction })(Login);
+export default connect(mapStateToProps, { loginAction })(withRouter(Login));

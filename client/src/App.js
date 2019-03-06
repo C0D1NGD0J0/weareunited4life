@@ -4,6 +4,7 @@ import store from "./ReduxStore";
 import Navbar from "./components/layouts/Navbar";
 import Landing from "./components/layouts/Landing";
 import Footer from "./components/layouts/Footer";
+import Dashboard from "./components/dashboard/";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import "./helpers/validateAuthUser";
 import './App.css';
@@ -16,6 +17,7 @@ class App extends Component {
         	<div className="App">
         		<Navbar />
         			<Route exact path="/" component={Landing} />
+              <Route exact path="/dashboard" component={Dashboard} />
           	<Footer />
         	</div>
         </Router>
