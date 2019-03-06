@@ -57,7 +57,7 @@ const postCntrl = {
 		}
 	},
 
-	show: async (req, res, next) =>{
+	showPost: async (req, res, next) =>{
 		const errors = {};
 		const { postId } = req.params;
 
@@ -70,6 +70,10 @@ const postCntrl = {
 		} catch(err){
 			return res.status(400).json(err);
 		};
+	},
+
+	getPosts: async (req, res, next) =>{
+		// Get posts associated with user passed in params
 	},
 
 	update: async (req, res, next) =>{

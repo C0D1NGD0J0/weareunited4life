@@ -8,7 +8,9 @@ router.get("/", passport.authenticate('jwt', {session: false}), postCntrl.index)
 
 router.post("/", passport.authenticate('jwt', {session: false}), postCntrl.create);
 
-router.get("/:postId", postCntrl.show);
+router.get("/:postId", postCntrl.showPost);
+
+router.get("/:userId/", postCntrl.getPosts);
 
 router.put("/:postId/like", passport.authenticate('jwt', {session: false}), postCntrl.like);
 
