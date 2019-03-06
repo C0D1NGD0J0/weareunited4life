@@ -16,76 +16,80 @@ const authCntrl = {
 			return res.status(400).json(errors);
 		};
 		
-		console.log(req.body);
-		// waterfall([
-		// 	function(cb){
-		// 		crypto.randomBytes(15, (err, buff) =>{
-		// 			const token = buff.toString("hex");
-		// 			cb(err, token);
-		// 		});
-		// 	},
+		waterfall([
+			function(cb){
+				crypto.randomBytes(15, (err, buff) =>{
+					const token = buff.toString("hex");
+					cb(err, token);
+				});
+			},
 
-		// 	async function(token, cb){
-		// 		const existingUser = await User.findOne({ email: req.body.email });
-
-		// 		if(existingUser){
-		// 			errors.email = "Email already taken!";
-		// 			return res.status(403).json(errors);
-		// 		};
-
-		// 		const newUser = new User({
-		// 			email: req.body.email,
-		// 			birthday: req.body.birthday,
-		// 			location: req.body.location,
-		// 			username: req.body.username,
-		// 			password: req.body.password,
-		// 			activationToken: token,
-		// 			activationTokenExpires: Date.now() + (3600000*2)
-		// 		});
-
-		// 		bcrypt.genSalt(10, (err, salt) =>{
-		// 			bcrypt.hash(newUser.password, salt, (err, hash) =>{
-		// 				if(err) throw err;
-		// 				newUser.password = hash;
-		// 				newUser.save((err, user) =>{
-		// 					cb(err, token, user);
-		// 				});
-		// 			});
-		// 		});
-		// 	},
-
-		// 	function(token, user, cb){
-		// 		const smtpTransport = nodemailer.createTransport({
-		// 			service: "Gmail",
-		// 			auth: {
-		// 				user: process.env.GMAIL_ADDRESS,
-		// 				pass: process.env.GMAIL_PASSWORD
-		// 			}
-		// 		});
-
-		// 		const mailOptions = {
-		// 			to: user.email,
-		// 			from: "UnitedFanForum",
-		// 			subject: "Account Activation",
-		// 			text: "You are receiving this email because you recently registered with UnitedFanForum App \n\n " +
-		// 				"Please click on the link to complete the process of activating your account: \n\n " + 
-		// 				`http://${req.headers.host}/api/auth/account_activation/${token} \n\n ` +
-		// 				"If you didn't request this, please kindly ignore this email.."
-		// 		};
+			async function(token, cb){
+				const existingUsers = await User.find().or([{username: req.body.username}, {email: req.body.email}]);
 				
-		// 		console.log(mailOptions);
-		// 		// smtpTransport.sendMail(mailOptions, function(err){
-		// 		// 	if(!err){
-		// 		// 		console.log("Mail has been sent");
-		// 		// 		return res.json("Mail sent, kindly check your email for further instructions.");
-		// 		// 	};
+				if(existingUsers.length > 0){
+					existingUsers.forEach((user) =>{
+						user.email === req.body.email ? errors.email = "Email already taken!" : "";
+						user.username === req.body.username ? errors.username = "Username already taken!" : "";
+					});
+					return res.status(403).json(errors);
+				};
+
+				const newUser = new User({
+					email: req.body.email,
+					birthday: req.body.birthday,
+					location: req.body.location,
+					username: req.body.username,
+					password: req.body.password,
+					activationToken: token,
+					activationTokenExpires: Date.now() + (3600000*2)
+				});
+
+				bcrypt.genSalt(10, (err, salt) =>{
+					bcrypt.hash(newUser.password, salt, (err, hash) =>{
+						if(err) throw err;
+						newUser.password = hash;
+						newUser.save((err, user) =>{
+							cb(err, token, user);
+						});
+					});
+				});
+
+				return res.json("Mail sent, kindly check your email for further instructions.");
+			},
+
+			function(token, user, cb){
+				// const smtpTransport = nodemailer.createTransport({
+				// 	service: "Gmail",
+				// 	auth: {
+				// 		user: process.env.GMAIL_ADDRESS,
+				// 		pass: process.env.GMAIL_PASSWORD
+				// 	}
+				// });
+
+				// const mailOptions = {
+				// 	to: user.email,
+				// 	from: "UnitedFanForum",
+				// 	subject: "Account Activation",
+				// 	text: "You are receiving this email because you recently registered with UnitedFanForum App \n\n " +
+				// 		"Please click on the link to complete the process of activating your account: \n\n " + 
+				// 		`http://${req.headers.host}/api/auth/account_activation/${token} \n\n ` +
+				// 		"If you didn't request this, please kindly ignore this email.."
+				// };
+				
+				// console.log(mailOptions);
+				// smtpTransport.sendMail(mailOptions, function(err){
+				// 	if(!err){
+				// 		console.log("Mail has been sent");
+				// 		return res.json("Mail sent, kindly check your email for further instructions.");
+				// 	};
 					
-		// 		// 	return cb(err);
-		// 		// });
-		// 	}
-		// ], (err) =>{
-		// 	return res.status(422).json(err);
-		// });
+				// 	return cb(err);
+				// });
+			}
+		], (err) =>{
+			return res.status(422).json(err);
+		});
 	},
 
 	login: (req, res, next) =>{

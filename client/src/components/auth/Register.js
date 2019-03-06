@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { registerAction } from "../../Actions/authAction";
 import FormInputField from "../../helpers/FormElements/FormInputField";
 import InputSubmitBtn from "../../helpers/FormElements/InputSubmit";
@@ -18,6 +19,14 @@ class Register extends Component {
 			errors: {}
 		}
 	}
+	
+	static getDerivedStateFromProps(nextProps, prevState){
+		if(nextProps.errors !== prevState.errors){
+			return {errors: nextProps.errors};
+		};
+
+		return null;
+	}
 
 	onFormInputChange = (e) =>{
 		this.setState({[e.target.name]: e.target.value});
@@ -34,10 +43,7 @@ class Register extends Component {
 			password2: this.state.password2
 		};
 		
-		this.props.registerAction(user);
-		// axios.post("/api/auth/signup", user).then((res) =>{
-		// 	return console.log(res.data);
-		// }).catch(err => this.setState({errors: err.response.data}));
+		this.props.registerAction(user, this.props.history);
 	}
 
 	onFormReset = (e) =>{
@@ -47,13 +53,12 @@ class Register extends Component {
 			location: '',
 			birthday: '',
 			password: '',
-			passwordConfirm: ''
+			password2: ''
 		})
 	}
 
 	render() {
 		const { errors } = this.state;
-		const { user } = this.props.auth;
 
 		return (
 			<div role="tabpanel" className="tab-pane active" id="signup">
@@ -118,6 +123,7 @@ class Register extends Component {
 
 	    		<FormInputField
 	    			label="confirm password"
+	    			type="password"
 	    			name="password2"
 	    			labelinfo="(required)"
 	    			value={this.state.password2}
@@ -137,11 +143,11 @@ class Register extends Component {
 
 Register.propTypes = {
 	registerAction: PropTypes.func.isRequired,
-	auth: PropTypes.object.isRequired
+	errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) =>({
-	auth: state.auth
+	errors: state.errors
 });
 
-export default connect(mapStateToProps, { registerAction })(Register);
+export default connect(mapStateToProps, { registerAction })(withRouter(Register));
