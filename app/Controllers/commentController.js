@@ -39,7 +39,7 @@ const commentCntrl = {
 		
 
 		Comment.findById(commentId).then((comment) =>{
-			if(comment.author.id.toString() === req.user.id){
+			if(comment.author.id.toString() === req.user.id.toString()){
 				comment.remove();
 				Post.findById(postId).then((post) =>{
 					const isCommentIdIncluded = post.comments.map(comm_id => comm_id.toString()).includes(commentId);

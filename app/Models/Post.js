@@ -27,7 +27,14 @@ const PostSchema = new Schema({
 	photos: [{String}],
 	comments:[{type: Schema.Types.ObjectId, ref: "Comment"}],
 	allowComments: {type: Boolean, default: false},
-	result: {type: String},
+	isMatch: {type: Boolean, default: false},
+	matchInfo:{
+		scores: String,
+		homeTeam: String,
+		awayTeam: String,
+		date: {type: Date, default: ""},
+		competition: String
+	},
 	type:{type: String, default: 'article', lowercase: true} 
 }, {timestamps: true});
 

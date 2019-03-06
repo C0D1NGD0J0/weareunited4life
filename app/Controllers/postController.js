@@ -1,6 +1,15 @@
 const User = require('../Models/User');
 const Post = require('../Models/Post');
 const validate = require("../Util/validations");
+const _ = require("lodash");
+
+const convertTagStringToArray = function(resource, str){
+	str = str.toLowerCase().replace(/,/g, "").split(" ");
+	_.uniq(str).forEach((word) =>{
+		word = '#' + word;
+		resource.tags.push(word);
+	});
+};
 
 const postCntrl = {
 	index: (req, res, next) =>{
@@ -25,8 +34,20 @@ const postCntrl = {
 			text: req.body.description,
 			title: req.body.title,
 			tags: req.body.tags,
-			author: req.user.id
+			author: req.user.id,
+			allowComment: req.body.allowComment,
+			isMatch: req.body.isMatch,
+			matchInfo: {
+				score: req.body.score,
+				homeTeam: req.body.homeTeam,
+				awayTeam: req.body.awayTeam,
+				date: req.body.date,
+				competition: req.body.competition
+			},
+			type: req.body.type
 		});
+
+		convertTagStringToArray(post, req.body.tags);
 
 		try {
 			const newpost = await post.save();
@@ -59,6 +80,14 @@ const postCntrl = {
 		if(req.body.title) updatedPost.title = req.body.title;
 		if(req.body.text) updatedPost.text = req.body.text;
 		if(req.body.tags) updatedPost.tags = req.body.tags;
+		if(req.body.isMatch) updatedPost.isMatch = req.body.isMatch;
+		if(req.body.allowComment) updatedPost.allowComment = req.body.allowComment;
+		if(req.body.homeTeam) updatedPost.homeTeam = req.body.homeTeam;
+		if(req.body.awayTeam) updatedPost.awayTeam = req.body.awayTeam;
+		if(req.body.date) updatedPost.date = req.body.date;
+		if(req.body.score) updatedPost.score = req.body.score;
+		if(req.body.competition) updatedPost.competition = req.body.competition;
+		if(req.body.type) updatedPost.type = req.body.type;
 
 		try {
 			const post = await Post.findById(postId).exec();
