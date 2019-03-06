@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import classnames from 'classnames';
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { registerAction } from "../../Actions/authAction";
 import FormInputField from "../../helpers/FormElements/FormInputField";
 import InputSubmitBtn from "../../helpers/FormElements/InputSubmit";
 
@@ -32,10 +33,11 @@ class Register extends Component {
 			password: this.state.password,
 			password2: this.state.password2
 		};
-
-		axios.post("/api/auth/signup", user).then((res) =>{
-			return console.log(res.data);
-		}).catch(err => this.setState({errors: err.response.data}));
+		
+		this.props.registerAction(user);
+		// axios.post("/api/auth/signup", user).then((res) =>{
+		// 	return console.log(res.data);
+		// }).catch(err => this.setState({errors: err.response.data}));
 	}
 
 	onFormReset = (e) =>{
@@ -51,7 +53,8 @@ class Register extends Component {
 
 	render() {
 		const { errors } = this.state;
-	
+		const { user } = this.props.auth;
+
 		return (
 			<div role="tabpanel" className="tab-pane active" id="signup">
 	    	<form onSubmit={this.onFormSubmit} className="form">
@@ -132,4 +135,13 @@ class Register extends Component {
 	}
 };
 
-export default Register;
+Register.propTypes = {
+	registerAction: PropTypes.func.isRequired,
+	auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) =>({
+	auth: state.auth
+});
+
+export default connect(mapStateToProps, { registerAction })(Register);

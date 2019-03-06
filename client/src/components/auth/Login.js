@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import classnames from 'classnames';
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { loginAction } from "../../Actions/authAction";
 import FormInputField from "../../helpers/FormElements/FormInputField";
 import InputSubmitBtn from "../../helpers/FormElements/InputSubmit";
 
@@ -24,12 +26,12 @@ class Login extends Component {
 			password: this.state.password
 		};
 
-		console.log(user);
+		this.props.loginAction(user);
 	}
 
 	render() {
 		const { errors } = this.state;
-
+		
 		return (
 			<div role="tabpanel" className="tab-pane" id="login">
 	    	<form onSubmit={this.onFormSubmit} className="form">
@@ -66,4 +68,13 @@ class Login extends Component {
 	}
 };
 
-export default Login;
+Login.propTypes = {
+	loginAction: PropTypes.func.isRequired,
+	auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) =>({
+	auth: state.auth
+});
+
+export default connect(mapStateToProps, { loginAction })(Login);
