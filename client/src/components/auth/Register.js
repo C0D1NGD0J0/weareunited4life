@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { registerAction } from "../../Actions/authAction";
 import FormInputField from "../../helpers/FormElements/FormInputField";
 import InputSubmitBtn from "../../helpers/FormElements/InputSubmit";
@@ -120,7 +120,7 @@ class Register extends Component {
 	    		
 					<InputSubmitBtn value="signup" btnclass="btn-danger btn-block" />
 	      </form>
-	      <a href="#">Forgot Password?</a>
+	      <Link to="/forgot_password">Forgot Password?</Link>
 	    </div>
 		);
 	}

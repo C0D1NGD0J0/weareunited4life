@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Provider } from "react-redux";
 import store from "./ReduxStore";
+import Auth from "./components/auth/Auth";
+import ForgotPassword from "./components/auth/ForgotPassword";
 import Navbar from "./components/layouts/Navbar";
-import Landing from "./components/layouts/Landing";
 import Footer from "./components/layouts/Footer";
 import Dashboard from "./components/dashboard/";
 import { BrowserRouter as Router, Route } from "react-router-dom";
@@ -16,8 +17,9 @@ class App extends Component {
       	<Router>
         	<div className="App">
         		<Navbar />
-        			<Route exact path="/" component={Landing} />
+        			<Route exact path="/(login|signup)/" component={Auth} />
               <Route exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/forgot_password" component={ForgotPassword} />
           	<Footer />
         	</div>
         </Router>

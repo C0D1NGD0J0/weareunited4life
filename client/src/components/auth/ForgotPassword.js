@@ -63,7 +63,7 @@ class ForgotPassword extends Component {
 						<div className="container">
 							<div className="row">
 								<div className="col-sm-6">
-									<div className="pwdforgot">
+									<div id="pwdforgot">
 				            <form className="form" onSubmit={this.onFormSubmit}>
 				            	<FormInputField
 							    			label="Enter your email below."

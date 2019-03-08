@@ -144,7 +144,8 @@ const authCntrl = {
 
 	forgotPwd: (req, res, next) =>{
 		const { errors, isValid } = validate.resetEmail(req.body);
-		
+		const flash = {};
+
 		if(!isValid){
 			return res.status(400).json(errors);
 		};
@@ -188,23 +189,25 @@ const authCntrl = {
 						`http://${req.headers.host}/reset/${token} \n\n ` +
 						"If you didn't request this, please kindly ignore this email and your password will remain unchanged"
 				};
-
-				transport.sendMail(mailOptions, function(err){
-					if(!err){
-						console.log("Mail has been sent");
-						return res.status(200)
-							.json("Mail has been sent, kindly check your email for further instructions.");
-					};
-					return cb(err, user);
-				});
+				
+				console.log(mailOptions);
+				// transport.sendMail(mailOptions, function(err){
+				// 	if(!err){
+				// 		flash.success = "kindly check your email for further instructions.";
+				// 		return res.status(200).json(flash);
+				// 	};
+				// 	return cb(err, user);
+				// });
 			}
 		], function(err){
-			if(err) return res.status(404).json(err);
+			flash.error = err.msg;
+			if(err) return res.status(404).json(flash);
 		});
 	},
 
 	resetPwd: (req, res, next) =>{
 		const { token } = req.params;
+		const flash = {};
 		const { errors, isValid } = validate.passwordReset(req.body);
 		
 		if(!isValid){
@@ -215,15 +218,17 @@ const authCntrl = {
 			passwordResetToken: token, 
 			passwordResetExpires: {$gt: Date.now()}}, (err, user) =>{
 				if(!user || err) {
-					return res.status(404).json({error: "invalid reset token, please generate a new token."});
+					flash.error = "invalid reset token, please generate a new token.";
+					return res.status(404).json(flash);
 				};
 
 				user.password = bcrypt.hashSync(req.body.password, 10);
 				user.passwordResetToken = "";
 				user.passwordResetExpires = "";
 				
+				flash.success = "Password reset was successful."
 				user.save()
-					.then(() => res.json("Password reset was successful."))
+					.then(() => res.json(flash))
 					.catch((err) => res.status(404).json({error: err}));
 		});
 	}

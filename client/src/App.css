@@ -73,7 +73,6 @@ body {
 section {
   width: 100%;
   overflow: hidden;
-  background: #FFFFFF;
 }
 
 .bg-img_landing {
@@ -89,6 +88,12 @@ section {
   background: url("./img/manutd_bg_img5.jpg");
 }
 
+.bg-img_playerImg-1 {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url("./img/manutd_bg_img9.jpg");
+}
 .bg-color_black {
   background-color: #06000A;
 }
@@ -422,4 +427,15 @@ section {
   color: #C70101;
   margin-top: -1rem;
   background: transparent;
+}
+
+#pwdforgot,
+#pwdforgot label,
+#pwdforgot .help-block{
+  color: #fff;
+}
+
+#pwdforgot .help-block{
+  font-weight: 300;
+  text-transform: uppercase;
 }

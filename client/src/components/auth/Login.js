@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { loginAction } from "../../Actions/authAction";
 import FormInputField from "../../helpers/FormElements/FormInputField";
 import InputSubmitBtn from "../../helpers/FormElements/InputSubmit";
@@ -76,7 +76,7 @@ class Login extends Component {
 	    		/><br/>
 	        
 	        <InputSubmitBtn value="login" btnclass="btn-danger btn-block" /><br/>
-	        <a href="#">Forgot Password?</a>
+	        <Link to="/forgot_password">Forgot Password?</Link>
 	      </form>
 	    </div>
 		);

@@ -40,3 +40,12 @@ export const logoutUserAction = () => (dispatch) =>{
 	dispatch(setAuthenticatedUser({}));
 	window.location.href = "/";
 };
+
+export const forgotPasswordAction = (userdata) => (dispatch) =>{
+	axios.post("/api/auth/forgot_password", userdata).then((res) =>{
+		return console.log(res);
+	}).catch((err) => dispatch({
+		type: GET_ERRORS,
+		payload: err.response.data
+	}));
+};
