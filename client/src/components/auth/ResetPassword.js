@@ -1,24 +1,34 @@
 import React, { Component } from 'react';
 import Header from "../layouts/pageHeader";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { forgotPasswordAction } from "../../Actions/authAction";
+import { resetPasswordAction } from "../../Actions/authAction";
 import { clearStateErrors } from "../../Actions/utilAction";
 import FormInputField from "../../helpers/FormElements/FormInputField";
 import InputSubmitBtn from "../../helpers/FormElements/InputSubmit";
 
-class ForgotPassword extends Component {
+class ResetPassword extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			email: "",
+			password: "",
+			password2: "",
+			token: "",
 			errors: {}
 		}
 	}
 	
 	componentDidMount(){
-		if(this.props.auth.isAuthenticated){
-			this.props.history.push("/");
+		const { token } = this.props.match.params;
+		if(token && (token.length === 30)){
+			return this.setState({token});
+		};
+
+		this.props.history.push("/forgot_password");
+	}
+
+	componentDidUpdate(prevProps, prevState){
+		if(prevState.errors !== this.props.errors){
+			this.setState({errors: this.props.errors});
 		};
 	}
 
@@ -33,19 +43,20 @@ class ForgotPassword extends Component {
 	onFormSubmit = (e) =>{
 		e.preventDefault();
 
-		const userEmail = {
-			email: this.state.email
+		const newPwd = {
+			password: this.state.password,
+			password2: this.state.password2
 		};
 
-		this.props.forgotPasswordAction(userEmail);
+		this.props.resetPasswordAction(newPwd, this.state.token);
 	}
 
 	render() {
-		const { errors } = this.props;
+		const { errors } = this.state;
 		
 		return (
 			<div style={{margin: 0+"px", padding: 0+"px"}}>
-				<Header title="Forgot Password" />
+				<Header title="Reset Password" />
 
 				<main id="content_wrapper" className="bg-img_playerImg-1">
 					<section style={{padding: 9+"rem"}}>
@@ -55,20 +66,31 @@ class ForgotPassword extends Component {
 									<div id="pwdforgot">
 				            <form className="form" onSubmit={this.onFormSubmit}>
 				            	<FormInputField
-							    			label="Enter your email below."
-							    			name="email"
-							    			type="email"
+							    			label="Password"
+							    			name="password"
+							    			type="password"
 							    			labelinfo="(required)"
-							    			value={this.state.email}
+							    			value={this.state.password}
 							    			onChange={this.onFormInputChange}
-							    			placeholder="Enter registered email..."
-							    			error={errors.email}
+							    			placeholder="Enter new password..."
+							    			error={errors.password}
+							    			isDisabled={false}
+							    		/>
+
+							    		<FormInputField
+							    			label="Password Confirmation"
+							    			name="password2"
+							    			type="password"
+							    			labelinfo="(required)"
+							    			value={this.state.password2}
+							    			onChange={this.onFormInputChange}
+							    			placeholder="Confirm new password..."
+							    			error={errors.password2}
 							    			isDisabled={false}
 							    		/>
 
 				             	<InputSubmitBtn value="Reset Password" btnclass="btn-danger" />
-				            </form><br/>
-				            <h5>Already have an account? <Link to="/login">Login</Link></h5>
+				            </form>
 				          </div>
 								</div>
 							</div>
@@ -81,13 +103,12 @@ class ForgotPassword extends Component {
 }
 
 const mapStateToProps = (state) =>({ 
-	errors: state.errors,
-	auth: state.auth 
+	errors: state.errors
 });
 
 const mapDispatchToProps = {
-	forgotPasswordAction,
+	resetPasswordAction,
 	clearStateErrors
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);
+export default connect(mapStateToProps, mapDispatchToProps)(ResetPassword);

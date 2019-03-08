@@ -45,7 +45,9 @@ class Navbar extends Component {
 			    <div id="navbar" className="collapse navbar-collapse">
 			      <ul className="nav navbar-nav navbar-right">
 			        <li className="active"><Link to="/"><i className="fa fa-home"></i> Home</Link></li>
-			        { isAuthenticated ? loggedInLinks : "" }
+			        { isAuthenticated ? loggedInLinks : 
+			        	<li><Link to="/login"><i className="fa fa-sign-in"></i> Login / Signup</Link></li>
+			        }
 			      </ul>
 			    </div>
 			  </div>

@@ -228,8 +228,12 @@ const authCntrl = {
 				
 				flash.success = "Password reset was successful."
 				user.save()
-					.then(() => res.json(flash))
-					.catch((err) => res.status(404).json({error: err}));
+					.then(() => {
+						return res.json(flash)
+					}).catch((err) => {
+						flash.error = err.msg;
+						return res.status(404).json(flash);
+					});
 		});
 	}
 };

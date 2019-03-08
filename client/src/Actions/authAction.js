@@ -49,3 +49,14 @@ export const forgotPasswordAction = (userdata) => (dispatch) =>{
 		payload: err.response.data
 	}));
 };
+
+export const resetPasswordAction = (userdata, token, history) => (dispatch) =>{
+	axios.post(`/api/auth/reset_password/${token}`, userdata)
+		.then((res) =>{
+			// return history.push({pathname: "/login", flash: {success: res.data.success}});
+			return history.push("/login");
+		}).catch((err) => dispatch({
+			type: GET_ERRORS,
+			payload: err.response.data
+		}));
+};
