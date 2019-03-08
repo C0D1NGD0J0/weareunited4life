@@ -40,7 +40,7 @@ class Navbar extends Component {
 			        <span className="icon-bar"></span>
 			        <span className="icon-bar"></span>
 			      </button>
-			      <a className="navbar-brand" href="#">UnitedFanForum</a>
+			      <Link className="navbar-brand" to="/">UnitedFanForum</Link>
 			    </div>
 			    <div id="navbar" className="collapse navbar-collapse">
 			      <ul className="nav navbar-nav navbar-right">
