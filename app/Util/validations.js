@@ -17,7 +17,6 @@ const validate = {
 		data.username = !isEmpty(data.username) ? data.username : "";
 		data.email = !isEmpty(data.email) ? data.email : "";
 		data.location = !isEmpty(data.location) ? data.location : "";
-		data.birthday = !isEmpty(data.birthday) ? data.birthday : "";
 		data.password = !isEmpty(data.password) ? data.password : "";
 		data.password2 = !isEmpty(data.password2) ? data.password2 : "";
 
@@ -27,10 +26,6 @@ const validate = {
 		
 		if(Validator.isEmpty(data.username)){
 			errors.username = "Username field is required.";
-		};
-
-		if(Validator.isEmpty(data.birthday)){
-			errors.birthday = "Birthday field is required.";
 		};
 
 		if(Validator.isEmpty(data.location)){

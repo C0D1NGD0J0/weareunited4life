@@ -1,11 +1,5 @@
 import React from 'react';
 
-const pStyle = {
-	paddingTop: "2rem", 
-	marginTop: "1rem",
-	borderTop: ".1rem solid rgba(238, 238, 238, .3)"
-};
-
 const footer = (props) => {
   return (
   	<footer id="footer">

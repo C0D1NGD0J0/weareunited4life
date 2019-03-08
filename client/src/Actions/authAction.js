@@ -21,7 +21,10 @@ export const loginAction = (userdata, history) => (dispatch) =>{
 			const decodedToken = jwt_decode(token); //decode jwt-token
 			dispatch(setAuthenticatedUser(decodedToken)); //confirm user credentials
 			return history.push("/dashboard");
-		}).catch((err) => console.log(err));
+		}).catch((err) => dispatch({
+			type: GET_ERRORS,
+			payload: err.response.data
+		}));
 };
 
 export const setAuthenticatedUser = (token) =>{
