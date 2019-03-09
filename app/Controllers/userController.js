@@ -15,8 +15,8 @@ const userCntrl = {
 		try {
 			const user = await User.findById(req.user.id);
 			return res.status(200).json(user.detailsToJSON());
-		} catch(e) {
-			errors.msg = "User doesn't exist.";
+		} catch(err) {
+			errors.msg = err.msg;
 			return res.status(404).json(errors);
 		}		
 	},

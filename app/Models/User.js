@@ -23,14 +23,14 @@ const UserSchema = new Schema({
 		required: true,
 		minlength: 6
 	},
-	location: {String},
+	location: String,
 	following: [{type: Schema.Types.ObjectId, ref: 'User'}],
-	followers: [{type: Schema.Types.ObjectId, ref: 'User'}],
 	active: {type: Boolean, default: false},
 	activationToken: {type: String, default: ""},
 	activationTokenExpires: {type: Date, default: ""},
 	passwordResetToken: {type: String, default:""},
 	passwordResetExpires: {type: Date, default: ""},
+	role: {type: String, default: "guest", lowercase: true},
 	avatar: {type: String, default: "http://lorempixel.com/400/200/people"}
 }, {timestamps: true});
 
@@ -39,7 +39,10 @@ UserSchema.methods.detailsToJSON = function(){
 		_id: this._id,
 		username: this.username,
 		email: this.email,
-		avatar: this.avatar
+		avatar: this.avatar,
+		location: this.location,
+		role: this.role,
+		following: this.following
 	};
 
 	return userinfo;

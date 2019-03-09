@@ -12,17 +12,18 @@ class Navbar extends Component {
 	}
 
 	render() {
-		const { isAuthenticated } = this.props.auth;
+		const { isAuthenticated, user } = this.props.auth;
 		
 		const loggedInLinks = (
 			<React.Fragment>
+				<li><Link exact='true' to="/"><i className="fa fa-home"></i> Home</Link></li>
 				<li><Link to="#"><i className="fa fa-soccer-ball-o"></i> Match-Day</Link></li>
         <li><Link to="/posts"><i className="fa fa-list"></i> Posts</Link></li>
         <li><Link to="/messages"><i className="fa fa-envelope"></i> Messages</Link></li>
         <li className="dropdown">
           <Link to="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span className="caret"></span></Link>
           <ul className="dropdown-menu">
-            <li><Link to="#">Update Profile</Link></li>
+            <li><Link to={`/${user.username}/profile`}>Update Profile</Link></li>
             <li><Link to="#">Add New Post</Link></li>
             <li><a href="#!" onClick={ this.onLogoutBtnClick }>Logout</a></li>
           </ul>
@@ -40,13 +41,12 @@ class Navbar extends Component {
 			        <span className="icon-bar"></span>
 			        <span className="icon-bar"></span>
 			      </button>
-			      <Link className="navbar-brand" to="/">UnitedFanForum</Link>
+			      <Link className="navbar-brand" exact="true" to="/">UnitedFanForum</Link>
 			    </div>
 			    <div id="navbar" className="collapse navbar-collapse">
 			      <ul className="nav navbar-nav navbar-right">
-			        <li className="active"><Link to="/"><i className="fa fa-home"></i> Home</Link></li>
 			        { isAuthenticated ? loggedInLinks : 
-			        	<li><Link to="/login"><i className="fa fa-sign-in"></i> Login / Signup</Link></li>
+			        	<li className="active"><Link to="/login"><i className="fa fa-sign-in"></i> Login / Signup</Link></li>
 			        }
 			      </ul>
 			    </div>

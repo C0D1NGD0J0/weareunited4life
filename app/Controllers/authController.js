@@ -58,25 +58,25 @@ const authCntrl = {
 			},
 
 			function(token, user, cb){
-				// const smtpTransport = nodemailer.createTransport({
-				// 	service: "Gmail",
-				// 	auth: {
-				// 		user: process.env.GMAIL_ADDRESS,
-				// 		pass: process.env.GMAIL_PASSWORD
-				// 	}
-				// });
+				const smtpTransport = nodemailer.createTransport({
+					service: "Gmail",
+					auth: {
+						user: process.env.GMAIL_ADDRESS,
+						pass: process.env.GMAIL_PASSWORD
+					}
+				});
 
-				// const mailOptions = {
-				// 	to: user.email,
-				// 	from: "UnitedFanForum",
-				// 	subject: "Account Activation",
-				// 	text: "You are receiving this email because you recently registered with UnitedFanForum App \n\n " +
-				// 		"Please click on the link to complete the process of activating your account: \n\n " + 
-				// 		`http://${req.headers.host}/api/auth/account_activation/${token} \n\n ` +
-				// 		"If you didn't request this, please kindly ignore this email.."
-				// };
+				const mailOptions = {
+					to: user.email,
+					from: "UnitedFanForum",
+					subject: "Account Activation",
+					text: "You are receiving this email because you recently registered with UnitedFanForum App \n\n " +
+						"Please click on the link to complete the process of activating your account: \n\n " + 
+						`http://${req.headers.host}/api/auth/account_activation/${token} \n\n ` +
+						"If you didn't request this, please kindly ignore this email.."
+				};
 				
-				// console.log(mailOptions);
+				console.log(mailOptions);
 				// smtpTransport.sendMail(mailOptions, function(err){
 				// 	if(!err){
 				// 		console.log("Mail has been sent");

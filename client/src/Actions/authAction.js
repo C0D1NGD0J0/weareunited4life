@@ -1,11 +1,12 @@
 import { GET_ERRORS, SET_AUTHENTICATED_USER } from "./types";
+import { clearCurrentUser } from "./utilAction";
 import setHeaderAuthToken from "../helpers/setHeaderAuthToken";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 
 export const registerAction = (userdata, history) => (dispatch) =>{
 	axios.post("/api/auth/signup", userdata)
-		.then((res) => history.push("/dashboard"))
+		.then((res) => history.push("/"))
 		.catch(err => dispatch({
 			type: GET_ERRORS,
 			payload: err.response.data
@@ -20,7 +21,7 @@ export const loginAction = (userdata, history) => (dispatch) =>{
 			setHeaderAuthToken(token); //set token in header for subsequent request
 			const decodedToken = jwt_decode(token); //decode jwt-token
 			dispatch(setAuthenticatedUser(decodedToken)); //confirm user credentials
-			return history.push("/dashboard");
+			return history.push(`/${decodedToken.username}/profile`);
 		}).catch((err) => dispatch({
 			type: GET_ERRORS,
 			payload: err.response.data
@@ -38,6 +39,7 @@ export const logoutUserAction = () => (dispatch) =>{
 	localStorage.removeItem('jwtToken');
 	setHeaderAuthToken(false);
 	dispatch(setAuthenticatedUser({}));
+	dispatch(clearCurrentUser());
 	window.location.href = "/";
 };
 
