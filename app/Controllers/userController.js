@@ -107,7 +107,7 @@ const userCntrl = {
 				res.status(400).json(errors);
 			};
 
-			return user.unfollow(followId).then(() =>{
+			user.unfollow(followId).then(() =>{
 				return res.status(200).json(user.detailsToJSON());
 			});
 		}).catch((err) =>{
