@@ -1,82 +1,155 @@
-import React from 'react';
+import React, { Component } from 'react';
+import FormInputField from "../../helpers/FormElements/FormInputField";
+import InputSubmitBtn from "../../helpers/FormElements/InputSubmit";
 
-const Settings = ({ user }) => {
-  return (
-  	<div className="panel panel-default profile-page_overview">
-			<div className="panel-heading">
-				<a href="#myCollapse" data-toggle="collapse" aria-expanded="true">
-					<h3 className="panel-title">Account Settings</h3>
-				</a>
-			</div>
-			
-			<div id="myCollapse">
-  			<div className="panel-body">
-  				<form className="form">
-            <fieldset disabled="disabled">
-    					<div className="row">
-        				<div className="col-sm-4 col-md-4">
-        					<div className="form-group">
-        						<label>Username</label>
-        						<input type="text" className="form-control" value={user.username}/>
-        					</div>
-        				</div>
+class SettingPanel extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      isFormEnabled: false,
+      user:{
+        id: this.props.user._id,
+        username: this.props.user.username,
+        email: this.props.user.email,
+        location: this.props.user.location,
+        password: "",
+        password2:  ""
+      }
+    };
+  }
 
-        				<div className="col-sm-4 col-md-4">
-        					<div className="form-group">
-        						<label>Email</label>
-        						<input type="text" className="form-control" value={user.email}/>
-        					</div>
-        				</div>
+  toggleFormStatus = () =>{
+    this.setState({isFormEnabled: !this.state.isFormEnabled});
+  }
 
-        				<div className="col-sm-4 col-md-4">
-        					<div className="form-group">
-        						<label>location</label>
-        						<input type="text" className="form-control" value={user.location}/>
-        					</div>
-        				</div>
+  onFormInputChange = (e) =>{
+    this.setState({user:{...this.state.user, [e.target.name]: e.target.value}});
+  }
 
-        				<div className="col-sm-4 col-md-4">
-        					<div className="form-group">
-        						<label>D.o.B</label>
-        						<input type="text" className="form-control"/>
-        					</div>
-        				</div>
+  onFormSubmit = (e) =>{
+    const userdata = {
+      id: this.state.user.id,
+      username: this.state.user.username,
+      email: this.state.user.email,
+      location: this.state.user.location,
+      password: this.state.user.password,
+      password2: this.state.user.password2
+    };
 
-        				<div className="col-sm-4 col-md-4">
-        					<div className="form-group">
-        						<label>Role</label>
-        						<input type="text" className="form-control" value={user.role}/>
-        					</div>
-        				</div>
-        			</div><hr/>
+    this.props.updateUser(e, userdata);
+  };
 
-        			<div className="row form">
-        				<div className="col-sm-6">
-        					<div className="form-group">
-        						<label>Update Password</label>
-        						<input type="password" name="password" className="form-control"/>
-        					</div>
-        				</div>
+  render() {
+    const { isFormEnabled, user } = this.state;
+    const errors = this.props.errors;
+   
+    return(
+      <div className="panel panel-default profile-page_overview">
+        <div className="panel-heading clearfix">
+          <a href="#myCollapse" data-toggle="collapse" aria-expanded="true" style={{display: 'inline-block'}}>
+            <h3 className="panel-title">Account Settings</h3>
+          </a>
+          <span onClick={this.toggleFormStatus} className="pull-right">
+              <i className="fa fa-pencil"></i>
+              {isFormEnabled ? ' Disable' : ' Edit'}
+            </span>
+        </div>
+        
+        <div id="myCollapse">
+          <div className="panel-body">
+            <form className="form" onSubmit={this.onFormSubmit}>
+              <fieldset disabled={isFormEnabled ? false : "disabled"}>
+                <div className="row">
+                  <div className="col-sm-6 col-md-6">
+                    <FormInputField
+                      label="Username"
+                      name="username"
+                      labelinfo="(required)"
+                      value={user.username}
+                      onChange={this.onFormInputChange}
+                      placeholder="Enter Username..."
+                      error={errors.username}
+                      isDisabled={false}
+                    />
+                  </div>
 
-        				<div className="col-sm-6">
-        					<div className="form-group">
-        						<label>Confirm New Password</label>
-        						<input type="password" name="password2" className="form-control"/>
-        					</div>
-        				</div>
-        			</div>
-            </fieldset>
-    			</form>
-  			</div>
+                  <div className="col-sm-6 col-md-6">
+                    <FormInputField
+                      label="Email"
+                      name="email"
+                      type="email"
+                      labelinfo="(required)"
+                      value={user.email}
+                      onChange={this.onFormInputChange}
+                      placeholder="Enter Email..."
+                      error={errors.email}
+                      isDisabled={false}
+                    />
+                  </div>
 
-  			<div className="panel-footer clearfix">
-  				<a href="#!" className="btn btn-info pull-right">Update</a>
-  				<a href="#!" className="btn btn-danger pull-right">Close</a>
-  			</div>
-  		</div>
-		</div>
-  );
+                  <div className="col-sm-6 col-md-6">
+                    <FormInputField
+                      label="Location"
+                      name="location"
+                      labelinfo="(required)"
+                      value={user.location}
+                      onChange={this.onFormInputChange}
+                      placeholder="Enter Location..."
+                      error={errors.location}
+                      isDisabled={false}
+                    />
+                  </div>
+
+                  <div className="col-sm-6 col-md-6">
+                    <FormInputField
+                      label="role"
+                      name="role"
+                      labelinfo="(required)"
+                      value={user.role}
+                      onChange={this.onFormInputChange}
+                      placeholder="Enter role..."
+                      error={errors.role}
+                      isDisabled={false}
+                    />
+                  </div>
+                </div><hr/>
+
+                <div className="row form">
+                  <div className="col-sm-6">
+                    <FormInputField
+                      label="Update Password"
+                      name="password"
+                      type="password"
+                      value={user.password}
+                      onChange={this.onFormInputChange}
+                      placeholder="Leave blank if you wish to use current password"
+                      error={errors.password}
+                      isDisabled={false}
+                    />
+                  </div>
+
+                  <div className="col-sm-6">
+                    <FormInputField
+                      label="Confirm Updated Password"
+                      name="password2"
+                      type="password"
+                      value={user.password2}
+                      onChange={this.onFormInputChange}
+                      placeholder="Leave blank if you wish to use current password"
+                      error={errors.password2}
+                      isDisabled={false}
+                    />
+                  </div>
+                </div>
+                <input type="submit" value="Update" className="btn btn-info btn-block" />
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
 };
 
 
-export default Settings;
+export default SettingPanel

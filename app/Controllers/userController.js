@@ -1,6 +1,7 @@
 "use strict";
 const User = require('../Models/User');
 const keys = require("../Config/keys");
+const validate = require("../Util/validations");
 
 const userCntrl = {
 	index: (req, res, next) =>{
@@ -37,9 +38,9 @@ const userCntrl = {
 	update: async (req, res, next) =>{
 		const updateData = {};
 		const { userId } = req.params;
-		const isAuthorized = req.user.id.equals(userId);
-		
+		const isAuthorized = req.user._id.equals(userId);		
 		const { errors, isValid } = validate.updateuser(req.body);
+		
 		if(!isValid){
 			return res.status(400).json(errors);
 		};
@@ -62,7 +63,8 @@ const userCntrl = {
 				return res.status(401).json(errors);
 			}
 		} catch(err) {
-			return res.status(400).json(err);
+			errors.msg = err.msg;
+			return res.status(400).json(errors);
 		};
 	},
 

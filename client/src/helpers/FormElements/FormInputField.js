@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from "classnames";
 import PropTypes from "prop-types";
 
-const FormInputField = ({name, placeholder, value, label, error, type, onChange, labelinfo, isDisabled}) => {
+const FormInputField = ({name, placeholder, value, label, error, type, onChange, labelinfo, isDisabled }) => {
   return (
     <div className={classnames("form-group", {"has-error": error})}>
       <label>{label} <small className="text-muted">{labelinfo}</small></label>
@@ -12,7 +12,7 @@ const FormInputField = ({name, placeholder, value, label, error, type, onChange,
       	onChange={onChange}
       	className="form-control"
       	placeholder={placeholder}
-      	value={value}
+        value={value}
       	disabled={isDisabled}
       />
       {error && (<small className="help-block text-muted">{error}</small>)}
@@ -27,7 +27,7 @@ FormInputField.defaultProps = {
 FormInputField.propTypes = {
 	name: PropTypes.string.isRequired,
 	placeholder: PropTypes.string,
-	value: PropTypes.string.isRequired,
+	value: PropTypes.string,
 	label: PropTypes.string.isRequired,
 	error: PropTypes.string,
 	type: PropTypes.string.isRequired,

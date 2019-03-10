@@ -10,6 +10,8 @@ router.get("/currentuser", passport.authenticate('jwt', {session: false}), userC
 
 router.get("/:userId/profile", passport.authenticate('jwt', {session: false}), userCntrl.profile);
 
+router.put("/:userId", passport.authenticate('jwt', {session: false}), userCntrl.update);
+
 router.put("/:followId/follow", passport.authenticate('jwt', {session: false}), userCntrl.follow);
 
 router.delete("/:followId/unfollow", passport.authenticate('jwt', {session: false}), userCntrl.follow);

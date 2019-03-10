@@ -10,9 +10,23 @@ export const getCurrentUserAction = () => (dispatch)=>{
 			payload: res.data
 		});
 	}).catch((err) =>{
-		dispatch({
+		return dispatch({
 			type: GET_ERRORS,
 			payload: err.response.data
 		});
 	})
+};
+
+export const updateUserAction = (userdata) => (dispatch) =>{
+	axios.put(`/api/users/${userdata.id}`, userdata).then((res) =>{
+		return dispatch({
+			type: GET_CURRENT_USER,
+			payload: res.data
+		})
+	}).catch((err) =>{
+		dispatch({
+			type: GET_ERRORS,
+			payload: err.response.data
+		});
+	});
 };
