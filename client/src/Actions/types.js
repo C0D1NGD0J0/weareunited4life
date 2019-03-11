@@ -1,4 +1,5 @@
 export const LOADING = "LOADING";
+export const GET_POSTS = "GET_POSTS";
 export const LOGIN_USER = "LOGIN_USER";
 export const GET_ERRORS = "GET_ERRORS";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
