@@ -20,9 +20,9 @@ class App extends Component {
       	<Router>
         	<div className="App">
             <Navbar />
-            <Route exact path="/" component={Dashboard} />
             <Route exact path="/(login|signup)/" component={Auth} />
             <Switch>
+              <PrivateRoute exact path="/" component={Dashboard} />
               <PrivateRoute exact path="/:username/profile" component={UserProfile} />
             </Switch>
             <Route exact path="/reset/:token" component={ResetPassword} />

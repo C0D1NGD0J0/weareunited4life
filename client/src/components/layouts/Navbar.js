@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import  { Link } from "react-router-dom";
+import  { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { logoutUserAction } from "../../Actions/authAction";
 import PropTypes from "prop-types";
@@ -8,7 +8,8 @@ class Navbar extends Component {
 	
 	onLogoutBtnClick = (e) =>{
 		e.preventDefault();
-		this.props.logoutUserAction();
+		const { history } = this.props;
+		this.props.logoutUserAction(history);
 	}
 
 	render() {
@@ -23,7 +24,7 @@ class Navbar extends Component {
         <li className="dropdown">
           <Link to="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span className="caret"></span></Link>
           <ul className="dropdown-menu">
-            <li><Link to={`/${user.username}/profile`}>Update Profile</Link></li>
+            <li><Link to={`/${user.username}/profile`}>Profile</Link></li>
             <li><Link to="#">Add New Post</Link></li>
             <li><a href="#!" onClick={ this.onLogoutBtnClick }>Logout</a></li>
           </ul>
@@ -65,4 +66,4 @@ const mapStateToProps = (state) =>({
 	auth: state.auth
 });
 
-export default connect(mapStateToProps, { logoutUserAction })(Navbar);
+export default connect(mapStateToProps, { logoutUserAction })(withRouter(Navbar));

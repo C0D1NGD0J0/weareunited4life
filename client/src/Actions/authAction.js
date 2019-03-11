@@ -35,12 +35,12 @@ export const setAuthenticatedUser = (token) =>{
 	};
 };
 
-export const logoutUserAction = () => (dispatch) =>{
+export const logoutUserAction = (history) => (dispatch) =>{
 	localStorage.removeItem('jwtToken');
 	setHeaderAuthToken(false);
 	dispatch(setAuthenticatedUser({}));
 	dispatch(clearCurrentUser());
-	window.location.href = "/";
+	return history.push("/");
 };
 
 export const forgotPasswordAction = (userdata) => (dispatch) =>{
