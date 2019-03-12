@@ -8,6 +8,7 @@ import UserProfile from "./components/user/Profile";
 import Navbar from "./components/layouts/Navbar";
 import Footer from "./components/layouts/Footer";
 import AllPosts from "./components/post/allPosts";
+import NewPost from "./components/post/newPost";
 import Dashboard from "./components/dashboard/";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PrivateRoute from "./helpers/PrivateRoute";
@@ -24,6 +25,7 @@ class App extends Component {
             <Route exact path="/(login|signup)/" component={Auth} />
             <Switch>
               <PrivateRoute exact path="/" component={Dashboard} />
+              <PrivateRoute exact path="/posts/new" component={NewPost} />
               <PrivateRoute exact path="/:username/profile" component={UserProfile} />
             </Switch>
             <Route exact path="/posts" component={AllPosts} />

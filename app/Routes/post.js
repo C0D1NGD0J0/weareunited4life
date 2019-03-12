@@ -6,11 +6,11 @@ const postCntrl = require("../Controllers/postcontroller");
 
 router.get("/", postCntrl.index);
 
-router.post("/", passport.authenticate('jwt', {session: false}), postCntrl.create);
-
 router.get("/:postId", postCntrl.showPost);
 
 router.get("/:userId/", postCntrl.getPosts);
+
+router.post("/", passport.authenticate('jwt', {session: false}), postCntrl.create);
 
 router.put("/:postId/like", passport.authenticate('jwt', {session: false}), postCntrl.like);
 
