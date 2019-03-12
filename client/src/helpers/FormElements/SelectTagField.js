@@ -1,23 +1,21 @@
 import React from 'react';
 import classnames from 'classnames';
 
-const mystyle = {
-  width: "70%",
-  display: "inline-block",
-  marginLeft: "1rem",
-  marginTop: "1rem"
-};
-
 const SelectTagField = ({ name, value, error, info, onChange, options, label, colSize, placeholder }) => {
+
+  const selectOptions = options.map((option, i) =>{
+    return <option value={option} key={i}>{option.toUpperCase()}</option>
+  });
 
   return (
   	<div className="form-group">
 			<label htmlFor={label}>{label}</label>
     	<select className={classnames('form-control', {'has-error': error})}
-        defaultValue={value}
+        value={value}
         name={name}
         onChange={onChange}>
         <option value="" disabled>{value}</option>
+        {selectOptions}
       </select>
   	</div>
   );

@@ -429,6 +429,11 @@ section {
   color: #C70101;
 }
 
+.newpost{
+  width: 100%;
+  padding: 2rem 1rem;
+}
+
 .category-list{
   padding: 0;
   width: 100%;

@@ -4,10 +4,10 @@ const validate = require("../Util/validations");
 const _ = require("lodash");
 
 const convertTagStringToArray = function(resource, str){
-	str = str.toLowerCase().replace(/,/g, "").split(" ");
+	// str = str.toLowerCase().replace(/,/g, "").split(" ");
+	str = str.toLowerCase().split(" ").filter(() => true);
 	_.uniq(str).forEach((word) =>{
-		word = '#' + word;
-		resource.tags.push(word);
+		resource.tags.push(word.trim());
 	});
 };
 
@@ -29,32 +29,32 @@ const postCntrl = {
 		if(!isValid){
 			return res.status(400).json(errors);
 		};
+		// const canComment = req.body.allowComments ? true : false;
 		
 		const post = new Post({
-			text: req.body.description,
+			body: req.body.body,
 			title: req.body.title,
-			tags: req.body.tags,
 			author: req.user.id,
-			allowComment: req.body.allowComment,
+			allowComments: req.body.allowComments,
 			isMatch: req.body.isMatch,
+			postType: req.body.postType,
 			matchInfo: {
 				score: req.body.score,
 				homeTeam: req.body.homeTeam,
 				awayTeam: req.body.awayTeam,
 				date: req.body.date,
 				competition: req.body.competition
-			},
-			type: req.body.type
+			}
 		});
 
 		convertTagStringToArray(post, req.body.tags);
-
-		try {
-			const newpost = await post.save();
-			return res.status(200).json(newpost);
-		} catch(err){
-			return res.status(404).json(err)
-		}
+		console.log(post);
+		// try {
+		// 	const newpost = await post.save();
+		// 	return res.status(200).json(newpost);
+		// } catch(err){
+		// 	return res.status(404).json(err)
+		// }
 	},
 
 	showPost: async (req, res, next) =>{
@@ -82,7 +82,7 @@ const postCntrl = {
 		const errors = {};
 		
 		if(req.body.title) updatedPost.title = req.body.title;
-		if(req.body.text) updatedPost.text = req.body.text;
+		if(req.body.body) updatedPost.body = req.body.body;
 		if(req.body.tags) updatedPost.tags = req.body.tags;
 		if(req.body.isMatch) updatedPost.isMatch = req.body.isMatch;
 		if(req.body.allowComment) updatedPost.allowComment = req.body.allowComment;
@@ -91,7 +91,7 @@ const postCntrl = {
 		if(req.body.date) updatedPost.date = req.body.date;
 		if(req.body.score) updatedPost.score = req.body.score;
 		if(req.body.competition) updatedPost.competition = req.body.competition;
-		if(req.body.type) updatedPost.type = req.body.type;
+		if(req.body.postType) updatedPost.postType = req.body.postType;
 
 		try {
 			const post = await Post.findById(postId).exec();

@@ -27,10 +27,8 @@ TextAreaField.propTypes = {
 	value: PropTypes.string,
 	label: PropTypes.string.isRequired,
 	error: PropTypes.string,
-	type: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
-	isRequired: PropTypes.string,
-	isDisabled: PropTypes.bool.isRequired
+	isRequired: PropTypes.string
 }
 
 export default TextAreaField;

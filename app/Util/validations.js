@@ -164,7 +164,7 @@ const validate = {
 		const errors = {};
 
 		data.title = !isEmpty(data.title) ? data.title : "";
-		data.text = !isEmpty(data.text) ? data.text : "";
+		data.body = !isEmpty(data.body) ? data.body : "";
 		data.date = !isEmpty(data.date) ? data.date : "";
 		data.homeTeam = !isEmpty(data.homeTeam) ? data.homeTeam : "";
 		data.awayTeam = !isEmpty(data.awayTeam) ? data.awayTeam : "";
@@ -178,12 +178,12 @@ const validate = {
 			errors.title = "Title should be between 5 and 100 characters.";
 		};
 		
-		if(Validator.isEmpty(data.text)){
-			errors.text = "Post body is required.";
+		if(Validator.isEmpty(data.body)){
+			errors.body = "Post body is required.";
 		};
 
-		if(!Validator.isLength(data.text, {min: 2, max: 200})){
-			errors.text = "Post body should be between 2 and 200 characters.";
+		if(!Validator.isLength(data.body, {min: 2, max: 200})){
+			errors.body = "Post body should be between 2 and 200 characters.";
 		};
 
 		if(Validator.isEmpty(data.tags)){
