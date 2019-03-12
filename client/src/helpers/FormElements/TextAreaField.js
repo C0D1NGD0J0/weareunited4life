@@ -2,30 +2,26 @@ import React from 'react';
 import classnames from "classnames";
 import PropTypes from "prop-types";
 
-const FormInputField = ({name, placeholder, value, label, error, type, onChange, isRequired, isDisabled }) => {
+const TextAreaField = (props) => {
+  const {name, placeholder, value, label, error, onChange, isRequired} = props;
 
   return (
     <div className={classnames("form-group", {"has-error": error})}>
       <label htmlFor={name}>{label} <small className="text-muted">{isRequired}</small></label>
-      <input 
-      	type={type}
-      	name={name}
-      	onChange={onChange}
-      	className="form-control"
-      	placeholder={placeholder}
+      <textarea
+        rows="7"
+        name={name} 
         value={value}
-      	disabled={isDisabled}
+        onChange={onChange}
+        placeholder={placeholder}
+        className="form-control"
       />
       {error && (<small className="help-block text-muted">{error}</small>)}
     </div>
   );
 };
 
-FormInputField.defaultProps = {
-	type: "text"
-}
-
-FormInputField.propTypes = {
+TextAreaField.propTypes = {
 	name: PropTypes.string.isRequired,
 	placeholder: PropTypes.string,
 	value: PropTypes.string,
@@ -37,4 +33,4 @@ FormInputField.propTypes = {
 	isDisabled: PropTypes.bool.isRequired
 }
 
-export default FormInputField;
+export default TextAreaField;

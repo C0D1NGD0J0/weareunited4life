@@ -13,7 +13,7 @@ const PostSchema = new Schema({
 		minlength: 4,
 		maxlength: 100
 	},
-	text: {
+	body: {
 		type: String,
 		required: [true, "Post body is required"],
 		minlength: 2,

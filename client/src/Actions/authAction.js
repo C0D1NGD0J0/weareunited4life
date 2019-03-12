@@ -40,7 +40,6 @@ export const logoutUserAction = (history) => (dispatch) =>{
 	setHeaderAuthToken(false);
 	dispatch(setAuthenticatedUser({}));
 	dispatch(clearCurrentUser());
-	return history.push("/");
 };
 
 export const forgotPasswordAction = (userdata) => (dispatch) =>{
