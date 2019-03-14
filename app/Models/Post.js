@@ -17,7 +17,7 @@ const PostSchema = new Schema({
 		type: String,
 		required: [true, "Post body is required"],
 		minlength: 2,
-		maxlength: 200
+		maxlength: 800
 	},
 	likes: {
 		count: {type: Number, default: 0},

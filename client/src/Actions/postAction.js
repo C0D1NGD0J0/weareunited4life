@@ -22,14 +22,14 @@ export const createNewPostAction = (postdata, history) => (dispatch) =>{
 	dispatch(setLoadingState());
 	axios.post("/api/posts/", postdata).then((res) =>{
 		dispatch({
-			type: GET_POSTS,
+			type: CREATE_NEW_POST,
 			payload: res.data
 		});
 		return history.push("/posts");
 	}).catch((err) =>{
-		dispatch({
+		return dispatch({
 			type: GET_ERRORS,
 			payload: err.response.data
-		})
+		});
 	});
 };

@@ -182,8 +182,8 @@ const validate = {
 			errors.body = "Post body is required.";
 		};
 
-		if(!Validator.isLength(data.body, {min: 2, max: 200})){
-			errors.body = "Post body should be between 2 and 200 characters.";
+		if(!Validator.isLength(data.body, {min: 2, max: 800})){
+			errors.body = "Post body should be between 2 and 800 characters.";
 		};
 
 		if(Validator.isEmpty(data.tags)){

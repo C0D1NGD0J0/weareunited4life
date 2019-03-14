@@ -35,8 +35,7 @@ class newPost extends Component {
 	onFormSubmit = (e) =>{
 		e.preventDefault();
 		const post = {...this.state};
-		console.log(post);
-		this.props.createNewPostAction(post);
+		this.props.createNewPostAction(post, this.props.history);
 	}
 	
 	toggleCheckbox = (e) =>{

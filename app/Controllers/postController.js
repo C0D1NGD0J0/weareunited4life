@@ -29,7 +29,6 @@ const postCntrl = {
 		if(!isValid){
 			return res.status(400).json(errors);
 		};
-		// const canComment = req.body.allowComments ? true : false;
 		
 		const post = new Post({
 			body: req.body.body,
@@ -48,13 +47,13 @@ const postCntrl = {
 		});
 
 		convertTagStringToArray(post, req.body.tags);
-		console.log(post);
-		// try {
-		// 	const newpost = await post.save();
-		// 	return res.status(200).json(newpost);
-		// } catch(err){
-		// 	return res.status(404).json(err)
-		// }
+		
+		try {
+			const newpost = await post.save();
+			return res.json(newpost);
+		} catch(err){
+			return res.status(404).json(err)
+		};
 	},
 
 	showPost: async (req, res, next) =>{
