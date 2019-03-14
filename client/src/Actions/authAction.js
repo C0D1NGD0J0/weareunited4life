@@ -1,5 +1,5 @@
 import { GET_ERRORS, SET_AUTHENTICATED_USER } from "./types";
-import { clearCurrentUser } from "./utilAction";
+import { clearCurrentUser, clearStateErrors } from "./utilAction";
 import setHeaderAuthToken from "../helpers/setHeaderAuthToken";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
@@ -21,6 +21,7 @@ export const loginAction = (userdata, history) => (dispatch) =>{
 			setHeaderAuthToken(token); //set token in header for subsequent request
 			const decodedToken = jwt_decode(token); //decode jwt-token
 			dispatch(setAuthenticatedUser(decodedToken)); //confirm user credentials
+			dispatch(clearStateErrors());
 			return history.push(`/${decodedToken.username}/profile`);
 		}).catch((err) => dispatch({
 			type: GET_ERRORS,

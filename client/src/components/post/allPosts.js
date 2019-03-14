@@ -14,6 +14,8 @@ class AllPosts extends Component {
 	}
 
 	render() {
+		const { posts: {all}, loading } = this.props;
+
 		return (
 			<main id="content_wrapper" className="bg-img_posts">
 				<Header title="All Posts" />
@@ -43,7 +45,7 @@ class AllPosts extends Component {
 							<div className="col-sm-9">
 								<div className="posts-wrapper">
 									<ul className="posts-list">
-										<PostListItem />
+										<PostListItem allPosts={all} loading={loading}/>
 									</ul>
 									
 									<p className="text-center" style={{marginTop: "2rem"}}>

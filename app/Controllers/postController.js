@@ -15,7 +15,7 @@ const postCntrl = {
 	index: (req, res, next) =>{
 		const errors = {};
 
-		Post.find({}).sort({createdAt: -1}).then((posts) =>{
+		Post.find({}).populate('author').sort({createdAt: -1}).then((posts) =>{
 			return res.status(200).json(posts);
 		}).catch((err) =>{
 			errors.msg = err.message;
