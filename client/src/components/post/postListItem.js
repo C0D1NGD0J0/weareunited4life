@@ -38,8 +38,8 @@ const PostListItem = (props) => {
 				</div>
 				<div className="posts-meta pull-left">
 					<ul className="list-inline post-actions">
-						<li><a href="#"><i className="fa fa-user-o"></i> {post.author.username}</a></li>
-						<li><a href="#"><i className="fa fa-calendar-o"></i><Moment format="DD/MM/YYYY">{post.createdAt}</Moment></a></li>
+						<li><i className="fa fa-user-o"></i> {post.author.username}</li>
+						<li><i className="fa fa-calendar-o"></i><Moment format="DD/MM/YYYY">{post.createdAt}</Moment></li>
 					</ul>
 				</div>
 			</li>

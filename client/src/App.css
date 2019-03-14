@@ -342,7 +342,8 @@ section {
   color: #C70101;
 }
 
-.post-actions a {
+.post-actions a,
+.post-actions li {
   font-weight: 300;
   font-size: 1.2rem;
   color: #06000A;
