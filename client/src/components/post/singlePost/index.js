@@ -4,6 +4,9 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import  { Link } from "react-router-dom";
 import Moment from 'react-moment';
+import Sidebar from "../../layouts/Sidebar/";
+import SidebarUser from "../../layouts/Sidebar/userDetails";
+import SidebarPostPhotos from "../../layouts/Sidebar/postPhotos";
 import { getCurrentPost } from "../../../Actions/postAction";
 
 class Post extends Component {
@@ -31,48 +34,10 @@ class Post extends Component {
 					<div className="container-fluid">
 						<div className="row">
 							<div className="col-sm-2">
-								<div className="sidebar">
-									<div className="sidebar_box">
-										<div className="sidebar_user-avatar text-center">
-											<img src="./dist/img/user.png" alt="" className="img-responsive img-circle" />
-											<span className="btn btn-sm btn-danger">Follow</span>
-											<span className="btn btn-sm btn-info">Message</span>
-										</div>
-
-										<div className="sidebar_user-info">
-											<ul className="list-group">
-												<li className="list-group-item">John Doe</li>
-												<li className="list-group-item">United Kingdom</li>
-												<li className="list-group-item">Moderator</li>
-											</ul>
-										</div>
-									</div>
-
-									<div className="sidebar_box">
-										<h4 className="text-center">Post Images</h4><hr/>
-										<div className="sidebar_post-imgs">
-											<div className="row">
-												<div className="col-sm-4">
-													<div className="post-imgs__img">
-														<img src="./dist/img/manutd_logo.png" className="img-responsive" alt=""/>
-													</div>
-												</div>
-
-												<div className="col-sm-4">
-													<div className="post-imgs__img">
-														<img src="./dist/img/manutd_logo.png" className="img-responsive" alt=""/>
-													</div>
-												</div>
-
-												<div className="col-sm-4">
-													<div className="post-imgs__img">
-														<img src="./dist/img/manutd_logo.png" className="img-responsive" alt=""/>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
+								<Sidebar user={post.author} post={post.photos}>
+									<SidebarUser />
+									<SidebarPostPhotos />
+								</Sidebar>
 							</div>
 
 							<div className="col-sm-8">
@@ -81,9 +46,12 @@ class Post extends Component {
 										<div className="panel-body">
 											<div className="post-content__description">
 												<p className="clearfix post-meta" style={{margin: "0 0 2rem"}}>
-													<small className="pull-left text-muted">
+													<small className="pull-right text-muted">
 														<i className="fa fa-clock-o"></i>  
 														<Moment format="H:m:s">{post.createdAt}</Moment>
+													</small>
+													<small className="pull-left text-muted">
+														<i className="fa fa-cogs"></i> Category
 													</small>
 												</p>
 												<p>{post.body}</p><hr/>
