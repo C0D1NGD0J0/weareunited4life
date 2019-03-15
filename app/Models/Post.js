@@ -19,7 +19,7 @@ const PostSchema = new Schema({
 		minlength: 2,
 		maxlength: 800
 	},
-	likes: {
+	like: {
 		count: {type: Number, default: 0},
 		users: [{type: Schema.Types.ObjectId, ref: 'User'}]
 	},

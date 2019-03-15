@@ -19,7 +19,6 @@ class Navbar extends Component {
 			<React.Fragment>
 				<li><Link exact='true' to="/"><i className="fa fa-home"></i> Home</Link></li>
 				<li><Link to="#"><i className="fa fa-soccer-ball-o"></i> Match-Day</Link></li>
-        <li><Link to="/posts"><i className="fa fa-list"></i> Posts</Link></li>
         <li><Link to="/messages"><i className="fa fa-envelope"></i> Messages</Link></li>
         <li className="dropdown">
           <Link to="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span className="caret"></span></Link>
@@ -46,7 +45,8 @@ class Navbar extends Component {
 			    </div>
 			    <div id="navbar" className="collapse navbar-collapse">
 			      <ul className="nav navbar-nav navbar-right">
-			        { isAuthenticated ? loggedInLinks : 
+			      	<li><Link to="/posts"><i className="fa fa-list"></i> Posts</Link></li>
+			        { isAuthenticated ? loggedInLinks :
 			        	<li className="active"><Link to="/login"><i className="fa fa-sign-in"></i> Login / Signup</Link></li>
 			        }
 			      </ul>

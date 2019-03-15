@@ -61,7 +61,7 @@ const postCntrl = {
 		const { postId } = req.params;
 
 		try{
-			const post = await Post.findById(postId);
+			const post = await Post.findById(postId).populate("author", "username avatar").exec();
 			errors.msg = "Post not found.";
 			
 			if(!post) return res.status(404).json(errors);
