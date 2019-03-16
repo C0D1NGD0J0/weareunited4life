@@ -33,8 +33,7 @@ class newPost extends Component {
 	
 	componentDidMount(){
 		axios.get("/api/categories/").then((res) =>{
-			const categoriesArr = convertArrOfObj(res.data);
-			return this.setState({categories: categoriesArr});
+			return this.setState({categories: res.data});
 		}).catch((err) =>{
 			// this.setState({errors: err.response.data});
 			console.log(err);
@@ -61,6 +60,7 @@ class newPost extends Component {
 
 	render() {
 		const { errors } = this.props;
+		const { categories } = this.state;
 
 		return (
 			<main id="content_wrapper" className="bg-img_posts">
@@ -107,7 +107,13 @@ class newPost extends Component {
 											</div>
 
 											<div className="col-sm-6">
-												<SelectTagField label="Category" options={this.state.categories} name="category"/>
+												<SelectTagField 
+													label="Category" 
+													options={categories && categories} 
+													name="category"
+													value={this.state.category}
+													onChange={this.handleSelectTag}
+												/>
 											</div>
 
 											<div className="col-sm-6">
@@ -243,13 +249,5 @@ const mapDispatchToProps = {
 	createNewPostAction
 };
 
-function convertArrOfObj(arr){
-	const newArr = [];
-	for(let item of arr){
-		newArr.push(item.name);
-	};
-
-	return newArr;
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(newPost);

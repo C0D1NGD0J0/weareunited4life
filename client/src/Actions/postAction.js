@@ -1,6 +1,5 @@
 import { GET_ERRORS, GET_POSTS, CREATE_NEW_POST, GET_CURRENT_POST, CLEAR_CURRENT_POST } from "./types";
 import { setLoadingState } from "./utilAction";
-import jwt_decode from "jwt-decode";
 import axios from "axios";
 
 export const getAllPostsAction = () => (dispatch) =>{

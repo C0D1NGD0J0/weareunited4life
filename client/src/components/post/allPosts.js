@@ -1,14 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import Header from "../layouts/pageHeader";
 import { connect } from "react-redux";
 import { getAllPostsAction } from "../../Actions/postAction";
 import PostListItem from "./postListItem";
 
 class AllPosts extends Component {
-	constructor(props){
-		super(props);
-	}
-
 	componentDidMount(){
 		this.props.getAllPostsAction();
 	}
