@@ -225,6 +225,21 @@ const validate = {
 		}
 
 		return {errors, isValid: isEmpty(errors)};
+	},
+
+	category: (data) =>{
+		const errors = {};
+		data.name = !isEmpty(data.name) ? data.name : "";
+
+		if(Validator.isEmpty(data.name)){
+			errors.name = "Category name needs to be provided.";
+		};
+
+		if(!Validator.isLength(data.name, {min: 2, max: 20})){
+			errors.name = "Category name should be between 2 and 20 characters.";
+		};
+
+		return { errors, isValid: isEmpty(errors) };
 	}
 }
 

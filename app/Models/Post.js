@@ -35,6 +35,7 @@ const PostSchema = new Schema({
 		date: {type: Date, default: ""},
 		competition: String
 	},
+	category: {type: Schema.Types.ObjectId, ref: "Category"},
 	type:{type: String, default: 'article', lowercase: true} 
 }, {timestamps: true});
 

@@ -14,7 +14,7 @@ const SelectTagField = ({ name, value, error, info, onChange, options, label, co
         value={value}
         name={name}
         onChange={onChange}>
-        <option value="" disabled>{value}</option>
+        <option value="Select Category" disabled>Select Category</option>
         {selectOptions}
       </select>
   	</div>

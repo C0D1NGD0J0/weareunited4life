@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Header from "../layouts/pageHeader";
 import { connect } from "react-redux";
+import axios from "axios";
 import { createNewPostAction } from "../../Actions/postAction";
 import TextAreaField from "../../helpers/FormElements/TextAreaField";
 import CheckBoxField from "../../helpers/FormElements/CheckBoxField";
@@ -23,9 +24,21 @@ class newPost extends Component {
 			awayTeam: "",
 			date: "",
 			competition: "",
-			postType: ""
+			postType: "",
+			category: "",
+			categories: []
 		};
 		this.POST_TYPES = ["article", "matchday"];
+	}
+	
+	componentDidMount(){
+		axios.get("/api/categories/").then((res) =>{
+			const categoriesArr = convertArrOfObj(res.data);
+			return this.setState({categories: categoriesArr});
+		}).catch((err) =>{
+			// this.setState({errors: err.response.data});
+			console.log(err);
+		});
 	}
 
 	onFormInputChange = (e) =>{
@@ -94,7 +107,7 @@ class newPost extends Component {
 											</div>
 
 											<div className="col-sm-6">
-												<SelectTagField label="Select Category" options={[]} name="category"/>
+												<SelectTagField label="Category" options={this.state.categories} name="category"/>
 											</div>
 
 											<div className="col-sm-6">
@@ -228,6 +241,15 @@ const mapStateToProps = (state) =>({
 
 const mapDispatchToProps = {
 	createNewPostAction
+};
+
+function convertArrOfObj(arr){
+	const newArr = [];
+	for(let item of arr){
+		newArr.push(item.name);
+	};
+
+	return newArr;
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(newPost);
