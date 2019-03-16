@@ -1,4 +1,4 @@
-import { CLEAR_ERRORS, LOADING, CLEAR_CURRENT_USER } from "./types";
+import { CLEAR_ERRORS, LOADING, CLEAR_CURRENT_USER, CLEAR_CURRENT_POST } from "./types";
 
 export const clearStateErrors = () =>{
 	return{
@@ -18,4 +18,11 @@ export const clearCurrentUser = () =>{
 		type: CLEAR_CURRENT_USER,
 		payload: {}
 	};
+}
+
+export const clearCurrentPost = () =>{
+	return{
+		type: CLEAR_CURRENT_POST,
+		payload: null
+	}
 }

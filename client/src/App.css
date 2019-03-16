@@ -75,6 +75,25 @@ section {
   overflow: hidden;
 }
 
+button {
+  margin: 0;
+  border: none;
+  padding: 0 1px 0 0;
+  color: #252839;
+  cursor: pointer;
+  background: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+button:hover,
+button:focus {
+  color: #C70101;
+}
+
 .bg-img_landing {
   background: url("./img/manutd_logo1.png");
   background-position: center center;
@@ -344,9 +363,9 @@ section {
 
 .post-actions a,
 .post-actions li {
-  font-weight: 300;
-  font-size: 1.2rem;
   color: #06000A;
+  font-weight: 300;
+  font-size: 1.3rem;
   text-decoration: none;
   text-transform: uppercase;
   transition: all 0.2s ease-in-out;

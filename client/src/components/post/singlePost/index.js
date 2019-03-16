@@ -4,10 +4,12 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import  { Link } from "react-router-dom";
 import Moment from 'react-moment';
+import PostMeta from "./postMeta";
 import Sidebar from "../../layouts/Sidebar/";
 import SidebarUser from "../../layouts/Sidebar/userDetails";
 import SidebarPostPhotos from "../../layouts/Sidebar/postPhotos";
-import { getCurrentPost } from "../../../Actions/postAction";
+import { clearStateErrors, clearCurrentPost } from "../../../Actions/utilAction";
+import { getCurrentPost, likePostAction } from "../../../Actions/postAction";
 
 class Post extends Component {
 	constructor(props){
@@ -22,6 +24,22 @@ class Post extends Component {
 		if(postId){
 			this.props.getCurrentPost(postId);
 		};
+	}
+
+	// componentDidUpdate(prevProps){
+	// 	if(this.posts !== prevProps.posts ){
+			
+	// 	}
+	// }
+
+	componentWillUnmount(){
+		this.props.clearCurrentPost();
+		this.props.clearStateErrors();
+	}
+
+	handleLikePost = (e, postid) =>{
+		e.preventDefault();
+		return this.props.likePostAction(postid);
 	}
 
 	render() {
@@ -46,35 +64,13 @@ class Post extends Component {
 										<div className="panel-body">
 											<div className="post-content__description">
 												<p className="clearfix post-meta" style={{margin: "0 0 2rem"}}>
-													<small className="pull-right text-muted">
-														<i className="fa fa-clock-o"></i>  
-														<Moment format="H:m:s">{post.createdAt}</Moment>
-													</small>
 													<small className="pull-left text-muted">
 														<i className="fa fa-cogs"></i> Category
 													</small>
 												</p>
 												<p>{post.body}</p><hr/>
 
-												<ul className="list-inline post-actions pull-right">
-													<li><a href="#"><i className="fa fa-commenting-o"></i></a><span className="badge">14</span></li>
-													<li><a href="#"><i className="fa fa-thumbs-o-up"></i></a><span className="badge">{post.likes && post.likes.count}</span></li>
-													<li><a href="#"><i className="fa fa-share-alt"></i> Share</a></li>
-												</ul>
-
-												<div className="posts-meta pull-left">
-													<ul className="list-inline post-actions">
-														<li>
-															<i className="fa fa-user-o"></i>
-															{post.author && 
-															<Link to={`/${post.author.username}/profile`}> {post.author.username}</Link>}
-														</li>
-														<li>
-															<i className="fa fa-calendar-o"></i> 
-															<Moment format="DD/MM/YYYY">{post.createdAt}</Moment>
-														</li>
-													</ul>
-												</div>
+												<PostMeta post={post} likePost={this.handleLikePost} />
 											</div>
 										</div>	
 									</div>
@@ -184,7 +180,10 @@ const mapStateToProps = (state) =>({
 });
 
 const mapDispatchToProps = {
-	getCurrentPost
+	getCurrentPost,
+	likePostAction,
+	clearStateErrors,
+	clearCurrentPost
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post);

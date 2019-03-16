@@ -42,6 +42,17 @@ export const getCurrentPost = (postid) => (dispatch) =>{
 			payload: res.data
 		});
 	}).catch((err) =>{
+		return dispatch({
+			type: GET_ERRORS,
+			payload: err.response.data
+		});
+	});
+};
 
+export const likePostAction = (postid) => (dispatch) =>{
+	axios.put(`/api/posts/${postid}/like`).then((res) =>{
+		dispatch({type: GET_CURRENT_POST, payload: res.data });
+	}).catch((err) =>{
+		dispatch({type: GET_ERRORS, payload: err.response.data });
 	});
 };
