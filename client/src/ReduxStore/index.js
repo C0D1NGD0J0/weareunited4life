@@ -1,8 +1,10 @@
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import rootReducer from "../Reducers/";
+import { createLogger } from "redux-logger";
 
-const middleware = [thunk];
+const logger = createLogger();
+const middleware = [thunk, logger];
 const initialState = {};
 
 const store = createStore(
