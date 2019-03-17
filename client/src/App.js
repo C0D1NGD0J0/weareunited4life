@@ -7,6 +7,7 @@ import ResetPassword from "./components/auth/ResetPassword";
 import UserProfile from "./components/user/Profile";
 import Navbar from "./components/layouts/Navbar";
 import Footer from "./components/layouts/Footer";
+import Category from "./components/category/";
 import AllPosts from "./components/post/allPosts";
 import Post from "./components/post/singlePost/index";
 import NewPost from "./components/post/newPost";
@@ -27,6 +28,7 @@ class App extends Component {
             <Switch>
               <PrivateRoute exact path="/" component={Dashboard} />
               <PrivateRoute exact path="/posts/new" component={NewPost} />
+              <PrivateRoute exact path="/admin/category" component={Category} />
               <PrivateRoute exact path="/:username/profile" component={UserProfile} />
             </Switch>
             <Route exact path="/posts" component={AllPosts} />

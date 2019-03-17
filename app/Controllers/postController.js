@@ -128,7 +128,7 @@ const postCntrl = {
 		const { postId } = req.params;
 		const errors = {};
 
-		Post.findById(postId).then((post) =>{
+		Post.findById(postId).populate("author", "username avatar _id location role").then((post) =>{
 			const alreadyLiked = post.like.users.map(item => item.toString()).includes(req.user.id);
 			if(alreadyLiked){
 				errors.msg = "Unable to like same post twice..";

@@ -1,8 +1,8 @@
 import React from 'react';
 
 const UserDetails = (props) => {
-	const { user } = props;
-	
+	const user = props.user;
+
   return (
   	<div className="sidebar_box">
 			<div className="sidebar_user-avatar text-center">
