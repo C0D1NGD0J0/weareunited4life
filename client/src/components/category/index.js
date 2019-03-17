@@ -2,13 +2,37 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import Header from "../layouts/pageHeader";
 import CategoriesTable from "./categoriesTable";
+import CategoryFormPanel from "./categoryFormPanel";
 import Sidebar from "../layouts/Sidebar/";
 import SidebarUser from "../layouts/Sidebar/userDetails";
+import { getCategoriesAction, newCategoryAction } from "../../Actions/categoryAction";
 
 class Category extends Component {
+	constructor(props){
+		super(props);
+		this.state = {
+			name: ""
+		};
+	}
+
+	componentDidMount(){
+		this.props.getCategoriesAction();	
+	}
+
+	onFormInputChange = (e) =>{
+		this.setState({[e.target.name]: e.target.value});
+	}
+
+	onFormSubmit = (e) =>{
+		e.preventDefault();
+		const newCategory = { name: this.state.name };
+		this.props.newCategoryAction(newCategory);
+	}
+
 	render() {
 		const { user } = this.props.auth;
-
+		const { category } = this.props;
+		
 		return (
 			<main id="content_wrapper" className="bg-img_posts">
 				<Header title="Category" />
@@ -24,21 +48,12 @@ class Category extends Component {
 
 							<div className="col-sm-9">
 								<div className="category-overview">
-			            <div className="panel panel-default">
-			              <div className="panel-heading">
-			                <h3 className="panel-title">Create Category</h3>
-			              </div>
-			              
-			              <div className="panel-body">
-			                <form className="form">
-			                  <label htmlFor="name">Name (required)</label>
-			                  <input type="text" className="form-control" placeholder="Category name" style={{width: "70%", display: "inline-block", margin: "0 2rem", height: "3.5rem"}}/>
-			                  <input type="submit" value="Submit" className="btn btn-danger" />
-			                </form>
-			              </div>
-			            </div>
-
-			            <CategoriesTable />
+			            <CategoryFormPanel 
+			            	value={this.state.name} 
+			            	onChange={this.onFormInputChange} 
+			            	onFormSubmit={this.onFormSubmit}
+			            />
+			            <CategoriesTable categories={category.all} />
 			          </div>
 							</div>
 						</div>
@@ -50,7 +65,13 @@ class Category extends Component {
 }
 
 const mapStateToProps = (state) =>({
-	auth: state.auth
+	auth: state.auth,
+	category: state.category
 });
 
-export default connect(mapStateToProps, {})(Category);
+const mapDispatchToProps = {
+	getCategoriesAction,
+	newCategoryAction
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Category);

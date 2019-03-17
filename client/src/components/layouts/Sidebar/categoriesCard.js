@@ -1,16 +1,18 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 
 const Categories = (props) => {
+	const { all: categories } = props.category;
+	const categoriesList = categories.map((item) =>{
+		return (
+			<li key={item._id}><a href="#!">{item.name}</a></li>
+		);
+	});
+
   return (
   	<div className="sidebar_box categories">
 			<h3 className="text-center">Categories</h3><hr/>
 			<ul className="category-list">
-				<li><a href="#!">Category Two</a></li>
-				<li><a href="#!">Category One</a></li>
-				<li><a href="#!">Category One</a></li>
-				<li><a href="#!">Category One</a></li>
-				<li><a href="#!">Category One</a></li>
-				<li><a href="#!">Category One</a></li>
+				{categoriesList}
 			</ul>
 		</div>
   );

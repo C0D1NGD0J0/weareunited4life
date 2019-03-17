@@ -4,7 +4,7 @@ const router = express.Router();
 const passport = require("passport");
 const categoryCntrl = require("../Controllers/categoryController");
 
-router.get("/", passport.authenticate('jwt', {session: false}), categoryCntrl.all);
+router.get("/", categoryCntrl.all);
 
 router.post("/", passport.authenticate('jwt', {session: false}), categoryCntrl.create);
 

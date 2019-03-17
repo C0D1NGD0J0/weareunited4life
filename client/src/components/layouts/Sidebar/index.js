@@ -6,7 +6,7 @@ const Sidebar = (props) => {
   return (
   	<div className="sidebar">
 			{React.Children.map(children, (child) =>{
-				return React.cloneElement(child, {user: props.user, post: props.post});
+				return React.cloneElement(child, {user: props.user, post: props.post, category: props.category});
 			})}
 		</div>
   );

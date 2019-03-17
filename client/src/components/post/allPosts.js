@@ -2,15 +2,19 @@ import React, { Component } from 'react';
 import Header from "../layouts/pageHeader";
 import { connect } from "react-redux";
 import { getAllPostsAction } from "../../Actions/postAction";
+import { getCategoriesAction } from "../../Actions/categoryAction";
 import PostListItem from "./postListItem";
+import Sidebar from "../layouts/Sidebar/";
+import SidebarCategories from "../layouts/Sidebar/categoriesCard";
 
 class AllPosts extends Component {
 	componentDidMount(){
 		this.props.getAllPostsAction();
+		this.props.getCategoriesAction()
 	}
 
 	render() {
-		const { posts: {all}, loading } = this.props;
+		const { posts: {all}, loading, category } = this.props;
 
 		return (
 			<main id="content_wrapper" className="bg-img_posts">
@@ -19,23 +23,9 @@ class AllPosts extends Component {
 					<div className="container">
 						<div className="row">
 							<div className="col-sm-3">
-								<div className="sidebar">
-									<div className="sidebar_box categories">
-										<h3 className="text-center">Categories</h3><hr/>
-										<ul className="category-list">
-											<li><a href="#!">Category Two</a></li>
-											<li><a href="#!">Category One</a></li>
-											<li><a href="#!">Category One</a></li>
-											<li><a href="#!">Category One</a></li>
-											<li><a href="#!">Category One</a></li>
-											<li><a href="#!">Category One</a></li>
-										</ul>
-									</div>
-
-									<div className="sidebar_box search-box">
-										<h3 className="text-center">Search</h3><hr/>
-									</div>
-								</div>
+								<Sidebar category={category && category}>
+									<SidebarCategories />
+								</Sidebar>
 							</div>
 
 							<div className="col-sm-9">
@@ -58,11 +48,13 @@ class AllPosts extends Component {
 }
 
 const mapStateToProps = (state) =>({
-	posts: state.posts
+	posts: state.posts,
+	category: state.category
 });
 
 const mapDispatchToProps = {
-	getAllPostsAction
+	getAllPostsAction,
+	getCategoriesAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllPosts);
