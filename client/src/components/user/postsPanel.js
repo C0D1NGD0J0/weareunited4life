@@ -1,6 +1,24 @@
 import React from 'react';
+import Moment from 'react-moment';
+import { Link } from "react-router-dom";
 
 const PostsPanel = (props) => {
+	const { posts } = props;
+	const postTableRow = posts.map((post) =>{
+		return(
+			<tr>
+        <td>{post.title}</td>
+        <td>{post.category && post.category.name}</td>
+        <td><Moment format="DD/MM/YYYY">{post.createdAt}</Moment></td>
+        <td>
+        	<span className="i fa fa-pencil"></span>
+        	<Link to={`/posts/${post._id}`}><span className="i fa fa-eye"></span></Link>
+        	<span className="i fa fa-trash"></span>
+        </td>
+      </tr>
+		);
+	});
+
   return (
     <div className="panel panel-default profile-page_myposts-list">
 			<div className="panel-heading">
@@ -15,62 +33,13 @@ const PostsPanel = (props) => {
 				    <thead>
 				      <tr>
 				        <th>Title</th>
-				        <th>Status</th>
+				        <th>Category</th>
 				        <th>Date</th>
 				        <th>Action</th>
 				      </tr>
 				    </thead>
 				    <tbody>
-				      <tr>
-				        <td>Post Title One</td>
-				        <td>draft</td>
-				        <td>12/02/2019</td>
-				        <td>
-				        	<span className="i fa fa-pencil"></span>
-				        	<span className="i fa fa-eye"></span>
-				        	<span className="i fa fa-trash"></span>
-				        </td>
-				      </tr>
-				      <tr>
-				        <td>Post Title Two</td>
-				        <td>draft</td>
-				        <td>14/02/2019</td>
-				        <td>
-				        	<span className="i fa fa-pencil"></span>
-				        	<span className="i fa fa-eye"></span>
-				        	<span className="i fa fa-trash"></span>
-				        </td>
-				      </tr>
-				      <tr>
-				        <td>Post Title Three</td>
-				        <td>published</td>
-				        <td>21/02/2019</td>
-				        <td>
-				        	<span className="i fa fa-pencil"></span>
-				        	<span className="i fa fa-eye"></span>
-				        	<span className="i fa fa-trash"></span>
-				        </td>
-				      </tr>
-				      <tr>
-				        <td>Post Title Four</td>
-				        <td>published</td>
-				        <td>26/02/2019</td>
-				        <td>
-				        	<span className="i fa fa-pencil"></span>
-				        	<span className="i fa fa-eye"></span>
-				        	<span className="i fa fa-trash"></span>
-				        </td>
-				      </tr>
-				      <tr>
-				        <td>Post Title Five</td>
-				        <td>draft</td>
-				        <td>1/03/2019</td>
-				        <td>
-				        	<span className="i fa fa-pencil"></span>
-				        	<span className="i fa fa-eye"></span>
-				        	<span className="i fa fa-trash"></span>
-				        </td>
-				      </tr>
+				      {postTableRow}
 				    </tbody>
 				  </table>
   			</div>

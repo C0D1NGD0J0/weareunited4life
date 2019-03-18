@@ -16,7 +16,8 @@ export default function(state = initialState, action){
 		case GET_CURRENT_USER:
 			return{
 				...state,
-				info: action.payload,
+				info: action.payload.user,
+				posts:[...action.payload.posts, ...state.posts],
 				loading: false
 			}
 		case CLEAR_CURRENT_USER:

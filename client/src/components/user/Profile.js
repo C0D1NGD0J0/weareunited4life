@@ -31,7 +31,7 @@ class Profile extends Component {
 	}
 
 	render() {
-		const { info: user, loading } = this.props.currentuser;
+		const { info: user, loading, posts } = this.props.currentuser;
 		const { errors } = this.props;
 
 		return (
@@ -54,7 +54,7 @@ class Profile extends Component {
 												errors={errors}
 												updateUser={this.handleUpdateUserForm}
 											/>
-				        			<UserPostsPanel />
+				        			<UserPostsPanel posts={posts}/>
 				        			<UserContributionPanel />
 			        			</Fragment>
 			        		}

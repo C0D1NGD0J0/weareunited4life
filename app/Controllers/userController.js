@@ -1,5 +1,6 @@
 "use strict";
 const User = require('../Models/User');
+const Post = require('../Models/Post');
 const keys = require("../Config/keys");
 const validate = require("../Util/validations");
 
@@ -13,9 +14,12 @@ const userCntrl = {
 
 	currentuser: async (req, res, next) =>{
 		const errors = {};
+		
 		try {
 			const user = await User.findById(req.user.id);
-			return res.status(200).json(user.detailsToJSON());
+			const posts = await Post.find({author: req.user.id }).populate('category', "name");
+			
+			return res.status(200).json({user, posts});
 		} catch(err) {
 			errors.msg = err.msg;
 			return res.status(404).json(errors);

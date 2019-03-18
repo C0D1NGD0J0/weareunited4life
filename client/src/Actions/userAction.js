@@ -1,6 +1,6 @@
 import axios from "axios";
 import { setLoadingState } from "./utilAction";
-import { GET_CURRENT_USER, GET_ERRORS } from "./types";
+import { GET_CURRENT_USER, GET_ERRORS, GET_USER_POSTS } from "./types";
 
 export const getCurrentUserAction = () => (dispatch)=>{
 	dispatch(setLoadingState());
