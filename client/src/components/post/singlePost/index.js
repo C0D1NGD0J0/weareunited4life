@@ -63,13 +63,7 @@ class Post extends Component {
 									<div className="panel panel-default">
 										<div className="panel-body">
 											<div className="post-content__description">
-												<p className="clearfix post-meta" style={{margin: "0 0 2rem"}}>
-													<small className="pull-left text-muted">
-														<i className="fa fa-cogs"></i> Category
-													</small>
-												</p>
 												<p>{post.body}</p><hr/>
-
 												<PostMeta post={post} likePost={this.handleLikePost} />
 											</div>
 										</div>	

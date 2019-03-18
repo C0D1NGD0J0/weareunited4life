@@ -48,7 +48,7 @@ class Navbar extends Component {
 			      <ul className="nav navbar-nav navbar-right">
 			      	<li><Link to="/posts"><i className="fa fa-list"></i> Posts</Link></li>
 			        { isAuthenticated ? loggedInLinks :
-			        	<li className="active"><Link to="/login"><i className="fa fa-sign-in"></i> Login / Signup</Link></li>
+			        	<li><Link to="/login"><i className="fa fa-sign-in"></i> Login / Signup</Link></li>
 			        }
 			      </ul>
 			    </div>

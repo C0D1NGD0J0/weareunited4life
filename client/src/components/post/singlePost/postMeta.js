@@ -10,7 +10,7 @@ const PostMeta = (props) => {
 				<li>
 					<a href="#!">
 						<i className="fa fa-commenting-o"></i>
-					</a><span className="badge">14</span>
+					</a><span className="badge">{post.comments && post.comments.length}</span>
 				</li>
 				<li>
 					<button onClick={(e) => likePost(e, post._id)}>
@@ -22,6 +22,10 @@ const PostMeta = (props) => {
 			</ul>
 
 			<ul className="list-inline post-actions pull-left">
+				<li>
+					<i className="fa fa-cogs"></i> 
+					{post.category && post.category.name}
+				</li>
 				<li>
 					<i className="fa fa-clock-o"></i>  
 					<Moment format="H:m:s">{post.createdAt}</Moment>

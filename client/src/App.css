@@ -378,9 +378,10 @@ button:focus {
 }
 
 .post-content__description {
-  line-height: 1.7;
+  line-height: 2;
   font-weight: 300;
   font-size: 1.6rem;
+  padding: 3rem 0;
   text-rendering: optimizeLegibility;
 }
 

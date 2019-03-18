@@ -15,7 +15,7 @@ const postCntrl = {
 	index: (req, res, next) =>{
 		const errors = {};
 
-		Post.find({}).populate('author').sort({createdAt: -1}).then((posts) =>{
+		Post.find({}).populate('author').populate('category', "_id name").sort({createdAt: -1}).then((posts) =>{
 			return res.status(200).json(posts);
 		}).catch((err) =>{
 			errors.msg = err.message;
@@ -43,7 +43,8 @@ const postCntrl = {
 				awayTeam: req.body.awayTeam,
 				date: req.body.date,
 				competition: req.body.competition
-			}
+			},
+			category: req.body.category
 		});
 
 		convertTagStringToArray(post, req.body.tags);
@@ -61,7 +62,7 @@ const postCntrl = {
 		const { postId } = req.params;
 
 		try{
-			const post = await Post.findById(postId).populate("author", "username avatar role location").exec();
+			const post = await Post.findById(postId).populate("author", "username avatar role location").populate('category', "_id name").exec();
 			errors.msg = "Post not found.";
 			
 			if(!post) return res.status(404).json(errors);
@@ -93,7 +94,7 @@ const postCntrl = {
 		if(req.body.postType) updatedPost.postType = req.body.postType;
 
 		try {
-			const post = await Post.findById(postId).exec();
+			const post = await Post.findById(postId).populate('category', "_id name").exec();
 			if(post.author._id.equals(req.user.id)){
 				Post.findOneAndUpdate({_id: postId}, {$set: updatedPost}, {new: true}).then((post) =>{
 					return res.json(post);
