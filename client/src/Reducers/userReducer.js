@@ -23,7 +23,8 @@ export default function(state = initialState, action){
 		case CLEAR_CURRENT_USER:
 			return{
 				...state,
-				info: action.payload
+				info: action.payload,
+				posts: [action.payload]
 			}
 		default:
 			return state;
