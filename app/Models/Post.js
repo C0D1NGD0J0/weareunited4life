@@ -24,7 +24,10 @@ const PostSchema = new Schema({
 		users: [{type: Schema.Types.ObjectId, ref: 'User'}]
 	},
 	tags: [{type: String, required: true}],
-	photos: [{String}],
+	photos: [{	
+		location: {type: String, default: "http://lorempixel.com/450/450/?random=456"},
+		filename: {type: String}
+	}],
 	comments:[{type: Schema.Types.ObjectId, ref: "Comment"}],
 	allowComments: {type: Boolean, default: false},
 	isMatch: {type: Boolean, default: false},

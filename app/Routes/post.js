@@ -3,14 +3,13 @@ const express = require('express');
 const router = express.Router();
 const passport = require("passport");
 const postCntrl = require("../Controllers/postcontroller");
+const imgUpload = require("../Controllers/upload");
 
 router.get("/", postCntrl.index);
 
 router.get("/:postId", postCntrl.showPost);
 
-router.get("/:userId/", postCntrl.getPosts);
-
-router.post("/", passport.authenticate('jwt', {session: false}), postCntrl.create);
+router.post("/", passport.authenticate('jwt', {session: false}), imgUpload, postCntrl.create);
 
 router.put("/:postId/like", passport.authenticate('jwt', {session: false}), postCntrl.like);
 

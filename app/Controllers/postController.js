@@ -47,6 +47,10 @@ const postCntrl = {
 			category: req.body.category
 		});
 
+		req.files.forEach((img) =>{
+			post.photos.push({location: img.location, filename: img.key})
+		});
+
 		convertTagStringToArray(post, req.body.tags);
 		
 		try {
@@ -70,10 +74,6 @@ const postCntrl = {
 		} catch(err){
 			return res.status(400).json(err);
 		};
-	},
-
-	getPosts: async (req, res, next) =>{
-		// Get posts associated with user passed in params
 	},
 
 	update: async (req, res, next) =>{

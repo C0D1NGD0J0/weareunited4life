@@ -1,14 +1,20 @@
 const express = require('express');
 const logger = require('morgan');
 const dotenv = require('dotenv');
+const cors = require('cors');
 const passport = require("passport");
 const passportConfig = require("./app/Config/passportConfig");
 const bodyParser = require('body-parser');
 const PORT = (process.env.PORT || 5000);
 const app = express();
+const corsOptions = {
+	origin: '*',
+	optionsSuccessStatus: 200
+};
 
 // Middleware
 dotenv.config();
+app.use(cors(corsOptions));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(passport.initialize());
