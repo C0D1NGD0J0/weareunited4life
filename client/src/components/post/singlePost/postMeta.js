@@ -23,15 +23,15 @@ const PostMeta = (props) => {
 
 			<ul className="list-inline post-actions pull-left">
 				<li>
-					<i className="fa fa-cogs"></i> 
+					<i className="fa fa-cogs"></i>&nbsp;
 					{post.category && post.category.name}
 				</li>
 				<li>
-					<i className="fa fa-clock-o"></i>  
+					<i className="fa fa-clock-o"></i>&nbsp;
 					<Moment format="H:m:s">{post.createdAt}</Moment>
 				</li>
 				<li>
-					<i className="fa fa-calendar-o"></i> 
+					<i className="fa fa-calendar-o"></i>&nbsp;
 					<Moment format="DD/MM/YYYY">{post.createdAt}</Moment>
 				</li>
 			</ul>

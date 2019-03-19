@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Header from "../layouts/pageHeader";
 import { connect } from "react-redux";
 import { getAllPostsAction } from "../../Actions/postAction";
 import { getCategoriesAction } from "../../Actions/categoryAction";
 import PostListItem from "./postListItem";
 import Sidebar from "../layouts/Sidebar/";
+import Loader from "../../helpers/Loader";
 import SidebarCategories from "../layouts/Sidebar/categoriesCard";
 
 class AllPosts extends Component {
@@ -14,7 +15,8 @@ class AllPosts extends Component {
 	}
 
 	render() {
-		const { posts: {all}, loading, category } = this.props;
+		const { all, loading } = this.props.posts;
+		const { category } = this.props;
 
 		return (
 			<main id="content_wrapper" className="bg-img_posts">
@@ -30,13 +32,17 @@ class AllPosts extends Component {
 
 							<div className="col-sm-9">
 								<div className="posts-wrapper">
-									<ul className="posts-list">
-										<PostListItem allPosts={all} loading={loading}/>
-									</ul>
-									
-									<p className="text-center" style={{marginTop: "2rem"}}>
-										<a href="#" className="btn btn-danger">Load More</a>
-									</p>
+									{ loading ? <Loader /> : 
+										<Fragment>
+											<ul className="posts-list">
+												<PostListItem allPosts={all} loading={loading}/>
+											</ul>
+											
+											<p className="text-center" style={{marginTop: "2rem"}}>
+												<a href="#" className="btn btn-danger">Load More</a>
+											</p>
+										</Fragment>
+									}
 								</div>
 							</div>
 						</div>

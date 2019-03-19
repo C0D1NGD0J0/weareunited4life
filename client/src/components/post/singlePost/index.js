@@ -53,8 +53,8 @@ class Post extends Component {
 						<div className="row">
 							<div className="col-sm-2">
 								<Sidebar user={post.author} post={post.photos}>
-									<SidebarUser />
 									<SidebarPostPhotos />
+									<SidebarUser />
 								</Sidebar>
 							</div>
 
