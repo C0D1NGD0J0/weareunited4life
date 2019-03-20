@@ -11,7 +11,7 @@ const PostsPanel = (props) => {
         <td>{post.category && post.category.name}</td>
         <td><Moment format="DD/MM/YYYY">{post.createdAt}</Moment></td>
         <td>
-        	<span className="i fa fa-pencil"></span>
+        	<Link to={`/posts/${post._id}/edit`}><span className="i fa fa-pencil"></span></Link>
         	<Link to={`/posts/${post._id}`}><span className="i fa fa-eye"></span></Link>
         	<span className="i fa fa-trash"></span>
         </td>

@@ -2,42 +2,67 @@ import React, { Component } from 'react';
 import Header from "../layouts/pageHeader";
 import { connect } from "react-redux";
 import axios from "axios";
-import { createNewPostAction } from "../../Actions/postAction";
+import { clearStateErrors } from "../../Actions/utilAction";
+import { createNewPostAction, getCurrentPost, updatePostAction } from "../../Actions/postAction";
+import { getCategoriesAction } from "../../Actions/categoryAction";
 import TextAreaField from "../../helpers/FormElements/TextAreaField";
 import CheckBoxField from "../../helpers/FormElements/CheckBoxField";
 import SelectTagField from "../../helpers/FormElements/SelectTagField";
 import FormInputField from "../../helpers/FormElements/FormInputField";
 import InputSubmitBtn from "../../helpers/FormElements/InputSubmit";
+import Sidebar from "../layouts/Sidebar/";
+import SidebarCategories from "../layouts/Sidebar/categoriesCard";
+
+const initialState = {
+	title: "",
+	body: "",
+	tags: "",
+	photos: [],
+	allowComments: false,
+	isMatch: false,
+	scores: "",
+	homeTeam: "",
+	awayTeam: "",
+	date: "",
+	competition: "",
+	postType: "",
+	category: ""
+};
 
 class newPost extends Component {
 	constructor(props){
 		super(props);
-		this.state = {
-			title: "",
-			body: "",
-			tags: "",
-			photos: [],
-			allowComments: false,
-			isMatch: false,
-			scores: "",
-			homeTeam: "",
-			awayTeam: "",
-			date: "",
-			competition: "",
-			postType: "",
-			category: "",
-			categories: []
-		};
+		this.state = initialState;
 		this.POST_TYPES = ["article", "matchday"];
 	}
 	
 	componentDidMount(){
-		axios.get("/api/categories/").then((res) =>{
-			return this.setState({categories: res.data});
-		}).catch((err) =>{
-			// this.setState({errors: err.response.data});
-			console.log(err);
-		});
+		const postid = this.props.match.params.postId;
+		if(postid){
+			this.props.getCurrentPost(postid);
+		};
+
+		this.props.getCategoriesAction();
+	}
+	
+	componentDidUpdate(prevProps, prevState){
+		
+		if(!this.state.title && this.props.posts.show.title && this.props.match.params.postId){
+			this.setState({
+				...this.props.posts.show, 
+				category: this.props.posts.show.category._id,
+				tags: this.props.posts.show.tags.join(" "),
+				postType: this.props.posts.show.type
+			})
+
+		}
+		if(prevProps.match.path !== this.props.match.path){
+			return this.resetState();
+		};
+	}
+
+	componentWillUnmount(){
+		this.props.clearStateErrors();
 	}
 
 	onFormInputChange = (e) =>{
@@ -46,8 +71,15 @@ class newPost extends Component {
 
 	onFormSubmit = (e) =>{
 		e.preventDefault();
-		const post = {...this.state};
-		this.props.createNewPostAction(post, this.props.history);
+		const postdata = {...this.state};
+		const postid = this.props.match.params.postId;
+		
+		if(postid){
+			return console.log(postdata);
+			// return this.props.updatePostAction(postid, postdata)
+		};
+
+		this.props.createNewPostAction(postdata, this.props.history);
 	}
 	
 	toggleCheckbox = (e) =>{
@@ -58,35 +90,26 @@ class newPost extends Component {
 		this.setState({[e.target.name]: e.target.val})
 	}
 
-	render() {
-		const { errors } = this.props;
-		const { categories } = this.state;
+	resetState = () =>{
+		this.setState(initialState);
+	}
 
+	render() {
+		const { errors, category, posts } = this.props;
+		const { all: categories } = category;
+		const { show: post } = posts;
+		
 		return (
 			<main id="content_wrapper" className="bg-img_posts">
-				<Header title="Create New Post" />
+				<Header title={post.title ? "Update Post" : "Create New Post"} />
 
 				<section id="newPost">
 					<div className="container">
 						<div className="row">
 							<div className="col-sm-3">
-								<div className="sidebar">
-									<div className="sidebar_box categories">
-										<h3 className="text-center">Categories</h3><hr/>
-										<ul className="category-list">
-											<li><a href="#!">Category Two</a></li>
-											<li><a href="#!">Category One</a></li>
-											<li><a href="#!">Category One</a></li>
-											<li><a href="#!">Category One</a></li>
-											<li><a href="#!">Category One</a></li>
-											<li><a href="#!">Category One</a></li>
-										</ul>
-									</div>
-
-									<div className="sidebar_box search-box">
-										<h3 className="text-center">Search</h3><hr/>
-									</div>
-								</div>
+								<Sidebar category={category && category}>
+									<SidebarCategories />
+								</Sidebar>
 							</div>
 
 							<div className="col-sm-9">
@@ -227,7 +250,7 @@ class newPost extends Component {
 											</div>
 										</div>
 										
-										<InputSubmitBtn value="Submit" btnclass="btn-danger btn-block" />
+										<InputSubmitBtn value={post.title ? "Update" : "Submit"} btnclass="btn-danger btn-block" />
 	                </form>
 								</div>
 							</div>
@@ -242,12 +265,16 @@ class newPost extends Component {
 const mapStateToProps = (state) =>({
 	auth: state.auth,
 	errors: state.errors,
-	posts: state.posts
+	posts: state.posts,
+	category: state.category
 });
 
 const mapDispatchToProps = {
-	createNewPostAction
+	createNewPostAction,
+	getCurrentPost,
+	getCategoriesAction,
+	clearStateErrors,
+	updatePostAction
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(newPost);

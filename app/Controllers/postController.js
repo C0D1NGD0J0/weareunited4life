@@ -36,7 +36,7 @@ const postCntrl = {
 			author: req.user.id,
 			allowComments: req.body.allowComments,
 			isMatch: req.body.isMatch,
-			postType: req.body.postType,
+			type: req.body.postType,
 			matchInfo: {
 				score: req.body.score,
 				homeTeam: req.body.homeTeam,
@@ -68,6 +68,7 @@ const postCntrl = {
 		try{
 			const post = await Post.findById(postId).populate("author", "username avatar role location").populate('category', "_id name").exec();
 			errors.msg = "Post not found.";
+			post.tags.length > 0 ? post.tags.join(" ") : post.tags;
 			
 			if(!post) return res.status(404).json(errors);
 			return res.status(200).json(post);
@@ -77,24 +78,35 @@ const postCntrl = {
 	},
 
 	update: async (req, res, next) =>{
+		const { errors, isValid } = validate.newpost(req.body);
 		const { postId } = req.params;
 		const updatedPost = {};
-		const errors = {};
+		
+		if(!isValid){
+			return res.status(400).json(errors);
+		};
 		
 		if(req.body.title) updatedPost.title = req.body.title;
 		if(req.body.body) updatedPost.body = req.body.body;
-		if(req.body.tags) updatedPost.tags = req.body.tags;
+		if(req.files.length > 0){
+			const photoArr = _.uniqWith(req.files, _.isEqual);
+			photoArr.forEach((img) =>{
+				updatedPost.photos.push({location: img.location, filename: img.key})
+			});
+		};
+		if(req.body.tags) convertTagStringToArray(updatedPost, req.body.tags);
 		if(req.body.isMatch) updatedPost.isMatch = req.body.isMatch;
 		if(req.body.allowComment) updatedPost.allowComment = req.body.allowComment;
 		if(req.body.homeTeam) updatedPost.homeTeam = req.body.homeTeam;
 		if(req.body.awayTeam) updatedPost.awayTeam = req.body.awayTeam;
-		if(req.body.date) updatedPost.date = req.body.date;
 		if(req.body.score) updatedPost.score = req.body.score;
+		if(req.body.category) updatedPost.category = req.body.category;
 		if(req.body.competition) updatedPost.competition = req.body.competition;
-		if(req.body.postType) updatedPost.postType = req.body.postType;
+		if(req.body.postType) updatedPost.type = req.body.postType;
 
 		try {
-			const post = await Post.findById(postId).populate('category', "_id name").exec();
+			const post = await Post.findById(postId).populate('category', "_id name").populate("author", "username location").exec();
+
 			if(post.author._id.equals(req.user.id)){
 				Post.findOneAndUpdate({_id: postId}, {$set: updatedPost}, {new: true}).then((post) =>{
 					return res.json(post);

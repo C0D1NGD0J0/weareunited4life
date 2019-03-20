@@ -24,17 +24,18 @@ class App extends Component {
       	<Router>
         	<div className="App">
             <Navbar />
-            <Route exact path="/(login|signup)/" component={Auth} />
-            <Switch>
-              <PrivateRoute exact path="/" component={Dashboard} />
-              <PrivateRoute exact path="/posts/new" component={NewPost} />
-              <PrivateRoute exact path="/admin/category" component={Category} />
-              <PrivateRoute exact path="/:username/profile" component={UserProfile} />
-            </Switch>
-            <Route exact path="/posts" component={AllPosts} />
-            <Route exact path="/posts/:postId" component={Post} />
-            <Route exact path="/reset/:token" component={ResetPassword} />
-            <Route exact path="/forgot_password" component={ForgotPassword} />
+              <Switch>
+                <Route exact path="/" component={Dashboard} />
+                <Route exact path="/(login|signup)/" component={Auth} />
+                <Route exact path="/posts" component={AllPosts} />
+                <PrivateRoute exact path="/posts/new" component={NewPost} />
+                <Route exact path="/posts/:postId" component={Post} />
+                <PrivateRoute exact path="/posts/:postId/edit" component={NewPost} />
+                <Route exact path="/reset/:token" component={ResetPassword} />
+                <PrivateRoute exact path="/admin/category" component={Category} />
+                <PrivateRoute exact path="/:username/profile" component={UserProfile} />
+                <Route exact path="/forgot_password" component={ForgotPassword} />
+              </Switch>
             <Footer />
         	</div>
         </Router>

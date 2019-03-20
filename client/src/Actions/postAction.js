@@ -55,3 +55,12 @@ export const likePostAction = (postid) => (dispatch) =>{
 		dispatch({type: GET_ERRORS, payload: err.response.data });
 	});
 };
+
+export const updatePostAction = (postid, postdata) => (dispatch) =>{
+	dispatch(setLoadingState());
+	axios.put(`/posts/${postid}`, postdata).then((res) =>{
+		console.log("UPDATE: ", res);
+	}).catch((err) =>{
+		console.log("UPDATE_ERRORS: ", err);
+	});
+};

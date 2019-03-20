@@ -14,7 +14,7 @@ const SelectTagField = ({ name, value, error, info, onChange, options, label, co
   	<div className="form-group">
 			<label htmlFor={label}>{label}</label>
     	<select className={classnames('form-control', {'has-error': error})}
-        value={label}
+        value={value || label}
         name={name}
         onChange={onChange}>
 

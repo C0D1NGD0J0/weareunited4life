@@ -165,8 +165,10 @@ const validate = {
 
 		data.title = !isEmpty(data.title) ? data.title : "";
 		data.body = !isEmpty(data.body) ? data.body : "";
-		data.date = !isEmpty(data.date) ? data.date : "";
+		// data.date = !isEmpty(data.date) ? data.date : "";
 		data.homeTeam = !isEmpty(data.homeTeam) ? data.homeTeam : "";
+		data.category = !isEmpty(data.category) ? data.category : "";
+		data.postType = !isEmpty(data.postType) ? data.postType : "";
 		data.awayTeam = !isEmpty(data.awayTeam) ? data.awayTeam : "";
 		data.competition = !isEmpty(data.competition) ? data.competition : "";
 
@@ -190,6 +192,14 @@ const validate = {
 			errors.tags = "Post tags needs to be provided.";
 		};
 
+		if(Validator.isEmpty(data.postType)){
+			errors.postType = "Post type needs to be provided.";
+		};
+
+		if(Validator.isEmpty(data.category)){
+			errors.category = "Post must belong to a category.";
+		};
+
 		if(data.isMatch){
 			if(Validator.isEmpty(data.homeTeam)){
 				errors.homeTeam = "Home Team name needs to be provided.";
@@ -203,9 +213,9 @@ const validate = {
 				errors.competition = "Competition name needs to be provided.";
 			};
 
-			if(Validator.isEmpty(data.date)){
-				errors.date = "Date of match needs to be provided.";
-			};
+			// if(Validator.isEmpty(data.date)){
+			// 	errors.date = "Date of match needs to be provided.";
+			// };
 		}
 
 		return { errors, isValid: isEmpty(errors) };
