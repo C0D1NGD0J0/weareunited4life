@@ -15,7 +15,6 @@ const uploadImg = function(req, res, next){
 	let upload = multer({
 		storage: multerS3({
 			s3: s3,
-			acl: 'public-read',
 			bucket: process.env.AWS_BUCKET_NAME,
 			key: function(req, file, cb){
 				cb(null, file.originalname);

@@ -76,7 +76,7 @@ class newPost extends Component {
 		const postid = this.props.match.params.postId;
 		
 		if(postid){
-			// return console.log(postdata);
+			console.log(postdata);
 			return this.props.updatePostAction(postid, postdata);
 		};
 
@@ -299,13 +299,15 @@ class newPost extends Component {
 												    <i className="fa fa-cloud-upload" aria-hidden="true"></i> Select Photos
 												    <input type="file" name="photos" multiple onChange={this.uploadImageHandler} />
 												  </span>
-													{isPhotoPresent ? <span className="btn btn-info" onClick={this.uploadImage}>Upload</span> : ""}
+													{isPhotoPresent ? <span className="btn btn-danger" onClick={this.uploadImage}>Upload</span> : ""}
 													<p>{this.state.selectedFiles ? this.state.selectedFiles.length : 0} Files Selected.</p>
 												</div>
 											</div>
 										</div>
 										
-										<InputSubmitBtn value={post.title ? "Update" : "Submit"} btnclass="btn-danger btn-block" />
+										<fieldset disabled={this.state.selectedFiles ? "disabled" : false}>
+											<InputSubmitBtn value={post.title ? "Update" : "Submit"} btnclass="btn-danger btn-block" />
+										</fieldset>
 	                </form>
 								</div>
 							</div>

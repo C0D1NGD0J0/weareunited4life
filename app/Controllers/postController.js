@@ -47,9 +47,12 @@ const postCntrl = {
 			category: req.body.category
 		});
 
-		req.files.forEach((img) =>{
-			post.photos.push({location: img.location, filename: img.key})
-		});
+		if(req.body.photos.length > 0){
+			const photoArr = _.uniqWith(req.body.photos, _.isEqual);
+			photoArr.forEach((img) =>{
+				post.photos.push({location: img.location, filename: img.filename, size: img.size});
+			});
+		};
 
 		convertTagStringToArray(post, req.body.tags);
 		
