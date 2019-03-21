@@ -58,7 +58,7 @@ export const likePostAction = (postid) => (dispatch) =>{
 
 export const updatePostAction = (postid, postdata) => (dispatch) =>{
 	dispatch(setLoadingState());
-	axios.put(`/posts/${postid}`, postdata).then((res) =>{
+	axios.put(`/api/posts/${postid}`, postdata).then((res) =>{
 		console.log("UPDATE: ", res);
 	}).catch((err) =>{
 		console.log("UPDATE_ERRORS: ", err);

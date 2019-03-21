@@ -14,7 +14,6 @@ const FormInputField = ({name, placeholder, value, label, error, type, onChange,
       	className="form-control"
       	placeholder={placeholder}
         value={value}
-        defaultValue={value}
       	disabled={isDisabled}
       />
       {error && (<small className="help-block text-muted">{error}</small>)}

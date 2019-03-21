@@ -75,8 +75,8 @@ class newPost extends Component {
 		const postid = this.props.match.params.postId;
 		
 		if(postid){
-			return console.log(postdata);
-			// return this.props.updatePostAction(postid, postdata)
+			// return console.log(postdata);
+			return this.props.updatePostAction(postid, postdata);
 		};
 
 		this.props.createNewPostAction(postdata, this.props.history);
@@ -87,7 +87,7 @@ class newPost extends Component {
 	}
 
 	handleSelectTag = (e) =>{
-		this.setState({[e.target.name]: e.target.val})
+		this.setState({[e.target.name]: e.target.value})
 	}
 
 	resetState = () =>{

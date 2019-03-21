@@ -89,14 +89,18 @@ const postCntrl = {
 		if(req.body.title) updatedPost.title = req.body.title;
 		if(req.body.body) updatedPost.body = req.body.body;
 		if(req.files.length > 0){
+			updatedPost.photos = [];
 			const photoArr = _.uniqWith(req.files, _.isEqual);
 			photoArr.forEach((img) =>{
 				updatedPost.photos.push({location: img.location, filename: img.key})
 			});
 		};
-		if(req.body.tags) convertTagStringToArray(updatedPost, req.body.tags);
+		if(req.body.tags) {
+			updatedPost.tags = [];
+			convertTagStringToArray(updatedPost, req.body.tags)
+		};
 		if(req.body.isMatch) updatedPost.isMatch = req.body.isMatch;
-		if(req.body.allowComment) updatedPost.allowComment = req.body.allowComment;
+		if(req.body.allowComments) updatedPost.allowComments = req.body.allowComments;
 		if(req.body.homeTeam) updatedPost.homeTeam = req.body.homeTeam;
 		if(req.body.awayTeam) updatedPost.awayTeam = req.body.awayTeam;
 		if(req.body.score) updatedPost.score = req.body.score;
@@ -106,15 +110,15 @@ const postCntrl = {
 
 		try {
 			const post = await Post.findById(postId).populate('category', "_id name").populate("author", "username location").exec();
-
-			if(post.author._id.equals(req.user.id)){
-				Post.findOneAndUpdate({_id: postId}, {$set: updatedPost}, {new: true}).then((post) =>{
-					return res.json(post);
-				}).catch((err) => res.status(404).json(err));
-			} else {
-				errors.msg = "You are not permitted to perform this action.";
-				return res.status(401).json(errors);
-			};
+			console.log(updatedPost);
+			// if(post.author._id.equals(req.user.id)){
+			// 	Post.findOneAndUpdate({_id: postId}, {$set: updatedPost}, {new: true}).then((post) =>{
+			// 		return res.json(post);
+			// 	}).catch((err) => res.status(404).json(err));
+			// } else {
+			// 	errors.msg = "You are not permitted to perform this action.";
+			// 	return res.status(401).json(errors);
+			// };
 		} catch(err) {
 			console.log(err)
 			return res.status(404).json(err);

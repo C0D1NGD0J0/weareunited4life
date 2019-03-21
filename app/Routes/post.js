@@ -15,7 +15,7 @@ router.put("/:postId/like", passport.authenticate('jwt', {session: false}), post
 
 router.put("/:postId/unlike", passport.authenticate('jwt', {session: false}), postCntrl.unlike);
 
-router.put("/:postId", passport.authenticate('jwt', {session: false}), postCntrl.update);
+router.put("/:postId", passport.authenticate('jwt', {session: false}), imgUpload, postCntrl.update);
 
 router.delete("/:postId", passport.authenticate('jwt', {session: false}), postCntrl.delete);
 
