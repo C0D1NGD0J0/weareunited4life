@@ -26,7 +26,8 @@ const PostSchema = new Schema({
 	tags: [{type: String, required: true}],
 	photos: [{	
 		location: {type: String, default: "http://lorempixel.com/450/450/?random=456"},
-		filename: {type: String}
+		filename: String,
+		size: String
 	}],
 	comments:[{type: Schema.Types.ObjectId, ref: "Comment"}],
 	allowComments: {type: Boolean, default: false},

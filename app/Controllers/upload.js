@@ -1,4 +1,4 @@
-const MAXSIZE = 5 * 1000000;
+const MAXSIZE = 1000000 * 5;
 const multer = require("multer");
 const aws = require("aws-sdk");
 const multerS3 = require("multer-s3");
@@ -15,6 +15,7 @@ const uploadImg = function(req, res, next){
 	let upload = multer({
 		storage: multerS3({
 			s3: s3,
+			acl: 'public-read',
 			bucket: process.env.AWS_BUCKET_NAME,
 			key: function(req, file, cb){
 				cb(null, file.originalname);
@@ -36,12 +37,17 @@ const uploadImg = function(req, res, next){
 		limits: {fileSize: MAXSIZE}
 	}).array('photos', 5);
 
-	upload(req, res, (err) =>{
+	upload(req, res, async (err) =>{
+		const files = [];
 		if(err instanceof multer.MulterError || err){
 			return res.status(400).json(err);
 		};
 
-		next();
+		req.files.forEach((image) =>{
+			files.push({filename: image.originalname, location: image.location, size: image.size });
+		})
+
+		return await res.json(files)
 	});
 };
 

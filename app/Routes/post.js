@@ -9,13 +9,15 @@ router.get("/", postCntrl.index);
 
 router.get("/:postId", postCntrl.showPost);
 
-router.post("/", passport.authenticate('jwt', {session: false}), imgUpload, postCntrl.create);
+router.post("/upload", passport.authenticate('jwt', {session: false}), imgUpload);
+
+router.post("/", passport.authenticate('jwt', {session: false}), postCntrl.create);
 
 router.put("/:postId/like", passport.authenticate('jwt', {session: false}), postCntrl.like);
 
 router.put("/:postId/unlike", passport.authenticate('jwt', {session: false}), postCntrl.unlike);
 
-router.put("/:postId", passport.authenticate('jwt', {session: false}), imgUpload, postCntrl.update);
+router.put("/:postId", passport.authenticate('jwt', {session: false}), postCntrl.update);
 
 router.delete("/:postId", passport.authenticate('jwt', {session: false}), postCntrl.delete);
 

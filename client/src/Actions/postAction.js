@@ -59,8 +59,22 @@ export const likePostAction = (postid) => (dispatch) =>{
 export const updatePostAction = (postid, postdata) => (dispatch) =>{
 	dispatch(setLoadingState());
 	axios.put(`/api/posts/${postid}`, postdata).then((res) =>{
-		console.log("UPDATE: ", res);
+		return dispatch({
+			type: GET_CURRENT_POST,
+			payload: res.data
+		});
 	}).catch((err) =>{
 		console.log("UPDATE_ERRORS: ", err);
 	});
+};
+
+export const uploadPhotosAction = async (files) =>{
+	const config = {
+		headers: {
+			'Content-Type': 'multipart/form-data'
+		}
+	};
+
+	const res = await axios.post("/api/posts/upload", files, config);
+	return res.data;
 };

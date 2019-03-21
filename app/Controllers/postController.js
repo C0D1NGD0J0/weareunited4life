@@ -88,13 +88,13 @@ const postCntrl = {
 		
 		if(req.body.title) updatedPost.title = req.body.title;
 		if(req.body.body) updatedPost.body = req.body.body;
-		// if(req.files.length > 0){
-		// 	updatedPost.photos = [];
-		// 	const photoArr = _.uniqWith(req.files, _.isEqual);
-		// 	photoArr.forEach((img) =>{
-		// 		updatedPost.photos.push({location: img.location, filename: img.key})
-		// 	});
-		// };
+		if(req.body.photos.length > 0){
+			updatedPost.photos = [];
+			const photoArr = _.uniqWith(req.body.photos, _.isEqual);
+			photoArr.forEach((img) =>{
+				updatedPost.photos.push({location: img.location, filename: img.filename, size: img.size});
+			});
+		};
 		if(req.body.tags) {
 			updatedPost.tags = [];
 			convertTagStringToArray(updatedPost, req.body.tags)
@@ -107,9 +107,9 @@ const postCntrl = {
 		if(req.body.category) updatedPost.category = req.body.category;
 		if(req.body.competition) updatedPost.competition = req.body.competition;
 		if(req.body.postType) updatedPost.type = req.body.postType;
-
+		
 		try {
-			const post = await Post.findById(postId).populate('category', "_id name").populate("author", "username location").exec();
+			const post = await Post.findById(postId).exec();
 			if(post.author._id.equals(req.user.id)){
 				Post.findOneAndUpdate({_id: postId}, {$set: updatedPost}, {new: true}).then((post) =>{
 					return res.json(post);

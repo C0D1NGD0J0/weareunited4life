@@ -3,7 +3,7 @@ import Header from "../layouts/pageHeader";
 import { connect } from "react-redux";
 import axios from "axios";
 import { clearStateErrors } from "../../Actions/utilAction";
-import { createNewPostAction, getCurrentPost, updatePostAction } from "../../Actions/postAction";
+import { createNewPostAction, getCurrentPost, updatePostAction, uploadPhotosAction } from "../../Actions/postAction";
 import { getCategoriesAction } from "../../Actions/categoryAction";
 import TextAreaField from "../../helpers/FormElements/TextAreaField";
 import CheckBoxField from "../../helpers/FormElements/CheckBoxField";
@@ -12,12 +12,14 @@ import FormInputField from "../../helpers/FormElements/FormInputField";
 import InputSubmitBtn from "../../helpers/FormElements/InputSubmit";
 import Sidebar from "../layouts/Sidebar/";
 import SidebarCategories from "../layouts/Sidebar/categoriesCard";
+import SidebarPostPhotos from "../layouts/Sidebar/postPhotos";
 
 const initialState = {
 	title: "",
 	body: "",
 	tags: "",
 	photos: [],
+	selectedFiles: null,
 	allowComments: false,
 	isMatch: false,
 	scores: "",
@@ -28,7 +30,6 @@ const initialState = {
 	postType: "",
 	category: ""
 };
-
 class newPost extends Component {
 	constructor(props){
 		super(props);
@@ -45,8 +46,7 @@ class newPost extends Component {
 		this.props.getCategoriesAction();
 	}
 	
-	componentDidUpdate(prevProps, prevState){
-		
+	componentDidUpdate(prevProps, prevState){		
 		if(!this.state.title && this.props.posts.show.title && this.props.match.params.postId){
 			this.setState({
 				...this.props.posts.show, 
@@ -56,6 +56,7 @@ class newPost extends Component {
 			})
 
 		}
+
 		if(prevProps.match.path !== this.props.match.path){
 			return this.resetState();
 		};
@@ -90,12 +91,54 @@ class newPost extends Component {
 		this.setState({[e.target.name]: e.target.value})
 	}
 
+	uploadImageHandler = (e) =>{
+		if(this._validateFileSize(e)){
+			this.setState({selectedFiles: e.target.files});
+		};
+	}
+
+	uploadImage = async (e) =>{
+		const { selectedFiles } = this.state;
+		const data = new FormData();
+		
+		// loop of photo files and append to FormData
+		for(let i = 0; i < selectedFiles.length; i++){
+			data.append("photos", selectedFiles[i]);
+		};
+		
+		// send formdata to upload route(s3)
+		const photos = await uploadPhotosAction(data);
+		// set state with returned array of objects from S3
+		this.setState({photos: [...photos, ...this.state.photos], selectedFiles: null});
+	}
+
+	_validateFileSize=(e)=>{
+  	const files = e.target.files;
+  	const MAXSIZE = 1000000 * 5;
+  	let total = 0;
+		let error = "";
+
+  	for(let i = 0; i < files.length; i++){
+			total += files[i].size;
+  	};
+
+  	if(total > MAXSIZE){
+  		error += "Your files are too large, total max size allowed 5MB";
+  		e.target.value = null;
+  		console.log(error);
+  		return false;
+  	}
+
+  	return true;
+	}
+
 	resetState = () =>{
 		this.setState(initialState);
 	}
 
 	render() {
 		const { errors, category, posts } = this.props;
+		const isPhotoPresent =  (this.state.selectedFiles !== null && this.state.selectedFiles.length > 0) ? true : false;
 		const { all: categories } = category;
 		const { show: post } = posts;
 		
@@ -107,7 +150,8 @@ class newPost extends Component {
 					<div className="container">
 						<div className="row">
 							<div className="col-sm-3">
-								<Sidebar category={category && category}>
+								<Sidebar category={category && category} post={post && post.photos}>
+									<SidebarPostPhotos />
 									<SidebarCategories />
 								</Sidebar>
 							</div>
@@ -247,6 +291,17 @@ class newPost extends Component {
 		                      error={errors.tags}
 		                      isDisabled={false}
 		                    />
+											</div>
+
+											<div className="col-sm-6">
+												<div className="form-group">
+												  <span className="btn btn-default btn-file">
+												    <i className="fa fa-cloud-upload" aria-hidden="true"></i> Select Photos
+												    <input type="file" name="photos" multiple onChange={this.uploadImageHandler} />
+												  </span>
+													{isPhotoPresent ? <span className="btn btn-info" onClick={this.uploadImage}>Upload</span> : ""}
+													<p>{this.state.selectedFiles ? this.state.selectedFiles.length : 0} Files Selected.</p>
+												</div>
 											</div>
 										</div>
 										

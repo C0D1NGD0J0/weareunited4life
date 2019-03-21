@@ -5,9 +5,9 @@ const PostPhotos = (props) => {
 	
 	const photoCard = (post ? post : []).map((img) =>{
 		return (
-			<div className="col-sm-4">
+			<div className="col-sm-4" key={img._id}>
 				<div className="post-imgs__img">
-					<img src={img.location} className="img-responsive" alt={img.filename}/>
+					<img src={img.location} className="img-responsive" alt={img.filename ? img.filename : "post"}/>
 				</div>
 			</div>
 		);
