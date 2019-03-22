@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import AuthTab from "../auth/authtab";
+import { connect } from "react-redux";
 
 class Landing extends Component {
+	componentDidMount(){
+		if (this.props.auth.isAuthenticated) {
+	    this.props.history.push('/');
+	  }
+	}
+
 	render() {
 		return (
 			<main id="content_wrapper" className="bg-color_black">
@@ -26,4 +33,8 @@ class Landing extends Component {
 	}
 }
 
-export default Landing;
+const mapStateToProps = (state) =>({ 
+	auth: state.auth 
+});
+
+export default connect(mapStateToProps)(Landing);

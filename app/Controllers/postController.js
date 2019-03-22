@@ -47,8 +47,8 @@ const postCntrl = {
 			category: req.body.category
 		});
 
-		if(req.body.photos.length > 0){
-			const photoArr = _.uniqWith(req.body.photos, _.isEqual);
+		if(req.files && req.files.length > 0){
+			const photoArr = _.uniqWith(req.files, _.isEqual);
 			photoArr.forEach((img) =>{
 				post.photos.push({location: img.location, filename: img.filename, size: img.size});
 			});
@@ -81,35 +81,38 @@ const postCntrl = {
 	},
 
 	update: async (req, res, next) =>{
-		const { errors, isValid } = validate.newpost(req.body);
 		const { postId } = req.params;
 		const updatedPost = {};
+		const { errors, isValid } = validate.newpost(req.body);
 		
 		if(!isValid){
 			return res.status(400).json(errors);
 		};
-		
+
 		if(req.body.title) updatedPost.title = req.body.title;
 		if(req.body.body) updatedPost.body = req.body.body;
-		if(req.body.photos.length > 0){
+		
+		if(req.files && req.files.length > 0){
 			updatedPost.photos = [];
-			const photoArr = _.uniqWith(req.body.photos, _.isEqual);
+			const photoArr = _.uniqWith(req.files, _.isEqual);
 			photoArr.forEach((img) =>{
 				updatedPost.photos.push({location: img.location, filename: img.filename, size: img.size});
 			});
 		};
+
 		if(req.body.tags) {
 			updatedPost.tags = [];
 			convertTagStringToArray(updatedPost, req.body.tags)
 		};
+
 		if(req.body.isMatch) updatedPost.isMatch = req.body.isMatch;
 		if(req.body.allowComments) updatedPost.allowComments = req.body.allowComments;
-		if(req.body.homeTeam) updatedPost.homeTeam = req.body.homeTeam;
-		if(req.body.awayTeam) updatedPost.awayTeam = req.body.awayTeam;
-		if(req.body.score) updatedPost.score = req.body.score;
 		if(req.body.category) updatedPost.category = req.body.category;
-		if(req.body.competition) updatedPost.competition = req.body.competition;
 		if(req.body.postType) updatedPost.type = req.body.postType;
+		if(req.body.score) updatedPost.matchInfo.score = req.body.score;
+		if(req.body.homeTeam) updatedPost.matchInfo.homeTeam = req.body.homeTeam;
+		if(req.body.awayTeam) updatedPost.matchInfo.awayTeam = req.body.awayTeam;
+		if(req.body.competition) updatedPost.matchInfo.competition = req.body.competition;
 		
 		try {
 			const post = await Post.findById(postId).exec();

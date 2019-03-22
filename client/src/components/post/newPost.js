@@ -72,15 +72,29 @@ class newPost extends Component {
 
 	onFormSubmit = (e) =>{
 		e.preventDefault();
+		const fd = new FormData();
 		const postdata = {...this.state};
 		const postid = this.props.match.params.postId;
-		
-		if(postid){
-			console.log(postdata);
-			return this.props.updatePostAction(postid, postdata);
-		};
+		const { selectedFiles } = this.state;
 
-		this.props.createNewPostAction(postdata, this.props.history);
+		// loop through photo files and append to FormData
+		for(let i = 0; i < selectedFiles.length; i++){
+			fd.append("photos", selectedFiles[i]);
+			this.setState({selectedFiles: null});
+		};
+		
+		// loop through form values and append to FormData Object
+		for(let item in postdata){
+			fd.append(item, postdata[item]);
+		};
+		
+		// Updating a post
+		if(postid){
+			return this.props.updatePostAction(postid, fd);
+		};
+		
+		// Creating a new post
+		this.props.createNewPostAction(fd, this.props.history);
 	}
 	
 	toggleCheckbox = (e) =>{
@@ -91,25 +105,11 @@ class newPost extends Component {
 		this.setState({[e.target.name]: e.target.value})
 	}
 
-	uploadImageHandler = (e) =>{
+	fileSelectHandler = (e) =>{
 		if(this._validateFileSize(e)){
+
 			this.setState({selectedFiles: e.target.files});
 		};
-	}
-
-	uploadImage = async (e) =>{
-		const { selectedFiles } = this.state;
-		const data = new FormData();
-		
-		// loop of photo files and append to FormData
-		for(let i = 0; i < selectedFiles.length; i++){
-			data.append("photos", selectedFiles[i]);
-		};
-		
-		// send formdata to upload route(s3)
-		const photos = await uploadPhotosAction(data);
-		// set state with returned array of objects from S3
-		this.setState({photos: [...photos, ...this.state.photos], selectedFiles: null});
 	}
 
 	_validateFileSize=(e)=>{
@@ -138,7 +138,6 @@ class newPost extends Component {
 
 	render() {
 		const { errors, category, posts } = this.props;
-		const isPhotoPresent =  (this.state.selectedFiles !== null && this.state.selectedFiles.length > 0) ? true : false;
 		const { all: categories } = category;
 		const { show: post } = posts;
 		
@@ -297,17 +296,14 @@ class newPost extends Component {
 												<div className="form-group">
 												  <span className="btn btn-default btn-file">
 												    <i className="fa fa-cloud-upload" aria-hidden="true"></i> Select Photos
-												    <input type="file" name="photos" multiple onChange={this.uploadImageHandler} />
+												    <input type="file" name="selectedFiles" multiple onChange={this.fileSelectHandler} />
 												  </span>
-													{isPhotoPresent ? <span className="btn btn-danger" onClick={this.uploadImage}>Upload</span> : ""}
 													<p>{this.state.selectedFiles ? this.state.selectedFiles.length : 0} Files Selected.</p>
 												</div>
 											</div>
 										</div>
 										
-										<fieldset disabled={this.state.selectedFiles ? "disabled" : false}>
-											<InputSubmitBtn value={post.title ? "Update" : "Submit"} btnclass="btn-danger btn-block" />
-										</fieldset>
+										<InputSubmitBtn value={post.title ? "Update" : "Submit"} btnclass="btn-danger btn-block" />
 	                </form>
 								</div>
 							</div>

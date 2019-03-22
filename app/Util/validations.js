@@ -200,7 +200,7 @@ const validate = {
 			errors.category = "Post must belong to a category.";
 		};
 
-		if(data.isMatch){
+		if(data.isMatch === true){
 			if(Validator.isEmpty(data.homeTeam)){
 				errors.homeTeam = "Home Team name needs to be provided.";
 			};
@@ -212,11 +212,7 @@ const validate = {
 			if(Validator.isEmpty(data.competition)){
 				errors.competition = "Competition name needs to be provided.";
 			};
-
-			// if(Validator.isEmpty(data.date)){
-			// 	errors.date = "Date of match needs to be provided.";
-			// };
-		}
+		};
 
 		return { errors, isValid: isEmpty(errors) };
 	},

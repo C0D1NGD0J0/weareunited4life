@@ -15,6 +15,7 @@ const uploadImg = function(req, res, next){
 	let upload = multer({
 		storage: multerS3({
 			s3: s3,
+			acl: 'public-read',
 			bucket: process.env.AWS_BUCKET_NAME,
 			key: function(req, file, cb){
 				cb(null, file.originalname);
@@ -36,17 +37,13 @@ const uploadImg = function(req, res, next){
 		limits: {fileSize: MAXSIZE}
 	}).array('photos', 5);
 
-	upload(req, res, async (err) =>{
-		const files = [];
+	upload(req, res, (err) =>{
 		if(err instanceof multer.MulterError || err){
+			console.log("UPLOD-Error: ",err);
 			return res.status(400).json(err);
 		};
-
-		req.files.forEach((image) =>{
-			files.push({filename: image.originalname, location: image.location, size: image.size });
-		})
-
-		return await res.json(files)
+		
+		next();
 	});
 };
 

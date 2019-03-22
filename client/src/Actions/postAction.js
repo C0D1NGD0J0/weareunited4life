@@ -67,14 +67,3 @@ export const updatePostAction = (postid, postdata) => (dispatch) =>{
 		console.log("UPDATE_ERRORS: ", err);
 	});
 };
-
-export const uploadPhotosAction = async (files) =>{
-	const config = {
-		headers: {
-			'Content-Type': 'multipart/form-data'
-		}
-	};
-
-	const res = await axios.post("/api/posts/upload", files, config);
-	return res.data;
-};
