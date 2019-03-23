@@ -9,7 +9,7 @@ import Sidebar from "../../layouts/Sidebar/";
 import SidebarUser from "../../layouts/Sidebar/userDetails";
 import SidebarPostPhotos from "../../layouts/Sidebar/postPhotos";
 import { clearStateErrors, clearCurrentPost } from "../../../Actions/utilAction";
-import { getCurrentPost, likePostAction } from "../../../Actions/postAction";
+import { getCurrentPost, likePostAction, unlikePostAction } from "../../../Actions/postAction";
 
 class Post extends Component {
 	constructor(props){
@@ -26,12 +26,6 @@ class Post extends Component {
 		};
 	}
 
-	// componentDidUpdate(prevProps){
-	// 	if(this.posts !== prevProps.posts ){
-			
-	// 	}
-	// }
-
 	componentWillUnmount(){
 		this.props.clearCurrentPost();
 		this.props.clearStateErrors();
@@ -41,10 +35,16 @@ class Post extends Component {
 		e.preventDefault();
 		return this.props.likePostAction(postid);
 	}
+	
+	handleUnLikePost = (e, postid) =>{
+		e.preventDefault();
+		return this.props.unlikePostAction(postid);
+	}
 
 	render() {
-		const { show: post } = this.props.posts;
-		
+		const post = this.props.posts;
+		const { auth } = this.props;
+
 		return (
 			<main id="content_wrapper" className="bg-img_post">
 				<Header title={post.title} />
@@ -64,7 +64,7 @@ class Post extends Component {
 										<div className="panel-body">
 											<div className="post-content__description">
 												<p>{post.body}</p><hr/>
-												<PostMeta post={post} likePost={this.handleLikePost} />
+												<PostMeta post={post} likePost={this.handleLikePost} unlikePost={this.handleUnLikePost} currentuser={auth} />
 											</div>
 										</div>	
 									</div>
@@ -170,12 +170,14 @@ class Post extends Component {
 };
 
 const mapStateToProps = (state) =>({
-	posts: state.posts
+	posts: state.posts.show,
+	auth: state.auth
 });
 
 const mapDispatchToProps = {
 	getCurrentPost,
 	likePostAction,
+	unlikePostAction,
 	clearStateErrors,
 	clearCurrentPost
 };

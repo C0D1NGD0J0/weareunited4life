@@ -3,17 +3,18 @@ import Moment from 'react-moment';
 import { Link } from "react-router-dom";
 
 const PostsPanel = (props) => {
-	const { posts } = props;
-	const postTableRow = posts.map((post) =>{
+	const { posts, deletePost } = props;
+
+	const postTableRow = posts.map((post, i) =>{
 		return(
-			<tr>
+			<tr key={i}>
         <td>{post.title}</td>
         <td>{post.category && post.category.name}</td>
         <td><Moment format="DD/MM/YYYY">{post.createdAt}</Moment></td>
         <td>
-        	<Link to={`/posts/${post._id}/edit`}><span className="i fa fa-pencil"></span></Link>
-        	<Link to={`/posts/${post._id}`}><span className="i fa fa-eye"></span></Link>
-        	<span className="i fa fa-trash"></span>
+        	<Link to={`/posts/${post._id}/edit`}><i className="fa fa-pencil"></i></Link>
+        	<Link to={`/posts/${post._id}`}><i className="fa fa-eye"></i></Link>
+        	<span onClick={() => deletePost(post._id)}><i className="fa fa-trash"></i></span>
         </td>
       </tr>
 		);

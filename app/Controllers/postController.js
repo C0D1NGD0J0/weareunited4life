@@ -50,7 +50,7 @@ const postCntrl = {
 		if(req.files && req.files.length > 0){
 			const photoArr = _.uniqWith(req.files, _.isEqual);
 			photoArr.forEach((img) =>{
-				post.photos.push({location: img.location, filename: img.filename, size: img.size});
+				post.photos.push({location: img.location, filename: img.key, size: img.size});
 			});
 		};
 
@@ -96,7 +96,7 @@ const postCntrl = {
 			updatedPost.photos = [];
 			const photoArr = _.uniqWith(req.files, _.isEqual);
 			photoArr.forEach((img) =>{
-				updatedPost.photos.push({location: img.location, filename: img.filename, size: img.size});
+				updatedPost.photos.push({location: img.location, filename: img.key, size: img.size});
 			});
 		};
 
@@ -133,7 +133,7 @@ const postCntrl = {
 
 	delete: async (req, res, next) =>{
 		const errors = {};
-		const { postId } = req.body;
+		const { postId } = req.params;
 		const post = await Post.findById(postId).exec();
 		
 		if(!post) return res.status(404).json("Post not found");
@@ -150,40 +150,26 @@ const postCntrl = {
 	like: (req, res, next) =>{
 		const { postId } = req.params;
 		const errors = {};
-
-		Post.findById(postId).populate("author", "username avatar _id location role").then((post) =>{
-			const alreadyLiked = post.like.users.map(item => item.toString()).includes(req.user.id);
-			if(alreadyLiked){
-				errors.msg = "Unable to like same post twice..";
-				return res.status(400).json(errors);
-			};
-			
-			post.like.users.push(req.user.id);
-			post.like.count += 1;
-
-			post.save().then(post => res.json(post))
-		}).catch((err) => {
-			errors.msg = "Post not found.";
-			return res.status(404).json(errors);
-		});
+		
+		Post.findOneAndUpdate({_id: postId}, {$inc: {"like.count": 1}, $push: {"like.users": req.user.id}}, {new: true})
+			.populate("author", "username avatar _id location role")
+			.populate('category', "_id name").then((post) =>{
+				return res.status(200).json(post);
+			}).catch((err) => {
+				errors.msg = "Post not found.";
+				return res.status(404).json(errors);
+			});
 	},
 
 	unlike: (req, res, next) =>{
 		const { postId } = req.params;
 		const errors = {};
 
-		Post.findById(postId).then((post) =>{
-			const alreadyLiked = post.like.users.map(item => item.toString()).includes(req.user.id);
-			
-			if(!alreadyLiked){
-				errors.msg = "You have not yet liked this post.";
-				return res.status(400).json(errors);
-			};
-
-			post.like.users.filter(user => user.toString() !== req.user.id);
-			post.like.count > 0 ? post.like.count -= 1 : post.like.count = 0;
-
-			post.save().then(post => res.json(post))
+		Post.findOneAndUpdate({_id: postId}, {$inc: {"like.count": -1}, $pull: {"like.users": req.user.id}}, {new: true})
+			.populate("author", "username avatar _id location role")
+			.populate('category', "_id name")
+			.then((post) =>{
+				return res.json(post);
 		}).catch((err) => {
 			errors.msg = "Post not found.";
 			return res.status(404).json(errors);

@@ -1,4 +1,4 @@
-import { GET_ERRORS, GET_POSTS, CREATE_NEW_POST, GET_CURRENT_POST, CLEAR_CURRENT_POST } from "./types";
+import { GET_ERRORS, GET_POSTS, DELETE_USER_POST, CREATE_NEW_POST, GET_CURRENT_POST, CLEAR_CURRENT_POST } from "./types";
 import { setLoadingState } from "./utilAction";
 import axios from "axios";
 
@@ -56,6 +56,14 @@ export const likePostAction = (postid) => (dispatch) =>{
 	});
 };
 
+export const unlikePostAction = (postid) => (dispatch) =>{
+	axios.put(`/api/posts/${postid}/unlike`).then((res) =>{
+		dispatch({type: GET_CURRENT_POST, payload: res.data });
+	}).catch((err) =>{
+		dispatch({type: GET_ERRORS, payload: err.response.data });
+	});
+};
+
 export const updatePostAction = (postid, postdata) => (dispatch) =>{
 	dispatch(setLoadingState());
 	axios.put(`/api/posts/${postid}`, postdata).then((res) =>{
@@ -65,5 +73,19 @@ export const updatePostAction = (postid, postdata) => (dispatch) =>{
 		});
 	}).catch((err) =>{
 		console.log("UPDATE_ERRORS: ", err);
+	});
+};
+
+export const deleteUserPostAction = (postid) => (dispatch) =>{
+	axios.delete(`/api/posts/${postid}`).then((res) =>{
+		return dispatch({
+			type: DELETE_USER_POST,
+			payload: postid
+		});
+	}).catch((err) =>{
+		return dispatch({
+			type: GET_ERRORS,
+			payload: err.response.data
+		});
 	});
 };

@@ -11,6 +11,7 @@ import ProfileSettingPanel from "./settingPanel";
 import UserContributionPanel from "./contributionPanel";
 import { getCurrentUserAction, updateUserAction } from "../../Actions/userAction";
 import { clearCurrentUser } from "../../Actions/utilAction";
+import { deleteUserPostAction } from "../../Actions/postAction";
 
 class Profile extends Component {
 	constructor(props){
@@ -27,7 +28,14 @@ class Profile extends Component {
 
 	handleUpdateUserForm = (e, userdata) =>{
 		e.preventDefault();
-		this.props.updateUserAction(userdata);
+		return this.props.updateUserAction(userdata);
+	}
+
+	handleDeletePost = (postid) =>{
+		let response = window.confirm("Are you sure you want to delete this post?..");
+		if(response){
+			return this.props.deleteUserPostAction(postid);
+		};
 	}
 
 	render() {
@@ -54,7 +62,7 @@ class Profile extends Component {
 												errors={errors}
 												updateUser={this.handleUpdateUserForm}
 											/>
-				        			<UserPostsPanel posts={posts}/>
+				        			<UserPostsPanel posts={posts} deletePost={this.handleDeletePost}/>
 				        			<UserContributionPanel />
 			        			</Fragment>
 			        		}
@@ -80,7 +88,8 @@ const mapStateToProps = (state) =>({
 const mapDispatchToProps = {
 	getCurrentUserAction,
 	updateUserAction,
-	clearCurrentUser
+	clearCurrentUser,
+	deleteUserPostAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
