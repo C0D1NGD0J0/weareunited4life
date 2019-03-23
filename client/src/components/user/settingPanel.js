@@ -11,6 +11,7 @@ class SettingPanel extends Component {
         id: this.props.user._id,
         username: this.props.user.username,
         email: this.props.user.email,
+        role: this.props.user.role,
         location: this.props.user.location,
         password: "",
         password2:  ""
@@ -109,7 +110,7 @@ class SettingPanel extends Component {
                       onChange={this.onFormInputChange}
                       placeholder="Enter role..."
                       error={errors.role}
-                      isDisabled={false}
+                      isDisabled={true}
                     />
                   </div>
                 </div><hr/>
