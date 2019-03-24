@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Moment from 'react-moment';
 import { Link } from "react-router-dom";
 import Loader from "../../helpers/Loader";
@@ -15,8 +15,7 @@ const truncateText = (str) =>{
 	return str;
 };
 
-const PostListItem = (props) => {
-	const { allPosts, loading } = props;
+const PostListItem = ({ allPosts, loading }) => {
 	const postItem = allPosts.map((post,i) =>{
 		return(
 			<li className="posts-list-item clearfix" key={i.toString()}>
@@ -35,9 +34,9 @@ const PostListItem = (props) => {
 	});
 	
 	return (
-		<>
+		<Fragment>
 			{loading ? <Loader /> : postItem}
-		</>
+		</Fragment>
   );
 };
 

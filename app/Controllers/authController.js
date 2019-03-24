@@ -110,7 +110,7 @@ const authCntrl = {
 				if(isMatch){
 					const payload = { id: user.id, username: user.username, avatar: user.avatar, location: user.location, role: user.role };
 
-					jwt.sign(payload, keys.secret, { expiresIn: 3600 }, (err, token) =>{
+					jwt.sign(payload, keys.secret, { expiresIn: "12h" }, (err, token) =>{
 						res.status(200).json({token: `Bearer ${token}`})
 					});
 				} else {

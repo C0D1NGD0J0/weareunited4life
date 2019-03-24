@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
 import Moment from 'react-moment';
 
+function validateAuth(resource){
+	if(resource !== undefined){
+		return resource.isAuthenticated ? true : false;
+	};
+
+	return false;
+};
+
 const PostMeta = ({ post, likePost, unlikePost, currentuser }) => {
-	const { isAuthenticated } = currentuser;
+	const isAuthenticated = validateAuth(currentuser);
 	const hasLikedPost = isAuthenticated ? (post.like && post.like.users.includes(currentuser.user.id)) : "";
 
   return (
