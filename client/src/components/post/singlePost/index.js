@@ -3,8 +3,8 @@ import Header from "../../layouts/pageHeader";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import  { Link } from "react-router-dom";
-import Moment from 'react-moment';
 import PostMeta from "./postMeta";
+import CommentPanel from "../comment/CommentPanel";
 import Sidebar from "../../layouts/Sidebar/";
 import SidebarUser from "../../layouts/Sidebar/userDetails";
 import SidebarPostPhotos from "../../layouts/Sidebar/postPhotos";
@@ -24,6 +24,10 @@ class Post extends Component {
 		if(postId){
 			this.props.getCurrentPost(postId);
 		};
+	}
+
+	componentDidUpdate(){
+
 	}
 
 	componentWillUnmount(){
@@ -75,78 +79,10 @@ class Post extends Component {
 												<h3 className="panel-title">Leave your comments below..</h3>
 											</div>
 
-											<div className="panel-body">
-												<form action="#" className="form">
-													<div className="form-group">
-														<textarea name="description" className="form-control" rows="1"></textarea>
-													</div>
-
-													<div className="pull-right">
-														<div className="btn-group">
-														  <button type="button" className="btn btn-default"><i className="fa fa-camera-retro"></i> Image</button>
-														  <input type="submit" value="Submit" className="btn btn-danger"/>
-														</div>
-													</div>
-												</form><hr/>
-
-												<div className="post-comments">
-													<div className="comment">
-														<div className="row">
-															<div className="col-sm-2">
-																<a href="#" className="text-center comment_avatar thumbnail">
-																	<img src="./dist/img/user.png" className="img-circle" alt=""/>
-																	<span>John Major</span>
-																</a>
-															</div>
-
-															<div className="col-sm-10">
-																<div className="comment_bubble clearfix">
-																	<p className="clearfix post-meta" style={{margin: "0 0 1rem"}}>
-																		<small className="pull-left text-muted">11:45am</small>
-																		<small className="pull-right text-muted">12/2/2019</small>
-																	</p>
-
-																	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima harum fugiat laudantium fugit, optio qui illum ut, vel illo. Nesciunt recusandae ex nemo libero quia.</p>
-
-																	<ul className="list-inline post-actions pull-right">
-																		<li><a href="#"><i className="fa fa-commenting-o"></i></a><span className="badge">14</span></li>
-																		<li><a href="#"><i className="fa fa-thumbs-o-up"></i></a><span className="badge">3</span></li>
-																		<li><a href="#"><i className="fa fa-thumbs-o-down"></i></a><span className="badge">6</span></li>
-																	</ul>
-																</div>
-															</div>
-														</div>
-													</div>
-
-													<div className="comment">
-														<div className="row">
-															<div className="col-sm-2">
-																<a href="#" className="text-center comment_avatar thumbnail">
-																	<img src="./dist/img/user.png" className="img-circle" alt=""/>
-																	<span>John Major</span>
-																</a>
-															</div>
-
-															<div className="col-sm-10">
-																<div className="comment_bubble clearfix">
-																	<p className="clearfix post-meta" style={{margin: "0 0 1rem"}}>
-																		<small className="pull-left text-muted">11:45am</small>
-																		<small className="pull-right text-muted">12/2/2019</small>
-																	</p>
-
-																	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima harum fugiat laudantium fugit, optio qui illum ut, vel illo. Nesciunt recusandae ex nemo libero quia.</p>
-
-																	<ul className="list-inline post-actions pull-right">
-																		<li><a href="#"><i className="fa fa-commenting-o"></i></a><span className="badge">14</span></li>
-																		<li><a href="#"><i className="fa fa-thumbs-o-up"></i></a><span className="badge">3</span></li>
-																		<li><a href="#"><i className="fa fa-thumbs-o-down"></i></a><span className="badge">6</span></li>
-																	</ul>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
+											{ post.allowComments ? 
+												<CommentPanel comments={post.comments} postid={post._id} /> 
+												: <h2 className='text-center'>Comments have been disabled!</h2>
+											}
 										</div>
 									</div>
 								</div>

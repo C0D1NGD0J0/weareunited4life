@@ -89,3 +89,33 @@ export const deleteUserPostAction = (postid) => (dispatch) =>{
 		});
 	});
 };
+
+export const addCommentAction = (postid, commentData) => (dispatch) =>{
+	dispatch(setLoadingState());
+	axios.post(`/api/posts/${postid}/comments`, commentData).then((res) =>{
+		dispatch({
+			type: GET_CURRENT_POST,
+			payload: res.data
+		});
+	}).catch((err) =>{
+		dispatch({
+			type: GET_ERRORS,
+			payload: err.response.data
+		});
+	});
+};
+
+export const deleteCommentsAction = (postid, commentid) => (dispatch) =>{
+	dispatch(setLoadingState());
+	axios.delete(`/api/posts/${postid}/comments/${commentid}`).then((res) =>{
+		dispatch({
+			type: GET_CURRENT_POST,
+			payload: res.data
+		});
+	}).catch((err) =>{
+		dispatch({
+			type: GET_ERRORS,
+			payload: err.response.data
+		});
+	});
+};

@@ -69,7 +69,8 @@ const postCntrl = {
 		const { postId } = req.params;
 
 		try{
-			const post = await Post.findById(postId).populate("author", "username avatar role location").populate('category', "_id name").exec();
+			const post = await Post.findById(postId).populate("author", "username avatar role location").populate('category', "_id name").populate("comments").exec();
+			
 			errors.msg = "Post not found.";
 			post.tags.length > 0 ? post.tags.join(" ") : post.tags;
 			

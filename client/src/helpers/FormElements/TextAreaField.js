@@ -3,13 +3,13 @@ import classnames from "classnames";
 import PropTypes from "prop-types";
 
 const TextAreaField = (props) => {
-  const {name, placeholder, value, label, error, onChange, isRequired} = props;
+  const {name, placeholder, value, label, error, onChange, isRequired, row} = props;
 
   return (
     <div className={classnames("form-group", {"has-error": error})}>
       <label htmlFor={name}>{label} <small className="text-muted">{isRequired}</small></label>
       <textarea
-        rows="7"
+        rows={row}
         name={name} 
         value={value}
         onChange={onChange}
@@ -20,6 +20,10 @@ const TextAreaField = (props) => {
     </div>
   );
 };
+
+TextAreaField.defaultProps = {
+  row: "7"
+}
 
 TextAreaField.propTypes = {
 	name: PropTypes.string.isRequired,

@@ -20,13 +20,14 @@ const commentCntrl = {
 		comment.post = postId;
 		
 		try {
-			const post = await Post.findById(postId);
+			const post = await Post.findById(postId).populate("author", "username avatar role location").populate('category', "_id name").populate('comments').exec();
+
 			if(!post) return res.status(404).json("Post not found");
 
 			const savedComment = await comment.save();
 			post.comments.push(savedComment);
-			await post.save();
-			return res.json(savedComment);
+			const savedPost = await post.save();
+			return res.json(savedPost);
 		} catch(err){
 			errors.msg = err.message;
 			return res.status(400).json(errors);
@@ -36,22 +37,24 @@ const commentCntrl = {
 	delete: (req, res, next) =>{
 		const { postId, commentId } = req.params;
 		const errors = {};
-		
 
-		Comment.findById(commentId).then((comment) =>{
-			if(comment.author.id.toString() === req.user.id.toString()){
-				comment.remove();
-				Post.findById(postId).then((post) =>{
-					const isCommentIdIncluded = post.comments.map(comm_id => comm_id.toString()).includes(commentId);
-					
-					if(!isCommentIdIncluded){
-						errors.msg = "Comment not found.";
-						return res.status(404).json(errors);
-					};
-					
-					let comment = post.comments.filter(item => item.toString() !== commentId );
-					post.comments = comment;
-					return post.save().then(post => res.json(post));
+		Comment.findById(commentId).then((commentz) =>{
+			if(commentz.author.id.equals(req.user.id)){
+				Post.findById(postId)
+					.populate("author", "username avatar role location")
+					.populate('category', "_id name")
+					.populate('comments').then((post) =>{
+						const isCommentIdIncluded = post.comments.map(comm => comm._id.toString()).includes(commentId.toString());
+						
+						if(!isCommentIdIncluded){
+							errors.msg = "Comment not found.";
+							return res.status(404).json(errors);
+						};
+						
+						commentz.remove(); //delete comment from comments table
+						let filteredComments = post.comments.filter(item => item._id.toString() !== commentId.toString());
+						post.comments = filteredComments;
+						return post.save().then(post => res.json(post));
 				}).catch((err) => res.status(400).json(err));
 			} else{
 				return res.status(401).json("Unauthorized action performed.");

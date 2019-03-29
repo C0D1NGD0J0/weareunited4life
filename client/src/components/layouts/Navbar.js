@@ -23,6 +23,7 @@ class Navbar extends Component {
         <li className="dropdown">
           <Link to="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span className="caret"></span></Link>
           <ul className="dropdown-menu">
+          	<li><a>{user.username}</a></li>
             <li><Link to={`/${user.username}/profile`}>Profile</Link></li>
             <li><Link to="/posts/new">Add New Post</Link></li>
             <li><Link to="/admin/category">Add New Category</Link></li>

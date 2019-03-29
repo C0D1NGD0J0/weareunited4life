@@ -408,7 +408,9 @@ button:focus {
 }
 
 .post-comments {
+  padding: 0;
   width: 100%;
+  list-style: none;
 }
 
 .post-comments .comment {
