@@ -1,6 +1,22 @@
 import React from 'react';
+import { Link } from "react-router-dom";
+import Moment from "react-moment";
 
-const contributionPanel = ({ className }) => {
+const CommentsPanel = ({ comments }) => {
+	const tableRow = comments && comments.map((c, i) =>{
+		return(
+			<tr key={i}>
+	      <td>{c.post.title}</td>
+	      <td><Moment fromNow>{c.createdAt}</Moment></td>
+	      <td>
+	      	<Link to={`/posts/${c.post._id}`}>
+	      		<span className="i fa fa-eye"></span>
+	      	</Link>
+	      </td>
+	    </tr>
+		);
+	});
+
   return (
   	<div className="panel panel-default profile-page_myposts-list">
 			<div className="panel-heading">
@@ -14,43 +30,13 @@ const contributionPanel = ({ className }) => {
   				<table className="table table-striped table-bordered">
 				    <thead>
 				      <tr>
-				        <th>Title</th>
-				        <th>Creator</th>
-				        <th>Date</th>
+				        <th>Post Title</th>
+				        <th>Comment Posted:</th>
 				        <th>Action</th>
 				      </tr>
 				    </thead>
 				    <tbody>
-				      <tr>
-				        <td>Post Title One</td>
-				        <td>John Smith</td>
-				        <td>12/02/2019</td>
-				        <td><span className="i fa fa-eye"></span></td>
-				      </tr>
-				      <tr>
-				        <td>Post Title Two</td>
-				        <td>John Smith</td>
-				        <td>14/02/2019</td>
-				        <td><span className="i fa fa-eye"></span></td>
-				      </tr>
-				      <tr>
-				        <td>Post Title Three</td>
-				        <td>Jessice Langdon</td>
-				        <td>21/02/2019</td>
-				        <td><span className="i fa fa-eye"></span></td>
-				      </tr>
-				      <tr>
-				        <td>Post Title Four</td>
-				        <td>Jessice Langdon</td>
-				        <td>26/02/2019</td>
-				        <td><span className="i fa fa-eye"></span></td>
-				      </tr>
-				      <tr>
-				        <td>Post Title Five</td>
-				        <td>Peter Griffin</td>
-				        <td>1/03/2019</td>
-				        <td><span className="i fa fa-eye"></span></td>
-				      </tr>
+				    	{tableRow}
 				    </tbody>
 				  </table>
   			</div>
@@ -81,5 +67,4 @@ const contributionPanel = ({ className }) => {
   );
 };
 
-
-export default contributionPanel;
+export default CommentsPanel;

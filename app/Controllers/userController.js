@@ -1,6 +1,7 @@
 "use strict";
 const User = require('../Models/User');
 const Post = require('../Models/Post');
+const Comment = require('../Models/Comment');
 const keys = require("../Config/keys");
 const validate = require("../Util/validations");
 
@@ -18,8 +19,9 @@ const userCntrl = {
 		try {
 			const user = await User.findById(req.user.id);
 			const posts = await Post.find({author: req.user.id }).populate('category', "name");
+			const comments = await Comment.find({"author.id": user._id}).select('post createdAt').populate('post', "title _id");
 			
-			return res.status(200).json({user, posts});
+			return res.status(200).json({user, posts, comments});
 		} catch(err) {
 			errors.msg = err.msg;
 			return res.status(404).json(errors);

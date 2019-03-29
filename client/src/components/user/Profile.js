@@ -8,7 +8,7 @@ import Sidebar from "./profileSidebar";
 import Followers from "./followersSidebar";
 import UserPostsPanel from "./postsPanel";
 import ProfileSettingPanel from "./settingPanel";
-import UserContributionPanel from "./contributionPanel";
+import CommentsPanel from "./commentsPanel";
 import { getCurrentUserAction, updateUserAction } from "../../Actions/userAction";
 import { clearCurrentUser } from "../../Actions/utilAction";
 import { deleteUserPostAction } from "../../Actions/postAction";
@@ -39,7 +39,7 @@ class Profile extends Component {
 	}
 
 	render() {
-		const { info: user, loading, posts } = this.props.currentuser;
+		const { info: user, loading, posts, comments: userComments } = this.props.currentuser;
 		const { errors } = this.props;
 
 		return (
@@ -63,7 +63,7 @@ class Profile extends Component {
 												updateUser={this.handleUpdateUserForm}
 											/>
 				        			<UserPostsPanel posts={posts} deletePost={this.handleDeletePost}/>
-				        			<UserContributionPanel />
+				        			<CommentsPanel comments={userComments}/>
 			        			</Fragment>
 			        		}
 								</div>

@@ -3,6 +3,7 @@ import { GET_CURRENT_USER, LOADING, DELETE_USER_POST, CLEAR_CURRENT_USER } from 
 const initialState = {
 	info: {},
 	posts: [],
+	comments: [],
 	loading: false
 };
 
@@ -18,6 +19,7 @@ export default function(state = initialState, action){
 				...state,
 				info: action.payload.user,
 				posts:[...action.payload.posts, ...state.posts],
+				comments: [...action.payload.comments, ...state.comments],
 				loading: false
 			}
 		case CLEAR_CURRENT_USER:
