@@ -56,7 +56,7 @@ class Post extends Component {
 					<div className="container-fluid">
 						<div className="row">
 							<div className="col-sm-2">
-								<Sidebar user={post.author} post={post.photos}>
+								<Sidebar user={post.author} post={post.photos} auth={auth}>
 									<SidebarPostPhotos />
 									<SidebarUser />
 								</Sidebar>

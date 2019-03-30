@@ -42,7 +42,10 @@ UserSchema.methods.detailsToJSON = function(){
 		avatar: this.avatar,
 		location: this.location,
 		role: this.role,
-		following: this.following
+		followingList: this.following,
+		following: function(user){
+			return (user ? user.isFollowing(this._id) : false);
+		}
 	};
 
 	return userinfo;

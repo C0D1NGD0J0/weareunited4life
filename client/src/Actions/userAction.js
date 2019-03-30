@@ -30,3 +30,7 @@ export const updateUserAction = (userdata) => (dispatch) =>{
 		});
 	});
 };
+
+export const followUserAction = (userid) =>{
+	console.log(userid)
+};

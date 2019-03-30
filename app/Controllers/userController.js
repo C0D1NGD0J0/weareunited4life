@@ -21,7 +21,7 @@ const userCntrl = {
 			const posts = await Post.find({author: req.user.id }).populate('category', "name");
 			const comments = await Comment.find({"author.id": user._id}).select('post createdAt').populate('post', "title _id");
 			
-			return res.status(200).json({user, posts, comments});
+			return res.status(200).json({user: user.detailsToJSON(), posts, comments});
 		} catch(err) {
 			errors.msg = err.msg;
 			return res.status(404).json(errors);
@@ -94,20 +94,24 @@ const userCntrl = {
 
 	follow: (req, res, next) =>{
 		const errors = {};
-		const { followId } = req.param;
+		const { userId } = req.param;
 		errors.msg = "User not found!";
+		
+		if(!req.user.id.toString() === userId.toString()){
+			User.findById(req.user.id).then((user) =>{
+				if(!user) return res.status(401).json(errors);
+				user.follow(userId).then(() =>{
+					return res.json(user.detailsToJSON());
+				});
+			}).catch((err) => res.status(404).json(err));
+		};
 
-		User.findById(req.user.id).then((user) =>{
-			if(!user) return res.status(401).json(errors);
-			user.follow(followId).then(() =>{
-				return res.json(user.detailsToJSON());
-			});
-		}).catch((err) => res.status(404).json(err));
+		return res.status(400).json("You can't follow yourself.");
 	},
 
 	unfollow: (req, res, next) =>{
 		const errors = {};
-		const { followId } = req.params;
+		const { userId } = req.params;
 
 		User.findById(req.user.id).then((user) =>{
 			if(!user){
@@ -115,7 +119,7 @@ const userCntrl = {
 				res.status(400).json(errors);
 			};
 
-			user.unfollow(followId).then(() =>{
+			user.unfollow(userId).then(() =>{
 				return res.status(200).json(user.detailsToJSON());
 			});
 		}).catch((err) =>{

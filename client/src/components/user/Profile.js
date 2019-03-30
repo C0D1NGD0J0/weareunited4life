@@ -4,9 +4,11 @@ import _ from "lodash";
 import Loader from "../../helpers/Loader";
 import PropTypes from "prop-types";
 import Header from "../layouts/pageHeader";
-import Sidebar from "./profileSidebar";
 import Followers from "./followersSidebar";
 import UserPostsPanel from "./postsPanel";
+import Sidebar from "../layouts/Sidebar/";
+import SidebarUser from "../layouts/Sidebar/userDetails";
+import SidebarPostPhotos from "../layouts/Sidebar/postPhotos";
 import ProfileSettingPanel from "./settingPanel";
 import CommentsPanel from "./commentsPanel";
 import { getCurrentUserAction, updateUserAction } from "../../Actions/userAction";
@@ -51,7 +53,10 @@ class Profile extends Component {
 						<div className="container-fluid">
 							<div className="row">
 								<div className="col-sm-2">
-									<Sidebar user={user}/>
+									<Sidebar user={user} auth={{isAuthenticated: true, user}}>
+										<SidebarUser />
+										<SidebarPostPhotos />
+									</Sidebar>
 								</div>
 
 								<div className="col-sm-8">

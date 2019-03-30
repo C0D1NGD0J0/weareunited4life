@@ -3,11 +3,11 @@ import Lightbox from "react-image-lightbox";
 import 'react-image-lightbox/style.css';
 
 const PostPhotos = (props) => {
-	const { post }  = props;
+	const { postimages }  = props;
 	const [ isOpen, toggleOpen] = useState(false);
 	const [ imgIndex, updateIndex] = useState(0);
 
-	const photoCard = (post ? post : []).map((img) =>{
+	const photoCard = (postimages ? postimages : []).map((img) =>{
 		return (
 			<div className="col-sm-6" key={img._id}>
 				<div className="post-imgs__img">
@@ -25,12 +25,12 @@ const PostPhotos = (props) => {
 					{photoCard}
 					{isOpen && (
 						<Lightbox 
-							mainSrc={post[imgIndex].location}
-							nextSrc={post[(imgIndex + 1) % post.length].location}
-							prevSrc={post[((imgIndex + 1) + post.length - 1) % post.length].location}
+							mainSrc={postimages[imgIndex].location}
+							nextSrc={postimages[(imgIndex + 1) % postimages.length].location}
+							prevSrc={postimages[((imgIndex + 1) + postimages.length - 1) % postimages.length].location}
 							onCloseRequest={() => toggleOpen(!isOpen)}
-							onMovePrevRequest={ () => updateIndex((imgIndex + post.length - 1) % post.length) }
-							onMoveNextRequest={ () => updateIndex((imgIndex + 1) % post.length) }
+							onMovePrevRequest={ () => updateIndex((imgIndex + postimages.length - 1) % postimages.length) }
+							onMoveNextRequest={ () => updateIndex((imgIndex + 1) % postimages.length) }
 						/>)
 					}
 				</div>

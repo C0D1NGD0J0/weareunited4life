@@ -12,9 +12,9 @@ router.get("/:userId/profile", passport.authenticate('jwt', {session: false}), u
 
 router.put("/:userId", passport.authenticate('jwt', {session: false}), userCntrl.update);
 
-router.put("/:followId/follow", passport.authenticate('jwt', {session: false}), userCntrl.follow);
+router.put("/:userId/follow", passport.authenticate('jwt', {session: false}), userCntrl.follow);
 
-router.delete("/:followId/unfollow", passport.authenticate('jwt', {session: false}), userCntrl.follow);
+router.delete("/:userId/unfollow", passport.authenticate('jwt', {session: false}), userCntrl.unfollow);
 
 
 module.exports = router;

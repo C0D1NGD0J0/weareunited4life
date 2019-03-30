@@ -1,16 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const Sidebar = (props) => {
-	const children = props.children;
+class Sidebar extends Component {
+	constructor(props){
+		super(props);
+		this.state = {};
+	}
+	
+	handleFollowUser = (userid) =>{
+		console.log(userid);
+	};
 
-  return (
-  	<div className="sidebar">
-			{React.Children.map(children, (child) =>{
-				return React.cloneElement(child, {user: props.user, post: props.post, category: props.category});
-			})}
-		</div>
-  );
-};
+	render() {
+		const children = this.props.children;
+		const propsObject = {author: this.props.user, postimages: this.props.post, category: this.props.category, auth: this.props.auth, handleFollowUser: this.handleFollowUser};
 
+		return (
+			<div className="sidebar">
+				{React.Children.map(children, (child) =>{
+					return React.cloneElement(child, propsObject);
+				})}
+			</div>
+		);
+	}
+}
 
 export default Sidebar;
