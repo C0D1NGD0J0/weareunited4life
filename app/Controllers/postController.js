@@ -154,6 +154,7 @@ const postCntrl = {
 		
 		Post.findOneAndUpdate({_id: postId}, {$inc: {"like.count": 1}, $push: {"like.users": req.user.id}}, {new: true})
 			.populate("author", "username avatar _id location role")
+			.populate("comments")
 			.populate('category', "_id name").then((post) =>{
 				return res.status(200).json(post);
 			}).catch((err) => {
@@ -168,6 +169,7 @@ const postCntrl = {
 
 		Post.findOneAndUpdate({_id: postId}, {$inc: {"like.count": -1}, $pull: {"like.users": req.user.id}}, {new: true})
 			.populate("author", "username avatar _id location role")
+			.populate("comments")
 			.populate('category', "_id name")
 			.then((post) =>{
 				return res.json(post);

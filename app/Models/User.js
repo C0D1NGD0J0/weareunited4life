@@ -42,8 +42,8 @@ UserSchema.methods.detailsToJSON = function(){
 		avatar: this.avatar,
 		location: this.location,
 		role: this.role,
-		followingList: this.following,
-		following: function(user){
+		following: this.following,
+		is_following: function(user){
 			return (user ? user.isFollowing(this._id) : false);
 		}
 	};
@@ -71,4 +71,5 @@ UserSchema.methods.isFollowing = function(id){
 };
 
 const user = mongoose.model("User", UserSchema);
+
 module.exports = user;

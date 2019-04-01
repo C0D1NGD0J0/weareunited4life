@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
+import { followUserAction, unFollowUserAction } from "../../../Actions/userAction";
 
 class Sidebar extends Component {
 	constructor(props){
 		super(props);
 		this.state = {};
 	}
-	
-	handleFollowUser = (userid) =>{
-		console.log(userid);
+
+	componentDidUpdate(prevProp, prevState){
+		console.log("PREV: ", prevState)
 	};
+	
+	_followUser = (followid) =>{
+		this.props.followUserAction(followid);
+	};
+
+	_unFollowUser = (followid) =>{
+		this.props.unFollowUserAction(followid);
+	}
 
 	render() {
 		const children = this.props.children;
-		const propsObject = {author: this.props.user, postimages: this.props.post, category: this.props.category, auth: this.props.auth, handleFollowUser: this.handleFollowUser};
+		const propsObject = {author: this.props.user, postimages: this.props.post, category: this.props.category, auth: this.props.auth, followUser: this._followUser, unfollowUser: this._unFollowUser};
 
 		return (
 			<div className="sidebar">
@@ -24,4 +34,9 @@ class Sidebar extends Component {
 	}
 }
 
-export default Sidebar;
+const mapDispatchToProps = {
+	followUserAction,
+	unFollowUserAction
+};
+
+export default connect(null, mapDispatchToProps)(Sidebar);

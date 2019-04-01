@@ -26,10 +26,6 @@ class Post extends Component {
 		};
 	}
 
-	componentDidUpdate(){
-
-	}
-
 	componentWillUnmount(){
 		this.props.clearCurrentPost();
 		this.props.clearStateErrors();
@@ -56,7 +52,7 @@ class Post extends Component {
 					<div className="container-fluid">
 						<div className="row">
 							<div className="col-sm-2">
-								<Sidebar user={post.author} post={post.photos} auth={auth}>
+								<Sidebar user={post && post.author} post={post.photos} auth={auth}>
 									<SidebarPostPhotos />
 									<SidebarUser />
 								</Sidebar>

@@ -1,4 +1,4 @@
-import { GET_CURRENT_USER, LOADING, DELETE_USER_POST, CLEAR_CURRENT_USER } from "../Actions/types";
+import { GET_CURRENT_USER, LOADING, DELETE_USER_POST, CLEAR_CURRENT_USER, UPDATE_CURRENT_USER } from "../Actions/types";
 
 const initialState = {
 	info: {},
@@ -26,7 +26,13 @@ export default function(state = initialState, action){
 			return{
 				...state,
 				info: action.payload,
-				posts: [action.payload]
+				posts: [],
+				loading: false
+			}
+		case UPDATE_CURRENT_USER:
+			return{
+				...state,
+				info: action.payload
 			}
 		case DELETE_USER_POST:
 			return{

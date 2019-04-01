@@ -108,7 +108,7 @@ const authCntrl = {
 
 			bcrypt.compare(password, user.password).then((isMatch) => {
 				if(isMatch){
-					const payload = { id: user.id, username: user.username, avatar: user.avatar, location: user.location, role: user.role };
+					const payload = { id: user.id, username: user.username, avatar: user.avatar, location: user.location, role: user.role, following: user.following };
 
 					jwt.sign(payload, keys.secret, { expiresIn: "12h" }, (err, token) =>{
 						res.status(200).json({token: `Bearer ${token}`})

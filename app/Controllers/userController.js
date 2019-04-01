@@ -94,34 +94,42 @@ const userCntrl = {
 
 	follow: (req, res, next) =>{
 		const errors = {};
-		const { userId } = req.param;
+		const followId = req.params.userId;
 		errors.msg = "User not found!";
-		
-		if(!req.user.id.toString() === userId.toString()){
-			User.findById(req.user.id).then((user) =>{
+	
+		if(req.user.id.toString() !== followId.toString()){
+			User.findById(req.user.id).populate('user').then((user) =>{
 				if(!user) return res.status(401).json(errors);
-				user.follow(userId).then(() =>{
-					return res.json(user.detailsToJSON());
-				});
+				if(!user.isFollowing(followId)){
+					user.follow(followId).then(() =>{
+						return res.json(user.detailsToJSON());
+					});
+				} else {
+					return res.status(400).json("You are already following this user.");
+				};
 			}).catch((err) => res.status(404).json(err));
+		} else {
+			return res.status(400).json("You can't follow yourself.");
 		};
-
-		return res.status(400).json("You can't follow yourself.");
 	},
 
 	unfollow: (req, res, next) =>{
 		const errors = {};
-		const { userId } = req.params;
+		const followId = req.params.userId;
 
 		User.findById(req.user.id).then((user) =>{
 			if(!user){
 				errors.msg = "User not found!";
 				res.status(400).json(errors);
 			};
-
-			user.unfollow(userId).then(() =>{
-				return res.status(200).json(user.detailsToJSON());
-			});
+			
+			if(user.isFollowing(followId)){
+				user.unfollow(followId).then(() =>{
+					return res.status(200).json(user.detailsToJSON());
+				});
+			} else {
+				return res.status(404).json("You currently aren't following this user.");
+			};
 		}).catch((err) =>{
 			return res.status(404).json(err);
 		});
