@@ -1,4 +1,4 @@
-import { GET_ERRORS, GET_POSTS, DELETE_USER_POST, CREATE_NEW_POST, GET_CURRENT_POST, CLEAR_CURRENT_POST } from "./types";
+import { GET_ERRORS, GET_POSTS, DELETE_USER_POST, CREATE_NEW_POST, GET_CURRENT_POST } from "./types";
 import { setLoadingState } from "./utilAction";
 import axios from "axios";
 

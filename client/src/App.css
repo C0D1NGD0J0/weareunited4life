@@ -594,3 +594,35 @@ button:focus {
 .dashboard_next-game h2{
   font-size: 6rem;
 }
+
+
+
+/*===follower sidebar===*/
+.followers{
+  width: 100%;
+}
+
+.followers_list{
+  padding: 1rem;
+  list-style: none;
+}
+
+.follower_img{
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  margin: 1rem;
+  display: inline-block;
+}
+
+.follower a{
+  color: #000;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+.follower a:hover,
+.follower a:focus{
+  font-weight: bold;
+  text-decoration: none;
+}

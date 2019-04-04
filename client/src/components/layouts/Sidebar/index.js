@@ -5,11 +5,12 @@ import { followUserAction, unFollowUserAction } from "../../../Actions/userActio
 class Sidebar extends Component {
 	constructor(props){
 		super(props);
-		this.state = {};
+		this.state = {isFollowing: false};
 	}
 
 	componentDidUpdate(prevProp, prevState){
 		console.log("PREV: ", prevState)
+		console.log("PROP: ", prevProp)
 	};
 	
 	_followUser = (followid) =>{

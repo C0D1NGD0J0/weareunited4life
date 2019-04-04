@@ -15,10 +15,10 @@ const UserDetails = (props) => {
 				{ isAuthenticated && ((author && author._id) !== (currentuser.id || currentuser._id)) ? 
 					<Fragment>
 						<button 
-							onClick={() => !_isFollowing(currentuser, author && author._id) ? followUser(author._id) : unfollowUser(author._id)} 
+							onClick={() => _isFollowing(currentuser, (author && author._id)) ? unfollowUser(author._id) : followUser(author._id)} 
 							className="btn btn-sm btn-danger"
 						>
-							{ _isFollowing(currentuser, author && author._id) ? 'Unfollow' : 'Follow' }
+							{ _isFollowing(currentuser, (author && author._id)) ? 'Unfollow' : 'Follow' }
 						</button>
 					
 						<span className="btn btn-sm btn-info">Message</span>

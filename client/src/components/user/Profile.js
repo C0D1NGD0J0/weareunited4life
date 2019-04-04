@@ -4,7 +4,7 @@ import _ from "lodash";
 import Loader from "../../helpers/Loader";
 import PropTypes from "prop-types";
 import Header from "../layouts/pageHeader";
-import Followers from "./followersSidebar";
+import Followers from "../layouts/Sidebar/followersSidebar";
 import UserPostsPanel from "./postsPanel";
 import Sidebar from "../layouts/Sidebar/";
 import SidebarUser from "../layouts/Sidebar/userDetails";
@@ -74,7 +74,7 @@ class Profile extends Component {
 								</div>
 
 								<div className="col-sm-2">
-									<Followers />
+									<Followers currentuser={user}/>
 								</div>
 							</div>
 						</div>

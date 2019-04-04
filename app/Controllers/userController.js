@@ -17,7 +17,7 @@ const userCntrl = {
 		const errors = {};
 		
 		try {
-			const user = await User.findById(req.user.id);
+			const user = await User.findById(req.user.id).populate('following', "username avatar _id");
 			const posts = await Post.find({author: req.user.id }).populate('category', "name");
 			const comments = await Comment.find({"author.id": user._id}).select('post createdAt').populate('post', "title _id");
 			
