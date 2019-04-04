@@ -1,5 +1,6 @@
 import axios from "axios";
-import { setLoadingState } from "./utilAction";
+import { setAuthenticatedUser } from "./authAction";
+import { setLoadingState, clearCurrentUser } from "./utilAction";
 import { GET_CURRENT_USER, GET_ERRORS, GET_USER_POSTS, UPDATE_CURRENT_USER } from "./types";
 
 export const getCurrentUserAction = () => (dispatch)=>{
@@ -23,6 +24,18 @@ export const updateUserAction = (userdata) => (dispatch) =>{
 			type: GET_CURRENT_USER,
 			payload: res.data
 		})
+	}).catch((err) =>{
+		dispatch({
+			type: GET_ERRORS,
+			payload: err.response.data
+		});
+	});
+};
+
+export const deleteUserAccountAction = (userid) => (dispatch) =>{
+	axios.delete(`/api/users/${userid}`).then((res) =>{
+		dispatch(clearCurrentUser());
+		return dispatch(setAuthenticatedUser({}));
 	}).catch((err) =>{
 		dispatch({
 			type: GET_ERRORS,

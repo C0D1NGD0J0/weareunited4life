@@ -25,7 +25,6 @@ const initialState = {
 	scores: "",
 	homeTeam: "",
 	awayTeam: "",
-	date: "",
 	competition: "",
 	postType: "",
 	category: ""
@@ -78,9 +77,11 @@ class newPost extends Component {
 		const { selectedFiles } = this.state;
 
 		// loop through photo files and append to FormData
-		for(let i = 0; i < selectedFiles.length; i++){
-			fd.append("photos", selectedFiles[i]);
-			this.setState({selectedFiles: null});
+		if(selectedFiles !== null){
+			for(let i = 0; i < selectedFiles.length; i++){
+				fd.append("photos", selectedFiles[i]);
+				this.setState({selectedFiles: null});
+			};
 		};
 		
 		// loop through form values and append to FormData Object

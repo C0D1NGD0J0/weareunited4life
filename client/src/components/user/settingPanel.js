@@ -43,6 +43,7 @@ class SettingPanel extends Component {
   render() {
     const { isFormEnabled, user } = this.state;
     const errors = this.props.errors;
+    const { handleAcctDelete } = this.props;
    
     return(
       <div className="panel panel-default profile-page_overview">
@@ -57,9 +58,9 @@ class SettingPanel extends Component {
         </div>
         
         <div id="myCollapse">
-          <div className="panel-body">
-            <form className="form" onSubmit={this.onFormSubmit}>
-              <fieldset disabled={isFormEnabled ? false : "disabled"}>
+          <fieldset disabled={isFormEnabled ? false : "disabled"}>
+            <div className="panel-body">
+              <form className="form" onSubmit={this.onFormSubmit}>
                 <div className="row">
                   <div className="col-sm-6 col-md-6">
                     <FormInputField
@@ -143,9 +144,13 @@ class SettingPanel extends Component {
                   </div>
                 </div>
                 <input type="submit" value="Update" className="btn btn-info btn-block" />
-              </fieldset>
-            </form>
-          </div>
+              </form>
+            </div>
+            <div className="panel-footer">
+              <h3>Delete Account?</h3>
+              <span className="btn btn-danger btn-block" onClick={() => handleAcctDelete(user.id)}>Close Account</span>
+            </div>
+          </fieldset>
         </div>
       </div>
     );

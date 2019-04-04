@@ -27,6 +27,7 @@ export default function(state = initialState, action){
 				...state,
 				info: action.payload,
 				posts: [],
+				comments: [],
 				loading: false
 			}
 		case UPDATE_CURRENT_USER:

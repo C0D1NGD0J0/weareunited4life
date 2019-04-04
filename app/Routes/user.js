@@ -16,5 +16,6 @@ router.put("/:userId/follow", passport.authenticate('jwt', {session: false}), us
 
 router.put("/:userId/unfollow", passport.authenticate('jwt', {session: false}), userCntrl.unfollow);
 
+router.delete("/:userId", passport.authenticate('jwt', {session: false}), userCntrl.deleteAcct);
 
 module.exports = router;

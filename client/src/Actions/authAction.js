@@ -5,12 +5,15 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 
 export const registerAction = (userdata, history) => (dispatch) =>{
-	axios.post("/api/auth/signup", userdata)
-		.then((res) => history.push("/"))
-		.catch(err => dispatch({
+	axios.post("/api/auth/signup", userdata).then((res) =>{
+		dispatch(clearStateErrors());
+		return history.push("/");
+	}).catch((err) =>{
+		return dispatch({
 			type: GET_ERRORS,
 			payload: err.response.data
-		}));
+		});
+	});
 };
 
 export const loginAction = (userdata, history) => (dispatch) =>{

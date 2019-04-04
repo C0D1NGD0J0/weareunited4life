@@ -1,5 +1,6 @@
 import React from 'react';
 import Moment from 'react-moment';
+import { Link } from "react-router-dom";
 
 function validateAuth(resource){
 	if(resource !== undefined){
@@ -32,6 +33,7 @@ const PostMeta = ({ post, likePost, unlikePost, currentuser }) => {
 					<span className="badge">{post.like && post.like.count}</span>
 				</li>
 				
+				<li><Link to={`/posts/${post._id}/edit`}><i className="fa fa-pencil"></i></Link></li>
 				<li><a href="#"><i className="fa fa-share-alt"></i> Share</a></li>
 			</ul>
 

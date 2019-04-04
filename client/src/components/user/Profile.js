@@ -11,7 +11,7 @@ import SidebarUser from "../layouts/Sidebar/userDetails";
 import SidebarPostPhotos from "../layouts/Sidebar/postPhotos";
 import ProfileSettingPanel from "./settingPanel";
 import CommentsPanel from "./commentsPanel";
-import { getCurrentUserAction, updateUserAction } from "../../Actions/userAction";
+import { getCurrentUserAction, updateUserAction, deleteUserAccountAction } from "../../Actions/userAction";
 import { clearCurrentUser } from "../../Actions/utilAction";
 import { deleteUserPostAction } from "../../Actions/postAction";
 
@@ -40,6 +40,13 @@ class Profile extends Component {
 		};
 	}
 
+	handleAccountDelete = (userid) =>{
+		let response = window.confirm("Are you sure you want to delete your account?..");
+		if(response){
+			return this.props.deleteUserAccountAction(userid);
+		};
+	}
+
 	render() {
 		const { info: user, loading, posts, comments: userComments } = this.props.currentuser;
 		const { errors } = this.props;
@@ -65,6 +72,7 @@ class Profile extends Component {
 											<ProfileSettingPanel 
 												user={user}
 												errors={errors}
+												handleAcctDelete={this.handleAccountDelete}
 												updateUser={this.handleUpdateUserForm}
 											/>
 				        			<UserPostsPanel posts={posts} deletePost={this.handleDeletePost}/>
@@ -94,7 +102,8 @@ const mapDispatchToProps = {
 	getCurrentUserAction,
 	updateUserAction,
 	clearCurrentUser,
-	deleteUserPostAction
+	deleteUserPostAction,
+	deleteUserAccountAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

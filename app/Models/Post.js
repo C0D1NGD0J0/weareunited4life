@@ -36,7 +36,6 @@ const PostSchema = new Schema({
 		scores: String,
 		homeTeam: String,
 		awayTeam: String,
-		date: {type: Date, default: ""},
 		competition: String
 	},
 	category: {type: Schema.Types.ObjectId, ref: "Category"},

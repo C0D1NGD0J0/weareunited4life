@@ -8,10 +8,10 @@ class Sidebar extends Component {
 		this.state = {isFollowing: false};
 	}
 
-	componentDidUpdate(prevProp, prevState){
-		console.log("PREV: ", prevState)
-		console.log("PROP: ", prevProp)
-	};
+	// componentDidUpdate(prevProp, prevState){
+	// 	console.log("PREV: ", prevState)
+	// 	console.log("PROP: ", prevProp)
+	// };
 	
 	_followUser = (followid) =>{
 		this.props.followUserAction(followid);

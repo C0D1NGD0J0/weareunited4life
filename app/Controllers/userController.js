@@ -4,6 +4,7 @@ const Post = require('../Models/Post');
 const Comment = require('../Models/Comment');
 const keys = require("../Config/keys");
 const validate = require("../Util/validations");
+const ObjectID = require('mongodb').ObjectID;
 
 const userCntrl = {
 	index: (req, res, next) =>{
@@ -74,22 +75,22 @@ const userCntrl = {
 		};
 	},
 
-	delete: (req, res, next) =>{
+	deleteAcct: (req, res, next) =>{
 		const errors = {};
-		const { userId } = req.params;
-		const isAuthorized = req.user.id.equals(userId);
-
-		if(isAuthorized){
-			User.findByIdAndRemove(userId).then((user) =>{
-				return res.status(200).json(user.detailsToJSON());
-			}).catch((err) => {
-				errors.msg = err.message;
-				return res.status(404).json(errors);
-			});
-		};
+		const userId  = new ObjectID(req.params.userId);
+		const isAuthorized = new ObjectID(req.user.id).equals(userId);
 		
-		errors.msg = "You are not permitted to perform this action.";
-		return res.status(401).json(errors);
+		if(!isAuthorized){
+			errors.msg = "You are not permitted to perform this action.";
+			return res.status(401).json(errors);
+		};
+
+		User.findOneAndDelete({_id: userId}).then((user) =>{
+			res.status(200).json(user.detailsToJSON());
+		}).catch((err) => {
+			errors.msg = err.message;
+			return res.status(404).json(errors);
+		});
 	},
 
 	follow: (req, res, next) =>{

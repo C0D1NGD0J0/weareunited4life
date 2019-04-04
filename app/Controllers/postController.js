@@ -41,7 +41,6 @@ const postCntrl = {
 				score: req.body.score,
 				homeTeam: req.body.homeTeam,
 				awayTeam: req.body.awayTeam,
-				date: req.body.date,
 				competition: req.body.competition
 			},
 			category: req.body.category
@@ -83,7 +82,9 @@ const postCntrl = {
 
 	update: async (req, res, next) =>{
 		const { postId } = req.params;
-		const updatedPost = {};
+		const updatedPost = {
+			matchInfo: {}
+		};
 		const { errors, isValid } = validate.newpost(req.body);
 		
 		if(!isValid){
@@ -129,7 +130,7 @@ const postCntrl = {
 			const errors = {};
 			errors.msg = err.msg;
 			return res.status(404).json(errors);
-		}
+		};
 	},
 
 	delete: async (req, res, next) =>{

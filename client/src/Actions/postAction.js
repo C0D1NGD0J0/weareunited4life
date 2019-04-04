@@ -24,7 +24,7 @@ export const createNewPostAction = (postdata, history) => (dispatch) =>{
 			type: CREATE_NEW_POST,
 			payload: res.data
 		});
-		return history.push("/posts");
+		return history.push(`/posts/${res.data.post._id}`);
 	}).catch((err) =>{
 		return dispatch({
 			type: GET_ERRORS,
