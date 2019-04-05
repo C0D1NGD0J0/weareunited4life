@@ -76,15 +76,14 @@ const authCntrl = {
 						"If you didn't request this, please kindly ignore this email.."
 				};
 				
-				console.log(mailOptions);
-				// smtpTransport.sendMail(mailOptions, function(err){
-				// 	if(!err){
-				// 		console.log("Mail has been sent");
-				// 		return res.json("Mail sent, kindly check your email for further instructions.");
-				// 	};
+				smtpTransport.sendMail(mailOptions, function(err){
+					if(!err){
+						console.log("Mail has been sent");
+						return res.json("Mail sent, kindly check your email for further instructions.");
+					};
 					
-				// 	return cb(err);
-				// });
+					return cb(err);
+				});
 			}
 		], (err) =>{
 			return res.status(422).json(err);
@@ -190,14 +189,13 @@ const authCntrl = {
 						"If you didn't request this, please kindly ignore this email and your password will remain unchanged"
 				};
 				
-				console.log(mailOptions);
-				// transport.sendMail(mailOptions, function(err){
-				// 	if(!err){
-				// 		flash.success = "kindly check your email for further instructions.";
-				// 		return res.status(200).json(flash);
-				// 	};
-				// 	return cb(err, user);
-				// });
+				transport.sendMail(mailOptions, function(err){
+					if(!err){
+						flash.success = "kindly check your email for further instructions.";
+						return res.status(200).json(flash);
+					};
+					return cb(err, user);
+				});
 			}
 		], function(err){
 			flash.error = err.msg;
