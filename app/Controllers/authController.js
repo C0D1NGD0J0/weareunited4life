@@ -194,7 +194,7 @@ const authCntrl = {
 						flash.success = "kindly check your email for further instructions.";
 						return res.status(200).json(flash);
 					};
-					return cb(err, user);
+					cb(err, user);
 				});
 			}
 		], function(err){
