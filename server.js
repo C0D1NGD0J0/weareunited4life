@@ -6,6 +6,7 @@ const passport = require("passport");
 const bodyParser = require('body-parser');
 const PORT = (process.env.PORT || 5000);
 const app = express();
+const path = require("path");
 const corsOptions = {
 	origin: '*',
 	optionsSuccessStatus: 200
@@ -40,7 +41,16 @@ app.use('/api/posts', require('./app/Routes/post'));
 app.use('/api/categories', require('./app/Routes/category'));
 app.use('/api/', require('./app/Routes/comment'));
 
-// Error Handling
+// Serve static assets if in production env
+if(process.env.NODE_ENV === 'production'){
+	// set static folder
+	app.use(express.static('client/build'));
+	app.get("*", (req, res, next) =>{
+		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+	});
+};
+
+// Error Handling TODO
 
 // Initialize Server
 app.listen(PORT, (err) =>{
