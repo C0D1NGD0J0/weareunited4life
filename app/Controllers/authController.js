@@ -82,7 +82,7 @@ const authCntrl = {
 						return res.json("Mail sent, kindly check your email for further instructions.");
 					};
 					
-					return cb(err);
+					cb(err);
 				});
 			}
 		], (err) =>{
