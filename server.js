@@ -13,7 +13,10 @@ const corsOptions = {
 };
 
 // Middleware
-dotenv.config();
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config();
+};
+
 const passportConfig = require("./app/Config/passportConfig");
 app.use(cors(corsOptions));
 app.use(logger('dev'));
@@ -26,7 +29,6 @@ passportConfig(passport);
 
 // Database Connection
 require('./app/Database');
-// require('./app/Database/seed');
 
 // Models
 require('./app/Models/User');

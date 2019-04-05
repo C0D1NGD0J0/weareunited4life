@@ -1,3 +1,4 @@
 node_modules
 /app/Config/keys.js
 .env
+keys.js
