@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require("passport");
-const postCntrl = require("../Controllers/postcontroller");
+const postCntrl = require("../Controllers/postController");
 const imgUpload = require("../Controllers/upload");
 
 router.get("/", postCntrl.index);
