@@ -24,7 +24,7 @@ const authCntrl = {
 				});
 			},
 
-			function(token, cb){
+			async function(token, cb){
 				const existingUsers = await User.find().or([{username: req.body.username}, {email: req.body.email}]);
 				
 				if(existingUsers.length > 0){
