@@ -24,7 +24,7 @@ const authCntrl = {
 				});
 			},
 
-			async function(token, cb){
+			function(token, cb){
 				const existingUsers = await User.find().or([{username: req.body.username}, {email: req.body.email}]);
 				
 				if(existingUsers.length > 0){
@@ -86,6 +86,7 @@ const authCntrl = {
 				});
 			}
 		], (err) =>{
+			console.log("ERR: ", err)
 			return res.status(422).json(err);
 		});
 	},
@@ -120,7 +121,7 @@ const authCntrl = {
 		}).catch((err) => res.status(400).json(err));
 	},
 
-	accountActivation: async (req, res, next) =>{
+	accountActivation: (req, res, next) =>{
 		const errors = {};
 		const { token } = req.params;
 
