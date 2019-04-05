@@ -7,6 +7,10 @@ const imgUpload = require("../Controllers/upload");
 
 router.get("/", postCntrl.index);
 
+router.get("/tags", postCntrl.tags);
+
+router.get("/tags/:tag", postCntrl.postsTag);
+
 router.get("/:postId", postCntrl.showPost);
 
 router.post("/", passport.authenticate('jwt', {session: false}), imgUpload, postCntrl.create);

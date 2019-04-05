@@ -1,19 +1,24 @@
 import React, { Component, Fragment } from 'react';
 import Header from "../layouts/pageHeader";
 import { connect } from "react-redux";
-import { getAllPostsAction } from "../../Actions/postAction";
+import { getAllPostsAction, getPostsTags } from "../../Actions/postAction";
 import { getCategoriesAction } from "../../Actions/categoryAction";
 import PostListItem from "./postListItem";
 import Sidebar from "../layouts/Sidebar/";
 import Loader from "../../helpers/Loader";
 import SidebarCategories from "../layouts/Sidebar/categoriesCard";
+import SidebarTags from "../layouts/Sidebar/tagsSidebar";
 
 class AllPosts extends Component {
+	state ={
+		tags: null
+	};
+
 	componentDidMount(){
 		this.props.getAllPostsAction();
-		this.props.getCategoriesAction()
+		this.props.getCategoriesAction();
 	}
-
+	
 	render() {
 		const { all, loading } = this.props.posts;
 		const { category } = this.props;
@@ -27,6 +32,7 @@ class AllPosts extends Component {
 							<div className="col-sm-3">
 								<Sidebar category={category && category}>
 									<SidebarCategories />
+									<SidebarTags />
 								</Sidebar>
 							</div>
 

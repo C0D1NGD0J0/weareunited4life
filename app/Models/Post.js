@@ -42,6 +42,15 @@ const PostSchema = new Schema({
 	type:{type: String, default: 'article', lowercase: true} 
 }, {timestamps: true});
 
+PostSchema.statics.getAllTags = function(){
+	return this.aggregate([
+		{ $unwind: '$tags' },
+		{ $group: {_id: '$tags', count: { $sum: 1 } }},
+		{ $sort: { count: -1 }},
+		{ $limit: 5 }
+	]);
+};
+
 const post = mongoose.model("Post", PostSchema);
 
 module.exports = post;

@@ -119,3 +119,25 @@ export const deleteCommentsAction = (postid, commentid) => (dispatch) =>{
 		});
 	});
 };
+
+export const getTags = async () =>{
+	const errors = {};
+	try {
+		let res = await axios.get("/api/posts/tags");
+		let tags = await res.data;
+		return tags;
+	} catch(e) {
+		errors.msg = e.msg;
+		return errors;
+	};
+};
+
+export const getTagPosts = async (tag) =>{
+	try {
+		let res = await axios.get(`/api/posts/tags/${tag}`);
+		let posts = await res.data;
+		return posts;
+	} catch(e) {
+		return e.msg;
+	};
+};

@@ -178,6 +178,21 @@ const postCntrl = {
 			errors.msg = "Post not found.";
 			return res.status(404).json(errors);
 		});
+	},
+
+	tags: async (req, res, next) =>{
+		const tags = await Post.getAllTags();
+		return res.status(200).json(tags);
+	},
+
+	postsTag: async (req, res, next) =>{
+		const { tag } = req.params;
+		
+		Post.find({tags: tag}).then((posts) =>{
+			return res.json(posts);
+		}).catch((err) =>{
+			return res.status(400).json(err);
+		});
 	}
 };
 

@@ -18,7 +18,7 @@ const truncateText = (str) =>{
 const PostListItem = ({ allPosts, loading }) => {
 	const postItem = allPosts.map((post,i) =>{
 		return(
-			<li className="posts-list-item clearfix" key={i.toString()}>
+			<li className="posts-list-item clearfix" key={i}>
 				<div>
 					<Link to={`/posts/${post._id}`} className="posts-list-item__link">
 						<h2 className="posts-list-item__title">
