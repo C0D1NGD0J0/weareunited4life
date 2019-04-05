@@ -1,7 +1,6 @@
 "use strict";
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
-const keys = require("../Config/keys");
 const User = require('../Models/User');
 const nodemailer = require("nodemailer");
 const waterfall = require("async-waterfall");
@@ -108,9 +107,9 @@ const authCntrl = {
 
 			bcrypt.compare(password, user.password).then((isMatch) => {
 				if(isMatch){
-					const payload = { id: user._id, username: user.username, avatar: user.avatar, location: user.location, role: user.role, following: user.following };
+					const payload = { id: user.id, username: user.username, avatar: user.avatar, location: user.location, role: user.role, following: user.following };
 
-					jwt.sign(payload, keys.secret, { expiresIn: "12h" }, (err, token) =>{
+					jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "12h" }, (err, token) =>{
 						res.status(200).json({token: `Bearer ${token}`})
 					});
 				} else {
