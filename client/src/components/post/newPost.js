@@ -126,7 +126,6 @@ class newPost extends Component {
   	if(total > MAXSIZE){
   		error += "Your files are too large, total max size allowed 5MB";
   		e.target.value = null;
-  		console.log(error);
   		return false;
   	}
 
