@@ -1,6 +1,8 @@
 const express = require('express');
 const logger = require('morgan');
 const dotenv = require('dotenv');
+const http = require("http");
+const socketIO = require("socket.io");
 const cors = require('cors');
 const passport = require("passport");
 const bodyParser = require('body-parser');
@@ -24,6 +26,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(passport.initialize());
 
+// Serve static assets if in production env
+if(process.env.NODE_ENV === 'production'){
+	// set static folder
+	app.use(express.static('client/build'));
+	app.get("*", (req, res, next) =>{
+		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+	});
+};
+
 // Passport JWT Config
 passportConfig(passport);
 
@@ -43,18 +54,23 @@ app.use('/api/posts', require('./app/Routes/post'));
 app.use('/api/categories', require('./app/Routes/category'));
 app.use('/api/', require('./app/Routes/comment'));
 
-// Serve static assets if in production env
-if(process.env.NODE_ENV === 'production'){
-	// set static folder
-	app.use(express.static('client/build'));
-	app.get("*", (req, res, next) =>{
-		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-	});
-};
-
 // Error Handling TODO
 
+// Server Instance
+const server = http.createServer(app);
+
+// Creates socket via server instance
+const io = socketIO(server);
+
+io.on("connection", socket =>{
+	console.log('User connected');
+
+	socket.on('disconnect', () =>{
+		console.log('User disconnected');
+	});
+});
+
 // Initialize Server
-app.listen(PORT, (err) =>{
+server.listen(PORT, (err) =>{
 	console.log(`Server is live on port ${PORT}`);
 });

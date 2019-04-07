@@ -9,13 +9,13 @@ class Sidebar extends Component {
 		this.state = {isFollowing: false, tags: []};
 	}
 
-	componentDidMount(){
-		getTags().then((tags) =>{
-			this.setState({tags: [...tags]})
-		}).catch((err) =>{
-			this.setState({tags: err.msg});
-		});
-	}
+	// componentDidMount(){
+	// 	getTags().then((tags) =>{
+	// 		this.setState({tags: [...tags]})
+	// 	}).catch((err) =>{
+	// 		this.setState({tags: err.msg});
+	// 	});
+	// }
 	
 	_followUser = (followid) =>{
 		this.props.followUserAction(followid);
