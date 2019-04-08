@@ -54,7 +54,10 @@ app.use('/api/posts', require('./app/Routes/post'));
 app.use('/api/categories', require('./app/Routes/category'));
 app.use('/api/', require('./app/Routes/comment'));
 
-// Error Handling TODO
+
+/*************************************** */
+// Socket logic starts here	
+/*************************************** */
 
 // Server Instance
 const server = http.createServer(app);
@@ -62,8 +65,18 @@ const server = http.createServer(app);
 // Creates socket via server instance
 const io = socketIO(server);
 
-io.on("connection", socket =>{
-	console.log('User connected');
+// enables CORs and ensures frontend can connect to backend on a different server
+io.set("origins", "*:*"); 
+
+io.on("connection", (socket) =>{
+	console.log('User connected', socket.id);
+
+	socket.on('notifyCommentAdded', (post) => {
+		console.log("post added=====>", post)
+		io.emit("commentAdded", post)
+			
+			//this.props.commentAddedAction(post)
+	});
 
 	socket.on('disconnect', () =>{
 		console.log('User disconnected');

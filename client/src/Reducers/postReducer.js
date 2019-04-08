@@ -1,4 +1,4 @@
-import { GET_POSTS, LOADING, CREATE_NEW_POST, GET_CURRENT_POST, CLEAR_CURRENT_POST } from "../Actions/types";
+import { GET_POSTS, LOADING, CREATE_NEW_POST, GET_CURRENT_POST, CLEAR_CURRENT_POST, UPDATE_CURRENT_POST } from "../Actions/types";
 
 const initialState = {
 	show: {},
@@ -31,6 +31,16 @@ export default function(state = initialState, action){
 				loading: false,
 				show: {...action.payload}
 			}
+		
+		case UPDATE_CURRENT_POST:
+			if(state.show && state.show._id === action.payload._id){
+				return {
+					...state,
+					show: {...action.payload}
+				}
+			}
+			return state;
+
 		case CLEAR_CURRENT_POST:
 			return{
 				...state,

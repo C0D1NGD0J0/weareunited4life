@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import CommentListItem from "./commentsList";
 import { Link } from "react-router-dom";
-import { deleteCommentsAction, addCommentAction } from "../../../Actions/postAction";
+import { deleteCommentsAction, addCommentAction, commentAddedAction } from "../../../Actions/postAction";
 import TextAreaField from "../../../helpers/FormElements/TextAreaField";
+import socketIOClient from "socket.io-client";
 
 class CommentPanel extends Component {
 	constructor(props){
@@ -11,8 +12,16 @@ class CommentPanel extends Component {
 		this.state = {
 			comment: ""
 		};
+
+		this.socket = socketIOClient('http://localhost:5000');
 	}
 
+	componentDidMount(){
+		this.socket.on('commentAdded', (post) => {
+			this.props.commentAddedAction(post)
+		});
+	};
+	
 	onFormInputChange = (e) =>{
 		this.setState({ [e.target.name]: e.target.value });
 	}
@@ -23,7 +32,7 @@ class CommentPanel extends Component {
 		const comment = {
 			comment: this.state.comment
 		};
-		
+
 		this.props.addCommentAction(postid, comment);
 		this.setState({comment: ""});
 	}
@@ -79,7 +88,8 @@ const mapStateToProps = (state) =>({
 
 const mapDispatchToProps = {
 	addCommentAction, 
-	deleteCommentsAction
+	deleteCommentsAction,
+	commentAddedAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentPanel);
