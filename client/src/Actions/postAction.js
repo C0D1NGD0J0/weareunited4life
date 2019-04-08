@@ -105,7 +105,7 @@ export const addCommentAction = (postid, commentData) => (dispatch) =>{
 	});
 };
 
-export const commentAddedAction = (post) => (dispatch) => {
+export const updatePostCommentAction = (post) => (dispatch) => {
 	return dispatch({
 		type: UPDATE_CURRENT_POST,
 		payload: post

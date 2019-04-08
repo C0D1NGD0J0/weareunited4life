@@ -69,13 +69,10 @@ const io = socketIO(server);
 io.set("origins", "*:*"); 
 
 io.on("connection", (socket) =>{
-	console.log('User connected', socket.id);
+	console.log('User connected to socket');
 
 	socket.on('notifyCommentAdded', (post) => {
-		console.log("post added=====>", post)
 		io.emit("commentAdded", post)
-			
-			//this.props.commentAddedAction(post)
 	});
 
 	socket.on('disconnect', () =>{

@@ -3,8 +3,7 @@ const Post = require('../Models/Post');
 const Comment = require('../Models/Comment');
 const validate = require("../Util/validations");
 const socketIOClient = require("socket.io-client");
-
-
+const socket = socketIOClient("http://localhost:5000")
 
 const commentCntrl = {
 	create: async (req, res, next) =>{
@@ -30,7 +29,6 @@ const commentCntrl = {
 			const savedComment = await comment.save();
 			post.comments.push(savedComment);
 			const savedPost = await post.save();
-			const socket = socketIOClient("http://localhost:5000")
 			socket.emit("notifyCommentAdded",savedPost)
 			return res.json(savedPost);
 		} catch(err){
@@ -60,7 +58,6 @@ const commentCntrl = {
 						let filteredComments = post.comments.filter(item => item._id.toString() !== commentId.toString());
 						post.comments = filteredComments;
 						return post.save().then(post =>{
-							const socket = socketIOClient("http://localhost:5000")
 							socket.emit("notifyCommentAdded", post);
 							return res.json(post);
 						});
