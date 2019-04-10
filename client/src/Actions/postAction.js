@@ -10,6 +10,7 @@ export const getAllPostsAction = () => (dispatch) =>{
 			payload: res.data
 		});
 	}).catch((err) =>{
+		console.log(err)
 		return dispatch({
 			type: GET_ERRORS,
 			payload: err.response.data
