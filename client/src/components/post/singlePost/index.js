@@ -27,8 +27,14 @@ class Post extends Component {
 	}
 
 	componentWillUnmount(){
+		const { errors } = this.state;
+		const errorsPresent = Object.keys(errors).length > 0;
+
+		if(errorsPresent){
+			this.props.clearStateErrors();
+		};
+		
 		this.props.clearCurrentPost();
-		this.props.clearStateErrors();
 	}
 
 	handleLikePost = (e, postid) =>{

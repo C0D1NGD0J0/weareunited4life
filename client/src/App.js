@@ -13,6 +13,7 @@ import Category from "./components/category/";
 import AllPosts from "./components/post/allPosts";
 import Post from "./components/post/singlePost/index";
 import PostsTags from "./components/tags/index";
+import Messages from "./components/messages/index";
 import NewPost from "./components/post/newPost";
 import Dashboard from "./components/dashboard/";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -36,8 +37,9 @@ class App extends Component {
                   <Route exact path="/posts/:postId" component={Post} />
                   <PrivateRoute exact path="/posts/new" component={NewPost} />
                   <PrivateRoute exact path="/posts/:postId/edit" component={NewPost} />
-                  <PrivateRoute exact path="/admin/category" component={Category} />
+                  <PrivateRoute exact path="/category" component={Category} />
                   <PrivateRoute exact path="/:username/profile" component={UserProfile} />
+                  <PrivateRoute exact path="/messages" component={Messages} />
                   <Route exact path="/reset/:token" component={ResetPassword} />
                   <Route exact path="/forgot_password" component={ForgotPassword} />
                 </ErrorBoundary>

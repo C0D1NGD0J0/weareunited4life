@@ -41,7 +41,7 @@ class Category extends Component {
 					<div className="container">
 						<div className="row">
 							<div className="col-sm-2">
-								<Sidebar user={user}>
+								<Sidebar user={user} auth={this.props.auth}>
 									<SidebarUser />
 								</Sidebar>
 							</div>
