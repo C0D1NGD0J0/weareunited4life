@@ -40,6 +40,7 @@ passportConfig(passport);
 
 // Database Connection
 require('./app/Database');
+require('./app/Database/seed');
 
 // Models
 require('./app/Models/User');

@@ -69,7 +69,9 @@ class Post extends Component {
 									<div className="panel panel-default">
 										<div className="panel-body">
 											<div className="post-content__description">
-												<p>{post.body}</p><hr/>
+												<p>{post.body}</p>
+												{post.source ? <a href={post.source} target="_blank">source</a> : null}
+												<hr/>
 												<PostMeta post={post} likePost={this.handleLikePost} unlikePost={this.handleUnLikePost} currentuser={auth} />
 											</div>
 										</div>	

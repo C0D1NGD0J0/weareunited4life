@@ -17,13 +17,13 @@ const PostSchema = new Schema({
 		type: String,
 		required: [true, "Post body is required"],
 		minlength: 2,
-		maxlength: 800
+		maxlength: 2000
 	},
 	like: {
 		count: {type: Number, default: 0},
 		users: [{type: Schema.Types.ObjectId, ref: 'User'}]
 	},
-	tags: [{type: String, required: true}],
+	tags: [{type: String}],
 	photos: [{	
 		location: {type: String, default: "http://lorempixel.com/450/450/?random=456"},
 		filename: String,
@@ -38,6 +38,7 @@ const PostSchema = new Schema({
 		awayTeam: String,
 		competition: String
 	},
+	source: {type: String, default: ''},
 	category: {type: Schema.Types.ObjectId, ref: "Category"},
 	type:{type: String, default: 'article', lowercase: true} 
 }, {timestamps: true});

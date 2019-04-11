@@ -369,11 +369,8 @@ button:focus {
   background-color: #06000A;
 }
 
-.post-title {
-  margin: 5rem auto 0;
-}
-
 .post-title h2 {
+  width: 100%;
   color: white;
   font-size: 6rem;
   text-transform: uppercase;

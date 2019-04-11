@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import Moment from 'react-moment';
 import { Link } from "react-router-dom";
 import Loader from "../../helpers/Loader";
 import PostMeta from "./singlePost/postMeta";

@@ -1,33 +1,55 @@
 const Category = require("../Models/Category");
 const Post = require("../Models/Post");
+const User = require("../Models/User");
 const categoryArr = ["News", "Transfer", "Rumors", "General"];
-const faker = require("faker");
+const isProduction = (process.env.NODE_ENV === "production");
+const articlesData = require("./seed.json");
 
-// categoryArr.forEach((category) =>{
-// 	Category.create({name: category});
-// 	console.log(`${category} created`);
-// });
+if(isProduction){
+	categoryArr.forEach((category) =>{
+		Category.create({name: category});
+	});
 
+	const seedData = Object.values(articlesData)[0];
 
-// const totalPosts = 15;
-// const categories = ["5c8d51a8a1859f2aea771eda", "5c8d51a8a1859f2aea771edb", "5c8d51a8a1859f2aea771edc", "5c8d51a8a1859f2aea771edd"];
+	// Category.find({}, {'_id': 1}).then((categories) =>{
+	// 	User.find({}, {'_id': 1}).limit(3).then((users) =>{
+	// 		seedData.slice(0,100).map((obj) =>{
+	// 			if(obj['language'] === 'english'){
+	// 				Post.create({
+	// 					body: truncateText(obj.text),
+	// 					title: truncateText(obj.title, 90),
+	// 					author: users[Math.floor(Math.random() * Math.floor(users.length))],
+	// 					allowComments: false,
+	// 					isMatch: false,
+	// 					photos: {
+	// 						location: obj["thread"].main_image,
+	// 						filename: "placeholder_image",
+	// 						size: 0
+	// 					},
+	// 					source: obj.url,
+	// 					postType: "article",
+	// 					category: categories[Math.floor(Math.random() * Math.floor(categories.length))]
+	// 				});
+	// 			}
+	// 		});
+	// 	});
+	// });
+	
+	const truncateText = (str, length = 1000) =>{
+		const defaultLength = length;
+		const trailingChar = "....";
+
+		if(str.length > defaultLength){
+			return str.substring(0, defaultLength) + trailingChar;
+		};
+
+		return str;
+	};
+};
 
 // Post.deleteMany({}).exec();
+// Category.deleteMany({}).exec();
 
-// for(let i =0; i < totalPosts; i++){
-// 	Post.create({
-// 		body: faker.lorem.paragraphs(),
-// 		title: `Post title--${i}`,
-// 		author: "5c8400707d15e26411713397",
-// 		allowComments: false,
-// 		isMatch: false,
-// 		photos: {
-// 			location: "http://lorempixel.com/450/450/?random=456",
-// 			filename: ""
-// 		},
-// 		postType: "article",
-// 		category: categories[Math.floor(Math.random() * Math.floor(categories.length))]
-// 	});
-// };
-
-// console.log("15 posts created");
+// Post.count({}, (err, count) => console.log('Post count is: ', count));
+// Category.count({}, (err, count) => console.log('Category count is: ', count));
