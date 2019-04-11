@@ -16,8 +16,8 @@ class Dashboard extends Component {
 	}
 	render() {
 		const { all: posts, loading } = this.props.posts;
-		const postz = (posts && posts.length > 0) && posts.splice(0,5);
-		console.log(postz);
+		// const postz = (posts && posts.length > 0) && posts.splice(0,5);
+		
 		return (
 			<main id="content_wrapper" className="dashboard">
 		  	<div className="jumbotron bg-color_black bg-img_dashboard">
@@ -41,7 +41,7 @@ class Dashboard extends Component {
 							<div className="posts-wrapper">
 									<Fragment>
 										<ul className="posts-list">
-											<PostListItem allPosts={postz} loading={loading} />
+											<PostListItem allPosts={posts} loading={loading} />
 										</ul>
 										
 										<p className="text-center" style={{marginTop: "2rem"}}>

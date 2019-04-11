@@ -29,7 +29,7 @@ class App extends Component {
         	<div className="App">
             <Navbar />
               <Switch>
-                {/*<ErrorBoundary>*/}
+                <ErrorBoundary>
                   <Route exact path="/" component={Dashboard} />
                   <Route exact path="/(login|signup)/" component={Auth} />
                   <Route exact path="/posts" component={AllPosts} />
@@ -42,7 +42,7 @@ class App extends Component {
                   <PrivateRoute exact path="/messages" component={Messages} />
                   <Route exact path="/reset/:token" component={ResetPassword} />
                   <Route exact path="/forgot_password" component={ForgotPassword} />
-                {/*</ErrorBoundary>*/}
+                </ErrorBoundary>
                 <Route component={ErrorPage} />
               </Switch>
             <Footer />
