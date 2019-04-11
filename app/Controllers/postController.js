@@ -14,7 +14,7 @@ const convertTagStringToArray = function(resource, str){
 const postCntrl = {
 	index: (req, res, next) =>{
 		const errors = {};
-		Post.find({}).populate('author').populate('category', "_id name").sort({createdAt: -1}).then((posts) =>{
+		Post.find({}).populate('author').populate("comments").populate('category', "_id name").sort({createdAt: -1}).then((posts) =>{
 			return res.status(200).json(posts);
 		}).catch((err) =>{
 			errors.msg = err.message;
