@@ -16,7 +16,7 @@ class Dashboard extends Component {
 	}
 	render() {
 		const { all: posts, loading } = this.props.posts;
-		// const postz = (posts && posts.length > 0) && posts.splice(0,5);
+		// const postz = (posts && posts.length > 0) ? posts.slice(0,5) : null;
 		
 		return (
 			<main id="content_wrapper" className="dashboard">
