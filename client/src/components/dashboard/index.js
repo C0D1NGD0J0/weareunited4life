@@ -17,7 +17,7 @@ class Dashboard extends Component {
 	render() {
 		const { all: posts, loading } = this.props.posts;
 		const postz = (posts && posts.length > 0) && posts.splice(0,5);
-
+		console.log(postz);
 		return (
 			<main id="content_wrapper" className="dashboard">
 		  	<div className="jumbotron bg-color_black bg-img_dashboard">
