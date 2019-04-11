@@ -12,7 +12,7 @@ export const getAllPostsAction = () => (dispatch) =>{
 	}).catch((err) =>{
 		return dispatch({
 			type: GET_ERRORS,
-			payload: err.response.data || err.response
+			payload: err.response
 		});
 	});
 };
