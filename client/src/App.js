@@ -28,23 +28,23 @@ class App extends Component {
       	<Router>
         	<div className="App">
             <Navbar />
-              <Switch>
-                <ErrorBoundary>
+              <ErrorBoundary>
+                <Switch>
                   <Route exact path="/" component={Dashboard} />
                   <Route exact path="/(login|signup)/" component={Auth} />
                   <Route exact path="/posts" component={AllPosts} />
-                  <Route exact path="/posts/tags/:tag" component={PostsTags} />
-                  <Route exact path="/posts/:postId" component={Post} />
+                  <Route path="/posts/tags/:tag" component={PostsTags} />
+                  <Route path="/posts/:postId" component={Post} />
                   <PrivateRoute exact path="/posts/new" component={NewPost} />
                   <PrivateRoute exact path="/posts/:postId/edit" component={NewPost} />
                   <PrivateRoute exact path="/category" component={Category} />
-                  <PrivateRoute exact path="/:username/profile" component={UserProfile} />
+                  <PrivateRoute path="/:username/profile" component={UserProfile} />
                   <PrivateRoute exact path="/messages" component={Messages} />
                   <Route exact path="/reset/:token" component={ResetPassword} />
                   <Route exact path="/forgot_password" component={ForgotPassword} />
-                </ErrorBoundary>
-                <Route component={ErrorPage} />
-              </Switch>
+                  <Route component={ErrorPage} />
+                </Switch>
+              </ErrorBoundary>
             <Footer />
         	</div>
         </Router>

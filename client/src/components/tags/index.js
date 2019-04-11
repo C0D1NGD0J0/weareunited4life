@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from "react-redux";
+// import { connect } from "react-redux";
 import Header from "../layouts/pageHeader";
-import Sidebar from "../layouts/Sidebar/";
-import SidebarTags from "../layouts/Sidebar/tagsSidebar";
-import Loader from "../../helpers/Loader";
+// import Sidebar from "../layouts/Sidebar/";
+// import SidebarTags from "../layouts/Sidebar/tagsSidebar";
+// import Loader from "../../helpers/Loader";
 import { Redirect } from "react-router";
 import { getTagPosts } from "../../Actions/postAction";
 import PostListItem from "../post/postListItem";

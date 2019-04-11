@@ -72,7 +72,10 @@ export const updatePostAction = (postid, postdata) => (dispatch) =>{
 			payload: res.data
 		});
 	}).catch((err) =>{
-		console.log("UPDATE_ERRORS: ", err);
+		return dispatch({
+			type: GET_ERRORS,
+			payload: err.response.data
+		});
 	});
 };
 

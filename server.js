@@ -40,7 +40,6 @@ passportConfig(passport);
 
 // Database Connection
 require('./app/Database');
-require('./app/Database/seed');
 
 // Models
 require('./app/Models/User');
@@ -52,8 +51,8 @@ require('./app/Models/Comment');
 app.use('/api/auth', require('./app/Routes/auth'));
 app.use('/api/users', require('./app/Routes/user'));
 app.use('/api/posts', require('./app/Routes/post'));
-app.use('/api/categories', require('./app/Routes/category'));
 app.use('/api/', require('./app/Routes/comment'));
+app.use('/api/categories', require('./app/Routes/category'));
 
 
 /*************************************** */

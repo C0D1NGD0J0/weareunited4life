@@ -2,6 +2,7 @@ import React, {Fragment} from 'react';
 
 //use react hook to keep track of if loggedin user is following post author
 const _isFollowing = (user, followId) =>{
+	console.log("=========user==>", user, followId)
 	return user.following.includes(followId);
 };
 

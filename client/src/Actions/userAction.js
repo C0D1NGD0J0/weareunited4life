@@ -1,7 +1,7 @@
 import axios from "axios";
 import { setAuthenticatedUser } from "./authAction";
 import { setLoadingState, clearCurrentUser } from "./utilAction";
-import { GET_CURRENT_USER, GET_ERRORS, GET_USER_POSTS, UPDATE_CURRENT_USER } from "./types";
+import { GET_CURRENT_USER, GET_ERRORS, GET_USER_POSTS, UPDATE_CURRENT_USER, UPDATE_AUTH_USER } from "./types";
 
 export const getCurrentUserAction = () => (dispatch)=>{
 	dispatch(setLoadingState());
@@ -46,6 +46,11 @@ export const deleteUserAccountAction = (userid) => (dispatch) =>{
 
 export const followUserAction = (followid) => (dispatch) =>{
 	axios.put(`/api/users/${followid}/follow`).then((res) =>{
+		dispatch({
+			type: UPDATE_AUTH_USER,
+			payload: res.data
+		})
+
 		return dispatch({
 			type: UPDATE_CURRENT_USER,
 			payload: res.data
@@ -60,6 +65,11 @@ export const followUserAction = (followid) => (dispatch) =>{
 
 export const unFollowUserAction = (followid) => (dispatch) =>{
 	axios.put(`/api/users/${followid}/unfollow`).then((res) =>{
+		dispatch({
+			type: UPDATE_AUTH_USER,
+			payload: res.data
+		})
+		
 		return dispatch({
 			type: UPDATE_CURRENT_USER,
 			payload: res.data
