@@ -31,7 +31,7 @@ if(process.env.NODE_ENV === 'production'){
 	// Serve static files from the React app
 	app.use(express.static(path.join(__dirname, 'client/build')));
 	app.get("*", (req, res, next) =>{
-		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  	res.sendFile(path.join(__dirname+'/client/build/index.html'));
 	});
 };
 
