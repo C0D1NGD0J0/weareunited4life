@@ -41,7 +41,7 @@ class Dashboard extends Component {
 							<div className="posts-wrapper">
 									<Fragment>
 										<ul className="posts-list">
-											<PostListItem allPosts={[]} loading={loading} />
+											<PostListItem allPosts={postsz} loading={loading} />
 										</ul>
 										
 										<p className="text-center" style={{marginTop: "2rem"}}>
