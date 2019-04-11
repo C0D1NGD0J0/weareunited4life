@@ -16,7 +16,7 @@ class Dashboard extends Component {
 	}
 	render() {
 		const { all: posts, loading } = this.props.posts;
-		posts = (posts && posts.length > 0) && posts.splice(0,5);
+		const postz = (posts && posts.length > 0) && posts.splice(0,5);
 
 		return (
 			<main id="content_wrapper" className="dashboard">
@@ -41,7 +41,7 @@ class Dashboard extends Component {
 							<div className="posts-wrapper">
 									<Fragment>
 										<ul className="posts-list">
-											<PostListItem allPosts={posts} loading={loading} />
+											<PostListItem allPosts={postz} loading={loading} />
 										</ul>
 										
 										<p className="text-center" style={{marginTop: "2rem"}}>
