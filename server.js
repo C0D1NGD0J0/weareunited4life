@@ -28,8 +28,8 @@ app.use(passport.initialize());
 
 // Serve static assets if in production env
 if(process.env.NODE_ENV === 'production'){
-	// set static folder
-	app.use(express.static('client/build'));
+	// Serve static files from the React app
+	app.use(express.static(path.join(__dirname, 'client/build')));
 	app.get("*", (req, res, next) =>{
 		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
 	});
