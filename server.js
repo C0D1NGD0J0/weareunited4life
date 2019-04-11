@@ -16,7 +16,7 @@ const corsOptions = {
 
 // Middleware
 if (process.env.NODE_ENV !== 'production') {
-  dotenv.config();
+  dotenv.config()
 };
 
 const passportConfig = require("./app/Config/passportConfig");
