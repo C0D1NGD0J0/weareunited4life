@@ -36,11 +36,6 @@ if(process.env.NODE_ENV === 'production'){
 	});
 };
 
-//build mode
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/public/index.html'));
-})
-
 // Passport JWT Config
 passportConfig(passport);
 
@@ -59,7 +54,6 @@ app.use('/api/users', require('./app/Routes/user'));
 app.use('/api/posts', require('./app/Routes/post'));
 app.use('/api/', require('./app/Routes/comment'));
 app.use('/api/categories', require('./app/Routes/category'));
-
 
 /*************************************** */
 // Socket logic starts here	
