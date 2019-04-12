@@ -82,5 +82,5 @@ io.on("connection", (socket) =>{
 
 // Initialize Server
 server.listen(port, (err) =>{
-	console.log(`Server is live on port ${PORT}`);
+	console.log(`Server is live on port ${port}`);
 });
