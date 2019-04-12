@@ -31,7 +31,7 @@ class App extends Component {
               <ErrorBoundary>
                 <Switch>
                   <Route exact path="/" component={Dashboard} />
-                  <Route exact path="/(login|signup)/" component={Auth} />
+                  <Route exact path="/(login|signup)" component={Auth} />
                   <Route exact path="/posts" component={AllPosts} />
                   <Route path="/posts/tags/:tag" component={PostsTags} />
                   <Route path="/posts/:postId" component={Post} />
