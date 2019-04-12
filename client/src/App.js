@@ -33,9 +33,9 @@ class App extends Component {
                   <Route exact path="/" component={Dashboard} />
                   <Route exact path="/(login|signup)" component={Auth} />
                   <Route exact path="/posts" component={AllPosts} />
-                  <Route path="/posts/tags/:tag" component={PostsTags} />
-                  <Route path="/posts/:postId" component={Post} />
-                  <PrivateRoute exact path="/posts/new" component={NewPost} />
+                  <PrivateRoute path="/posts/new" component={NewPost} />
+                  <Route exact path="/posts/:postId" component={Post} />
+                  <Route exact path="/posts/tags/:tag" component={PostsTags} />
                   <PrivateRoute exact path="/posts/:postId/edit" component={NewPost} />
                   <PrivateRoute exact path="/category" component={Category} />
                   <PrivateRoute path="/:username/profile" component={UserProfile} />
