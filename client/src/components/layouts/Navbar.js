@@ -26,7 +26,7 @@ class Navbar extends Component {
           	<li><a>{user.username}</a></li>
             <li><Link to={`/${user.username}/profile`}>Profile</Link></li>
             <li><Link to="/posts/new">Add New Post</Link></li>
-            <li><Link to="/admin/category">Add New Category</Link></li>
+            <li><Link to="/category">Add New Category</Link></li>
             <li><a href="#!" onClick={ this.onLogoutBtnClick }>Logout</a></li>
           </ul>
         </li>

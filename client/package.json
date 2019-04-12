@@ -2,14 +2,10 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": {
-    "/api":{
-      "target": "http://localhost:5000"
-    }
-  },
   "dependencies": {
     "axios": "0.18.0",
     "classnames": "2.2.6",
+    "http-proxy-middleware": "^0.19.1",
     "jwt-decode": "2.2.0",
     "moment": "^2.24.0",
     "prop-types": "15.7.2",
