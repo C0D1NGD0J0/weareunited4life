@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import Header from "../layouts/pageHeader";
 import { connect } from "react-redux";
-import axios from "axios";
 import { clearStateErrors } from "../../Actions/utilAction";
-import { createNewPostAction, getCurrentPost, updatePostAction, uploadPhotosAction } from "../../Actions/postAction";
+import { createNewPostAction, getCurrentPost, updatePostAction } from "../../Actions/postAction";
 import { getCategoriesAction } from "../../Actions/categoryAction";
 import TextAreaField from "../../helpers/FormElements/TextAreaField";
 import CheckBoxField from "../../helpers/FormElements/CheckBoxField";
