@@ -2,6 +2,8 @@ const User = require('../Models/User');
 const Post = require('../Models/Post');
 const validate = require("../Util/validations");
 const _ = require("lodash");
+const Filter = require("bad-words");
+const customFilter = new Filter({ placeholder: '!'});
 
 const convertTagStringToArray = function(resource, str){
 	// str = str.toLowerCase().replace(/,/g, "").split(" ");
@@ -14,8 +16,21 @@ const convertTagStringToArray = function(resource, str){
 const postCntrl = {
 	index: (req, res, next) =>{
 		const errors = {};
-		Post.find({}).populate('author').populate("comments").populate('category', "_id name").sort({createdAt: -1}).then((posts) =>{
-			return res.status(200).json(posts);
+		let { page, limit } = req.query;
+		page = Number(page) || 1;
+		limit = Number(limit) || 7;
+		// limit = limit > 10 ? 10 : limit;
+
+		Post.find({})
+			.skip((page - 1) * limit)
+			.limit(limit)
+			.populate('author')
+			.populate("comments")
+			.populate('category', "_id name")
+			.sort({createdAt: -1}).then((posts) =>{
+				Post.count().then((count) =>{
+					return res.status(200).json({posts, hasMorePosts: (count - (page + limit) > 0)});
+				})
 		}).catch((err) =>{
 			errors.msg = err.message;
 			return res.status(404).json(errors);
@@ -30,8 +45,8 @@ const postCntrl = {
 		};
 		
 		const post = new Post({
-			body: req.body.body,
-			title: req.body.title,
+			body: customFilter.clean(req.body.body.toString().trim()),
+			title: customFilter.clean(req.body.title.toString().trim()),
 			author: req.user.id,
 			allowComments: req.body.allowComments,
 			isMatch: req.body.isMatch,
@@ -90,8 +105,8 @@ const postCntrl = {
 			return res.status(400).json(errors);
 		};
 
-		if(req.body.title) updatedPost.title = req.body.title;
-		if(req.body.body) updatedPost.body = req.body.body;
+		if(req.body.title) updatedPost.title = customFilter.clean(req.body.title.toString().trim());
+		if(req.body.body) updatedPost.body = customFilter.clean(req.body.body.toString().trim());
 		
 		if(req.files && req.files.length > 0){
 			updatedPost.photos = [];

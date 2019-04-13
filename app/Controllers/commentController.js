@@ -2,6 +2,8 @@
 const Post = require('../Models/Post');
 const Comment = require('../Models/Comment');
 const validate = require("../Util/validations");
+const Filter = require("bad-words");
+const customFilter = new Filter({ placeholder: '!'});
 const socketIOClient = require("socket.io-client");
 const socket = socketIOClient("http://localhost:5000")
 
@@ -15,8 +17,8 @@ const commentCntrl = {
 		};
 		
 		const comment = new Comment();
-		comment.body = req.body.comment;
-		comment.author.id = req.user.id;
+		comment.body = customFilter.clean(req.body.comment.toString().trim());
+		comment.author.id = customFilter.clean(req.user.id.toString().trim());
 		comment.author.username = req.user.username;
 		comment.author.avatar = req.user.avatar;
 		comment.post = postId;
