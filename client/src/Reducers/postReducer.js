@@ -3,6 +3,7 @@ import { GET_POSTS, LOADING, CREATE_NEW_POST, GET_CURRENT_POST, CLEAR_CURRENT_PO
 const initialState = {
 	show: {},
 	all: [],
+	hasMorePosts: false,
 	loading: false
 };
 
@@ -16,7 +17,8 @@ export default function(state = initialState, action){
 		case GET_POSTS:
 			return{
 				...state,
-				all: action.payload.posts,
+				all: [...state.all, ...action.payload.posts],
+				hasMorePosts: action.payload.hasMorePosts,
 				loading: false
 			}
 		case CREATE_NEW_POST:

@@ -3,20 +3,29 @@ import { connect } from "react-redux";
 import { getAllPostsAction } from "../../Actions/postAction";
 import PostListItem from "../post/postListItem";
 import Loader from "../../helpers/Loader";
+import LoadMoreBtn from "../../helpers/Pagination/LoadMore";
 
 class Dashboard extends Component {
 	constructor(props){
 		super(props);
-		this.state = {posts: []}
+		this.state = {
+			page: 1,
+			hasMorePosts: false
+		}
 	}
 	
 	componentDidMount(){
 		this.props.getAllPostsAction();
-		this.setState({posts: [...this.props.posts.all]});
 	}
+
+	componentDidUpdate(prevProps, prevState){
+		// if(this.props.posts.hasMorePosts){
+		// 	this.setState({ hasMorePosts: !this.state.hasMorePosts })
+		// };
+	}
+
 	render() {
-		const { all: posts, loading } = this.props.posts;
-		// const postz = (posts && posts.length > 0) ? posts.slice(0,5) : null;
+		const { all: posts, loading, hasMorePosts } = this.props.posts;
 		
 		return (
 			<main id="content_wrapper" className="dashboard">
@@ -44,9 +53,7 @@ class Dashboard extends Component {
 											<PostListItem allPosts={posts} loading={loading} />
 										</ul>
 										
-										<p className="text-center" style={{marginTop: "2rem"}}>
-											<a href="#" className="btn btn-danger">Load More</a>
-										</p>
+										<LoadMoreBtn page={this.state.page} hasmoreposts={hasMorePosts} />
 									</Fragment>
 							</div>
 						</div>

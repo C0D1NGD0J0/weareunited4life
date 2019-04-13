@@ -2,15 +2,14 @@ import { GET_ERRORS, GET_POSTS, DELETE_USER_POST, CREATE_NEW_POST, GET_CURRENT_P
 import { setLoadingState } from "./utilAction";
 import axios from "axios";
 
-export const getAllPostsAction = () => (dispatch) =>{
+export const getAllPostsAction = (page) => (dispatch) =>{
 	dispatch(setLoadingState());
-	axios.get("/api/posts/").then((res) =>{
+	axios.get(`/api/posts/?page=${page}`).then((res) =>{
 		return dispatch({
 			type: GET_POSTS,
 			payload: res.data
 		});
 	}).catch((err) =>{
-		console.log("=======errror", err)
 		return dispatch({
 			type: GET_ERRORS,
 			payload: err.response.data

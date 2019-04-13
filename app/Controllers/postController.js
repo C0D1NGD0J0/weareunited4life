@@ -18,8 +18,7 @@ const postCntrl = {
 		const errors = {};
 		let { page, limit } = req.query;
 		page = Number(page) || 1;
-		limit = Number(limit) || 7;
-		// limit = limit > 10 ? 10 : limit;
+		limit = Number(limit) || 5;
 
 		Post.find({})
 			.skip((page - 1) * limit)
