@@ -104,6 +104,11 @@ const authCntrl = {
 				errors.email = "User not found!";
 				return res.status(404).json(errors);
 			};
+			
+			if(!user.active){
+				errors.userStatus = "Please click on the confirmation link sent to your email...";
+				return res.status(401).json(errors);
+			};
 
 			bcrypt.compare(password, user.password).then((isMatch) => {
 				if(isMatch){
@@ -116,7 +121,7 @@ const authCntrl = {
 					errors.password = "Password incorrect!";
 					return res.status(400).json(errors);
 				}
-			})
+			});
 		}).catch((err) => res.status(400).json(err));
 	},
 

@@ -32,16 +32,19 @@ class App extends Component {
                 <Switch>
                   <Route exact path="/" component={Dashboard} />
                   <Route exact path="/(login|signup)" component={Auth} />
+
                   <Route exact path="/posts" component={AllPosts} />
                   <PrivateRoute path="/posts/new" component={NewPost} />
-                  <Route exact path="/posts/:postId" component={Post} />
-                  <Route exact path="/posts/tags/:tag" component={PostsTags} />
-                  <PrivateRoute exact path="/posts/:postId/edit" component={NewPost} />
+                  <Route path="/posts/:postId" component={Post} />
+                  <PrivateRoute path="/posts/:postId/edit" component={NewPost} />
+                  <Route path="/posts/tags/:tag" component={PostsTags} />
+
                   <PrivateRoute exact path="/category" component={Category} />
                   <PrivateRoute path="/:username/profile" component={UserProfile} />
-                  <PrivateRoute exact path="/messages" component={Messages} />
                   <Route exact path="/reset/:token" component={ResetPassword} />
                   <Route exact path="/forgot_password" component={ForgotPassword} />
+                  <PrivateRoute exact path="/messages" component={Messages} />
+
                   <Route component={ErrorPage} />
                 </Switch>
               </ErrorBoundary>
