@@ -94,47 +94,49 @@ const postCntrl = {
 	},
 
 	update: async (req, res, next) =>{
-		const { postId } = req.params;
-		const updatedPost = {
-			matchInfo: {}
-		};
-		const { errors, isValid } = validate.newpost(req.body);
-		
-		if(!isValid){
-			return res.status(400).json(errors);
-		};
-
-		if(req.body.title) updatedPost.title = customFilter.clean(req.body.title.toString().trim());
-		if(req.body.body) updatedPost.body = customFilter.clean(req.body.body.toString().trim());
-		
-		if(req.files && req.files.length > 0){
-			updatedPost.photos = [];
-			const photoArr = _.uniqWith(req.files, _.isEqual);
-			photoArr.forEach((img) =>{
-				updatedPost.photos.push({location: img.location, filename: img.key, size: img.size});
-			});
-		};
-
-		if(req.body.tags) {
-			updatedPost.tags = [];
-			convertTagStringToArray(updatedPost, req.body.tags)
-		};
-
-		if(req.body.isMatch) updatedPost.isMatch = req.body.isMatch;
-		if(req.body.allowComments) updatedPost.allowComments = req.body.allowComments;
-		if(req.body.category) updatedPost.category = req.body.category;
-		if(req.body.postType) updatedPost.type = req.body.postType;
-		if(req.body.score) updatedPost.matchInfo.score = req.body.score;
-		if(req.body.homeTeam) updatedPost.matchInfo.homeTeam = req.body.homeTeam;
-		if(req.body.awayTeam) updatedPost.matchInfo.awayTeam = req.body.awayTeam;
-		if(req.body.competition) updatedPost.matchInfo.competition = req.body.competition;
-		
-		try {
+		try{
+			const { errors, isValid } = validate.newpost(req.body);
+			const { postId } = req.params;
 			const post = await Post.findById(postId).exec();
-			if(post.author._id.equals(req.user.id)){
-				Post.findOneAndUpdate({_id: postId}, {$set: updatedPost}, {new: true}).then((post) =>{
-					return res.json(post);
-				}).catch((err) => res.status(404).json(err));
+			const updatedPost = {
+				matchInfo: {},
+				photos: [...post.photos]
+			};
+
+			if(!isValid){
+				return res.status(400).json(errors);
+			};
+
+			if(req.body.title) updatedPost.title = customFilter.clean(req.body.title.toString().trim());
+			if(req.body.body) updatedPost.body = customFilter.clean(req.body.body.toString().trim());
+			
+			if(req.files && req.files.length > 0){
+				const photosArray = _.uniqWith(req.files, _.isEqual);
+				photosArray.forEach((img) =>{
+					updatedPost.photos.push({location: img.location, filename: img.key, size: img.size});
+				});
+			};
+
+			if(req.body.tags) {
+				updatedPost.tags = [];
+				convertTagStringToArray(updatedPost, req.body.tags)
+			};
+
+			if(req.body.isMatch) updatedPost.isMatch = req.body.isMatch;
+			if(req.body.allowComments) updatedPost.allowComments = req.body.allowComments;
+			if(req.body.category) updatedPost.category = req.body.category;
+			if(req.body.postType) updatedPost.type = req.body.postType;
+			if(req.body.score) updatedPost.matchInfo.score = req.body.score;
+			if(req.body.homeTeam) updatedPost.matchInfo.homeTeam = req.body.homeTeam;
+			if(req.body.awayTeam) updatedPost.matchInfo.awayTeam = req.body.awayTeam;
+			if(req.body.competition) updatedPost.matchInfo.competition = req.body.competition;
+		
+			if(!post.author._id.equals(req.user.id)){
+				console.log("PHOTOS: ", req.body.photos);
+				console.log('UPDATED_POST: ', updatedPost);
+				// Post.findOneAndUpdate({_id: postId}, {$set: updatedPost}, {new: true}).then((post) =>{
+				// 	return res.json(post);
+				// }).catch((err) => res.status(404).json(err));
 			} else {
 				errors.msg = "You are not permitted to perform this action.";
 				return res.status(401).json(errors);
@@ -201,11 +203,24 @@ const postCntrl = {
 	postsTag: async (req, res, next) =>{
 		const { tag } = req.params;
 		
-		Post.find({tags: tag}).then((posts) =>{
+		Post.find({tags: { "$all": [tag]}}).then((posts) =>{
+			console.log('POST_TAGS: ', posts);
 			return res.json(posts);
 		}).catch((err) =>{
 			return res.status(400).json(err);
 		});
+	},
+
+	deleteImages: (req, res, next) =>{
+		const { filename } = req.query;
+		const { postId } = req.params;
+		
+		Post.findOneAndUpdate({_id: postId}, { $pull: { photos: { filename: filename }}}, {new: true})
+			.then((post) =>{
+				return res.json(post);
+			}).catch((err) =>{
+				return res.status(404).json(err);
+			});
 	}
 };
 

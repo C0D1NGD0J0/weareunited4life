@@ -1,9 +1,10 @@
 import React from 'react';
 import Moment from 'react-moment';
 import { Link } from "react-router-dom";
+import Pagination from "../../helpers/Pagination/";
 
 const PostsPanel = (props) => {
-	const { posts, deletePost } = props;
+	const { posts, deletePost, pagination } = props;
 
 	const postTableRow = posts.map((post, i) =>{
 		return(
@@ -44,28 +45,8 @@ const PostsPanel = (props) => {
 				    </tbody>
 				  </table>
   			</div>
-
-  			<div className="panel-footer text-center">
-  				<nav aria-label="Page navigation">
-					  <ul className="pagination pagination-md">
-					    <li>
-					      <a href="#" aria-label="Previous">
-					        <span aria-hidden="true">&laquo;</span>
-					      </a>
-					    </li>
-					    <li><a href="#">1</a></li>
-					    <li><a href="#">2</a></li>
-					    <li><a href="#">3</a></li>
-					    <li><a href="#">4</a></li>
-					    <li><a href="#">5</a></li>
-					    <li>
-					      <a href="#" aria-label="Next">
-					        <span aria-hidden="true">&raquo;</span>
-					      </a>
-					    </li>
-					  </ul>
-					</nav>
-  			</div>
+				
+  			{pagination && <Pagination pagination={pagination}/>}
   		</div>
 		</div>  
   );

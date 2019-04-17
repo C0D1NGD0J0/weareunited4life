@@ -3,15 +3,16 @@ import Lightbox from "react-image-lightbox";
 import 'react-image-lightbox/style.css';
 
 const PostPhotos = (props) => {
-	const { postimages }  = props;
+	const { postimages, deletePhoto }  = props;
 	const [ isOpen, toggleOpen] = useState(false);
 	const [ imgIndex, updateIndex] = useState(0);
-
+	
 	const photoCard = (postimages ? postimages : []).map((img) =>{
 		return (
 			<div className="col-sm-6" key={img._id}>
 				<div className="post-imgs__img">
 					<img src={img.location} className="img-responsive" alt={img.filename ? img.filename : "post"} onClick={() => toggleOpen(!isOpen)} />
+					<span className="fa fa-trash" onClick={() => deletePhoto(img.filename)}></span>
 				</div>
 			</div>
 		);

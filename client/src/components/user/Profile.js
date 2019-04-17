@@ -48,7 +48,7 @@ class Profile extends Component {
 	}
 
 	render() {
-		const { info: user, loading, posts, comments: userComments } = this.props.currentuser;
+		const { info: user, loading, posts, comments: userComments, pagination } = this.props.currentuser;
 		const { errors } = this.props;
 
 		return (
@@ -75,7 +75,7 @@ class Profile extends Component {
 												handleAcctDelete={this.handleAccountDelete}
 												updateUser={this.handleUpdateUserForm}
 											/>
-				        			<UserPostsPanel posts={posts} deletePost={this.handleDeletePost}/>
+				        			<UserPostsPanel posts={posts} deletePost={this.handleDeletePost} pagination={pagination}/>
 				        			<CommentsPanel comments={userComments}/>
 			        			</Fragment>
 			        		}

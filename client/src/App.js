@@ -35,9 +35,9 @@ class App extends Component {
 
                   <Route exact path="/posts" component={AllPosts} />
                   <PrivateRoute path="/posts/new" component={NewPost} />
-                  <Route path="/posts/:postId" component={Post} />
                   <PrivateRoute path="/posts/:postId/edit" component={NewPost} />
-                  <Route path="/posts/tags/:tag" component={PostsTags} />
+                  <Route exact path="/posts/tags/:tag" component={PostsTags} />
+                  <Route path="/posts/:postId" component={Post} />
 
                   <PrivateRoute exact path="/category" component={Category} />
                   <PrivateRoute path="/:username/profile" component={UserProfile} />

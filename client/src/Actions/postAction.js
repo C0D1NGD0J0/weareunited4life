@@ -66,6 +66,7 @@ export const unlikePostAction = (postid) => (dispatch) =>{
 
 export const updatePostAction = (postid, postdata) => (dispatch) =>{
 	dispatch(setLoadingState());
+	console.log(postdata);
 	axios.put(`/api/posts/${postid}`, postdata).then((res) =>{
 		return dispatch({
 			type: GET_CURRENT_POST,
@@ -150,4 +151,19 @@ export const getTagPosts = async (tag) =>{
 	} catch(e) {
 		return e.msg;
 	};
+};
+
+export const deletePostPhotoAction = (filename, postid) => (dispatch) =>{
+	axios.put(`/api/posts/${postid}/photos/?filename=${filename}`).then((res) =>{
+		console.log("RESZ: ", res);
+		return dispatch({
+			type: GET_CURRENT_POST,
+			payload: res.data
+		});
+	}).catch((err) =>{
+		return dispatch({
+			type: GET_ERRORS,
+			payload: err.response.data
+		});
+	});
 };

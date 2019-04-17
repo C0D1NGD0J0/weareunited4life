@@ -18,6 +18,7 @@ class Tags extends Component {
 
 	componentDidMount(){
 		const { match: { params: { tag } } } = this.props;
+		
 		if(!tag){
 			return <Redirect to="/posts" />
 		};
@@ -38,7 +39,7 @@ class Tags extends Component {
 
 	render() {
 		const { loading, tagPosts, pageTitle } = this.state;
-
+		console.log("TAGSPOST: ", tagPosts);
 		return (
 			<main id="content_wrapper" className="bg-img_posts">
 				<Header title={`Posts Tags (${pageTitle})`} />

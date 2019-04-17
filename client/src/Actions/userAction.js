@@ -6,6 +6,7 @@ import { GET_CURRENT_USER, GET_ERRORS, GET_USER_POSTS, UPDATE_CURRENT_USER, UPDA
 export const getCurrentUserAction = () => (dispatch)=>{
 	dispatch(setLoadingState());
 	axios.get("/api/users/currentuser").then((res) =>{
+		console.log(res.data);
 		dispatch({
 			type: GET_CURRENT_USER,
 			payload: res.data

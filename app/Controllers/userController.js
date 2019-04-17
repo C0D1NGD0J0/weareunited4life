@@ -6,6 +6,16 @@ const keys = require("../Config/keys");
 const validate = require("../Util/validations");
 const ObjectID = require('mongodb').ObjectID;
 
+function paginateResult(count, offset, limit) {
+  const paginatedResult = {};
+  paginatedResult.currentPage = Math.floor(offset / limit) + 1;
+  paginatedResult.pageCount = Math.ceil(count / limit);
+  paginatedResult.pageSize = Number(limit);
+  paginatedResult.totalCount = count;
+
+  return paginatedResult;
+};
+
 const userCntrl = {
 	index: (req, res, next) =>{
 		User.find({}).then((users) =>{
@@ -16,13 +26,21 @@ const userCntrl = {
 
 	currentuser: async (req, res, next) =>{
 		const errors = {};
-		
+		let { page, limit } = req.query;
+		page = Number(page) || 1;
+		limit = Number(limit) || 5;
+		const offset =  (page - 1)*limit;
+
+
 		try {
 			const user = await User.findById(req.user.id).populate('following', "username avatar _id");
-			const posts = await Post.find({author: req.user.id }).populate('category', "name");
+			const posts = await Post.find({author: req.user.id }).populate('category', "name").skip(offset).limit(limit);
+			const count = await Post.countDocuments().exec();
 			const comments = await Comment.find({"author.id": user._id}).select('post createdAt').populate('post', "title _id");
+
 			
-			return res.status(200).json({user: user.detailsToJSON(), posts, comments});
+			const pagination = paginateResult(count,offset, limit);
+			return res.status(200).json({user: user.detailsToJSON(), posts, comments, pagination});
 		} catch(err) {
 			errors.msg = err.msg;
 			return res.status(404).json(errors);

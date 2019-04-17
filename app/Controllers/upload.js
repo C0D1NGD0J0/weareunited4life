@@ -47,4 +47,25 @@ const uploadImg = function(req, res, next){
 	});
 };
 
-module.exports = uploadImg;
+const deleteImg = async function(req, res, next){
+	const { filename } = req.query;
+
+	const params = {
+		Bucket: process.env.AWS_BUCKET_NAME,
+		Key: filename
+	};
+
+	try {
+		await s3.headObject(params).promise();
+		try{
+			await s3.deleteObject(params).promise();
+			next();
+		} catch(err) {
+			return res.status(400).json(err);
+		}
+	} catch(err) {
+		return res.status(404).json(err);
+	}
+};
+
+module.exports = {uploadImg, deleteImg};

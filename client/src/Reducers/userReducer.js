@@ -4,7 +4,8 @@ const initialState = {
 	info: {},
 	posts: [],
 	comments: [],
-	loading: false
+	loading: false,
+	pagination: null
 };
 
 export default function(state = initialState, action){
@@ -20,7 +21,8 @@ export default function(state = initialState, action){
 				info: action.payload.user,
 				posts:[...action.payload.posts, ...state.posts],
 				comments: [...action.payload.comments, ...state.comments],
-				loading: false
+				loading: false,
+				pagination: action.payload.pagination
 			}
 		case CLEAR_CURRENT_USER:
 			return{

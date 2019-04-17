@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Header from "../layouts/pageHeader";
 import { connect } from "react-redux";
 import { clearStateErrors } from "../../Actions/utilAction";
-import { createNewPostAction, getCurrentPost, updatePostAction } from "../../Actions/postAction";
+import { createNewPostAction, getCurrentPost, updatePostAction, deletePostPhotoAction } from "../../Actions/postAction";
 import { getCategoriesAction } from "../../Actions/categoryAction";
 import TextAreaField from "../../helpers/FormElements/TextAreaField";
 import CheckBoxField from "../../helpers/FormElements/CheckBoxField";
@@ -41,7 +41,7 @@ class newPost extends Component {
 			this.props.getCurrentPost(postid);
 		};
 
-		this.props.getCategoriesAction();
+		return this.props.getCategoriesAction();
 	}
 	
 	componentDidUpdate(prevProps, prevState){		
@@ -112,7 +112,7 @@ class newPost extends Component {
 		};
 	}
 
-	_validateFileSize=(e)=>{
+	_validateFileSize = (e) =>{
   	const files = e.target.files;
   	const MAXSIZE = 1000000 * 5;
   	let total = 0;
@@ -129,6 +129,11 @@ class newPost extends Component {
   	}
 
   	return true;
+	}
+
+	_deletePostPhoto = (filename) =>{
+		const postid = this.props.match.params.postId;
+		return this.props.deletePostPhotoAction(filename, postid);
 	}
 
 	resetState = () =>{
@@ -148,7 +153,7 @@ class newPost extends Component {
 					<div className="container">
 						<div className="row">
 							<div className="col-sm-3">
-								<Sidebar category={category && category} post={post && post.photos}>
+								<Sidebar category={category && category} post={post && post.photos} deletePhoto={this._deletePostPhoto}>
 									<SidebarPostPhotos />
 									<SidebarCategories />
 								</Sidebar>
@@ -326,7 +331,8 @@ const mapDispatchToProps = {
 	getCurrentPost,
 	getCategoriesAction,
 	clearStateErrors,
-	updatePostAction
+	updatePostAction,
+	deletePostPhotoAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(newPost);

@@ -33,7 +33,7 @@ const PostMeta = ({ post, likePost, unlikePost, currentuser }) => {
 					<span className="badge">{post.like && post.like.count}</span>
 				</li>
 				
-				<li><Link to={`/posts/${post._id}/edit`}><i className="fa fa-pencil"></i></Link></li>
+				{isAuthenticated ? <li><Link to={`/posts/${post._id}/edit`}><i className="fa fa-pencil"></i></Link></li> : null}
 				<li><a href="#"><i className="fa fa-share-alt"></i> Share</a></li>
 			</ul>
 

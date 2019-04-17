@@ -2,10 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const PostsTags = ({ tags }) => {
+	console.log("TAGS: ", tags);
 	const tagsList = tags && tags.map((tag, i) =>{
 		return(
 			<li key={i}>
-				<Link to={`/posts/tags/${tag._id}`}>
+				<Link to={`/posts/tags/${tag._id}/oh`}>
 					{tag._id} <span className="badge">{tag.count}</span>
 				</Link>
 			</li>
