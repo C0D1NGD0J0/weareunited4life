@@ -18,12 +18,6 @@ class Dashboard extends Component {
 		this.props.getAllPostsAction();
 	}
 
-	componentDidUpdate(prevProps, prevState){
-		// if(this.props.posts.hasMorePosts){
-		// 	this.setState({ hasMorePosts: !this.state.hasMorePosts })
-		// };
-	}
-
 	render() {
 		const { all: posts, loading, hasMorePosts } = this.props.posts;
 		

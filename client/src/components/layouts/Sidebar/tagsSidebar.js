@@ -6,7 +6,7 @@ const PostsTags = ({ tags }) => {
 	const tagsList = tags && tags.map((tag, i) =>{
 		return(
 			<li key={i}>
-				<Link to={`/posts/tags/${tag._id}/oh`}>
+				<Link to={`/posts/tags/${tag._id}`}>
 					{tag._id} <span className="badge">{tag.count}</span>
 				</Link>
 			</li>

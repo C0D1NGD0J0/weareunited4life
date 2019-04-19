@@ -1,4 +1,4 @@
-import { GET_CURRENT_USER, LOADING, DELETE_USER_POST, CLEAR_CURRENT_USER, UPDATE_CURRENT_USER } from "../Actions/types";
+import { GET_CURRENT_USER, GET_USER_POSTS, LOADING, DELETE_USER_POST, CLEAR_CURRENT_USER, UPDATE_CURRENT_USER } from "../Actions/types";
 
 const initialState = {
 	info: {},
@@ -23,6 +23,13 @@ export default function(state = initialState, action){
 				comments: [...action.payload.comments, ...state.comments],
 				loading: false,
 				pagination: action.payload.pagination
+			}
+		case GET_USER_POSTS:
+			return{
+				...state,
+				loading: false,
+				pagination: action.payload.pagination,
+				posts:[...action.payload.posts]
 			}
 		case CLEAR_CURRENT_USER:
 			return{

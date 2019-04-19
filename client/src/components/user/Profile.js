@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { connect } from "react-redux";
 import _ from "lodash";
 import Loader from "../../helpers/Loader";
@@ -15,7 +15,7 @@ import { getCurrentUserAction, updateUserAction, deleteUserAccountAction } from 
 import { clearCurrentUser } from "../../Actions/utilAction";
 import { deleteUserPostAction } from "../../Actions/postAction";
 
-class Profile extends Component {
+class Profile extends PureComponent {
 	constructor(props){
 		super(props);
 	}

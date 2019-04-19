@@ -26,20 +26,24 @@ const userCntrl = {
 
 	currentuser: async (req, res, next) =>{
 		const errors = {};
-		let { page, limit } = req.query;
-		page = Number(page) || 1;
-		limit = Number(limit) || 5;
-		const offset =  (page - 1)*limit;
+		let { posts_page: page, limit } = req.query;
 
+		page = Number(page) || 1;
+		limit = Number(limit) || 10;
+		const offset = (page - 1) * limit;
 
 		try {
 			const user = await User.findById(req.user.id).populate('following', "username avatar _id");
 			const posts = await Post.find({author: req.user.id }).populate('category', "name").skip(offset).limit(limit);
-			const count = await Post.countDocuments().exec();
+			const count = await Post.find({author: req.user.id}).countDocuments().exec();
 			const comments = await Comment.find({"author.id": user._id}).select('post createdAt').populate('post', "title _id");
 
-			
 			const pagination = paginateResult(count,offset, limit);
+			
+			if(page >= 2){
+				return res.status(200).json({posts, pagination});
+			};
+
 			return res.status(200).json({user: user.detailsToJSON(), posts, comments, pagination});
 		} catch(err) {
 			errors.msg = err.msg;

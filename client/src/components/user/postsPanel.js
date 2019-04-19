@@ -29,7 +29,7 @@ const PostsPanel = (props) => {
 				</a>
 			</div>
 			
-			<div id="myCollapse2" className="collapse">
+			<div id="myCollapse2" className="collapse in">
   			<div className="panel-body">
   				<table className="table table-striped table-bordered">
 				    <thead>

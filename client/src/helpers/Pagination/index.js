@@ -1,26 +1,65 @@
-import React, { PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import { connect } from "react-redux";
+import { getCurrentUserPostsAction } from "../../Actions/userAction";
+import { Link } from "react-router-dom";
 
-const Pagination = ({ pagination }) => {
-  return (
-    <div className="panel-footer text-center">
-			<nav aria-label="Page navigation">
-			  <ul className="pagination pagination-md">
-			    <li>
-			      <a href="#" aria-label="Previous">
-			        <span aria-hidden="true">&laquo;</span>
-			      </a>
-			    </li>
-			    {Array(pagination.pageCount - 1).fill(Math.random())
-			    	.map((item, index) => <li className={index +1 === pagination
-			    		.currentPage? "current-page": "other-pages"} key={index}><a href="#"> {index + 1}</a></li> )}
-			    <li>
-			      <a href="#" aria-label="Next">
-			        <span aria-hidden="true">&raquo;</span>
-			      </a>
-			    </li>
-			  </ul>
-			</nav>
-		</div>  
-  );
+class Pagination extends PureComponent {
+	state = {
+		page: 1
+	}
+
+	setPage = (page) =>{
+		const { getCurrentUserPostsAction } = this.props;
+		
+		return getCurrentUserPostsAction(page);
+	}
+
+	render() {
+		const { pagination } = this.props;
+		const { page } = this.state;
+		const pageNumbers = Array(pagination.pageCount).fill(Math.random()).map((item, index) => {
+			return ( 
+				<li className={index + 1 === pagination.currentPage ? "active": null} key={index}>
+					<span href="!#"> {index + 1}</span>
+				</li>
+			)
+		});
+
+		return (
+			<div className="panel-footer text-center">
+				<nav aria-label="Page navigation">
+				  <ul className="pagination pagination-md">
+				  	{
+				  		pagination.currentPage !== 1 ?
+						  	<li>
+						      <span href="!#" aria-label="Previous" onClick={() => this.setPage(pagination.currentPage - 1)}>
+						      	<span aria-hidden="true">&laquo;</span>
+						      </span>
+						    </li>
+						  : null
+						}
+
+				    { pageNumbers }
+						
+						{
+							pagination.currentPage !== pagination.pageCount ?
+								<li>
+						      <span aria-label="Next" onClick={() => this.setPage(pagination.currentPage + 1)}>
+						      	<span aria-hidden="true">&raquo;</span>
+						      </span>
+						    </li>
+						  : null
+						}
+						
+				  </ul>
+				</nav>
+			</div>
+		);
+	}
 };
-export default Pagination;
+
+const mapDispatchToProps = {
+	getCurrentUserPostsAction	
+};
+
+export default connect(null, mapDispatchToProps)(Pagination);
