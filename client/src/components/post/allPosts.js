@@ -8,19 +8,23 @@ import Sidebar from "../layouts/Sidebar/";
 import Loader from "../../helpers/Loader";
 import SidebarCategories from "../layouts/Sidebar/categoriesCard";
 import SidebarTags from "../layouts/Sidebar/tagsSidebar";
+import LoadMoreBtn from "../../helpers/Pagination/LoadMore";
 
 class AllPosts extends Component {
 	state ={
-		tags: null
+		tags: null,
+		page: 1
 	};
 
 	componentDidMount(){
-		this.props.getAllPostsAction();
+		if(!this.props.posts.all.length){
+			this.props.getAllPostsAction();
+		}
 		this.props.getCategoriesAction();
 	}
 	
 	render() {
-		const { all, loading } = this.props.posts;
+		const { all, loading, hasMorePosts } = this.props.posts;
 		const { category } = this.props;
 
 		return (
@@ -44,9 +48,7 @@ class AllPosts extends Component {
 												<PostListItem allPosts={all} loading={loading}/>
 											</ul>
 											
-											<p className="text-center" style={{marginTop: "2rem"}}>
-												<a href="#" className="btn btn-danger">Load More</a>
-											</p>
+											<LoadMoreBtn page={this.state.page} hasmoreposts={hasMorePosts} />
 										</Fragment>
 									}
 								</div>

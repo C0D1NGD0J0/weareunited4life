@@ -20,7 +20,7 @@ class Pagination extends PureComponent {
 		const pageNumbers = Array(pagination.pageCount).fill(Math.random()).map((item, index) => {
 			return ( 
 				<li className={index + 1 === pagination.currentPage ? "active": null} key={index}>
-					<span href="!#"> {index + 1}</span>
+					<span> {index + 1}</span>
 				</li>
 			)
 		});
@@ -32,7 +32,7 @@ class Pagination extends PureComponent {
 				  	{
 				  		pagination.currentPage !== 1 ?
 						  	<li>
-						      <span href="!#" aria-label="Previous" onClick={() => this.setPage(pagination.currentPage - 1)}>
+						      <span aria-label="Previous" onClick={() => this.setPage(pagination.currentPage - 1)}>
 						      	<span aria-hidden="true">&laquo;</span>
 						      </span>
 						    </li>

@@ -13,12 +13,22 @@ const convertTagStringToArray = function(resource, str){
 	});
 };
 
+function paginateResult(count, offset, limit) {
+  const paginatedResult = {};
+  paginatedResult.currentPage = Math.floor(offset / limit) + 1;
+  paginatedResult.pageCount = Math.ceil(count / limit);
+  paginatedResult.pageSize = Number(limit);
+  paginatedResult.totalCount = count;
+
+  return paginatedResult;
+};
+
 const postCntrl = {
 	index: (req, res, next) =>{
 		const errors = {};
 		let { page, limit } = req.query;
 		page = Number(page) || 1;
-		limit = Number(limit) || 5;
+		limit = Number(limit) || 8;
 
 		Post.find({})
 			.skip((page - 1) * limit)
@@ -34,6 +44,21 @@ const postCntrl = {
 			errors.msg = err.message;
 			return res.status(404).json(errors);
 		});
+	},
+
+	feed: async (req, res, next) =>{
+		const errors = {};
+		let { page, limit } = req.query;
+		page = Number(page) || 1;
+		limit = Number(limit) || 5;
+		const offset = (page - 1) * limit;
+		
+		const user = await User.findById(req.user.id).exec();
+		const count = await Post.countDocuments({author: { $in: user.following }}).exec();
+		const posts = await Post.find({author: { $in: user.following }}).skip((page - 1) * limit).limit(limit).populate('author').sort({createdAt: -1}).exec();
+		const pagination = paginateResult(count, offset, limit);
+
+		return res.status(200).json({posts, pagination});
 	},
 
 	create: async (req, res, next) =>{

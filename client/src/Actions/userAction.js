@@ -19,7 +19,6 @@ export const getCurrentUserAction = (page) => (dispatch)=>{
 };
 
 export const getCurrentUserPostsAction = (page) => async (dispatch)=>{
-	dispatch(setLoadingState());
 	await axios.get(`/api/users/currentuser/?posts_page=${page}`).then((res) =>{
 		return dispatch({
 			type: GET_USER_POSTS,

@@ -52,12 +52,12 @@ class SettingPanel extends Component {
             <h3 className="panel-title">Account Settings</h3>
           </a>
           <span onClick={this.toggleFormStatus} className="pull-right">
-              <i className="fa fa-pencil"></i>
-              {isFormEnabled ? ' Disable' : ' Edit'}
-            </span>
+            <i className="fa fa-pencil"></i>
+            {isFormEnabled ? ' Disable' : ' Edit'}
+          </span>
         </div>
         
-        <div id="myCollapse">
+        <div id="myCollapse" className="collapse">
           <fieldset disabled={isFormEnabled ? false : "disabled"}>
             <div className="panel-body">
               <form className="form" onSubmit={this.onFormSubmit}>

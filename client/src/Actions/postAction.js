@@ -2,7 +2,7 @@ import { GET_ERRORS, GET_POSTS, DELETE_USER_POST, CREATE_NEW_POST, GET_CURRENT_P
 import { setLoadingState } from "./utilAction";
 import axios from "axios";
 
-export const getAllPostsAction = (page) => (dispatch) =>{
+export const getAllPostsAction = (page = 1) => (dispatch) =>{
 	dispatch(setLoadingState());
 	axios.get(`/api/posts/?page=${page}`).then((res) =>{
 		return dispatch({

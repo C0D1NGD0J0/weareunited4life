@@ -11,6 +11,8 @@ router.get("/tags", postCntrl.tags);
 
 router.get("/tags/:tag", postCntrl.postsTag);
 
+router.get("/feed", passport.authenticate('jwt', {session: false}), postCntrl.feed);
+
 router.get("/:postId", postCntrl.showPost);
 
 router.post("/", passport.authenticate('jwt', {session: false}), uploadImg, postCntrl.create);

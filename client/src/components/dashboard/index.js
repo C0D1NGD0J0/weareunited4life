@@ -1,11 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { connect } from "react-redux";
-import { getAllPostsAction } from "../../Actions/postAction";
 import PostListItem from "../post/postListItem";
 import Loader from "../../helpers/Loader";
+// import { getAllPostsAction } from "../../Actions/utilAction";
+import { getAllPostsAction } from "../../Actions/postAction";
 import LoadMoreBtn from "../../helpers/Pagination/LoadMore";
 
-class Dashboard extends Component {
+class Dashboard extends PureComponent {
 	constructor(props){
 		super(props);
 		this.state = {
@@ -15,7 +16,9 @@ class Dashboard extends Component {
 	}
 	
 	componentDidMount(){
-		this.props.getAllPostsAction();
+		if(!this.props.posts.all.length){
+			this.props.getAllPostsAction();
+		}
 	}
 
 	render() {
