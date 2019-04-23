@@ -47,7 +47,7 @@ app.use('/api/users', require('./app/Routes/user'));
 app.use('/api/posts', require('./app/Routes/post'));
 app.use('/api/', require('./app/Routes/comment'));
 app.use('/api/categories', require('./app/Routes/category'));
-app.use('/api/gameinfo', require('./app/Routes/gameinfo'));
+app.use('/api/gameinfo', require('./app/Routes/gameInfo'));
 
 // Serve static assets if in production env
 if(process.env.NODE_ENV === 'production'){
