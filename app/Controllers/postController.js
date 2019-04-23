@@ -156,12 +156,10 @@ const postCntrl = {
 			if(req.body.awayTeam) updatedPost.matchInfo.awayTeam = req.body.awayTeam;
 			if(req.body.competition) updatedPost.matchInfo.competition = req.body.competition;
 		
-			if(!post.author._id.equals(req.user.id)){
-				console.log("PHOTOS: ", req.body.photos);
-				console.log('UPDATED_POST: ', updatedPost);
-				// Post.findOneAndUpdate({_id: postId}, {$set: updatedPost}, {new: true}).then((post) =>{
-				// 	return res.json(post);
-				// }).catch((err) => res.status(404).json(err));
+			if(post.author._id.equals(req.user.id)){
+				Post.findOneAndUpdate({_id: postId}, {$set: updatedPost}, {new: true}).then((post) =>{
+					return res.json(post);
+				}).catch((err) => res.status(404).json(err));
 			} else {
 				errors.msg = "You are not permitted to perform this action.";
 				return res.status(401).json(errors);
@@ -229,7 +227,6 @@ const postCntrl = {
 		const { tag } = req.params;
 		
 		Post.find({tags: { "$all": [tag]}}).then((posts) =>{
-			console.log('POST_TAGS: ', posts);
 			return res.json(posts);
 		}).catch((err) =>{
 			return res.status(400).json(err);

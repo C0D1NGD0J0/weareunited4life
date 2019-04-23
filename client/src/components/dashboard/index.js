@@ -2,7 +2,8 @@ import React, { PureComponent, Fragment } from 'react';
 import { connect } from "react-redux";
 import PostListItem from "../post/postListItem";
 import Loader from "../../helpers/Loader";
-// import { getAllPostsAction } from "../../Actions/utilAction";
+import axios from "axios";
+import  Moment from "react-moment";
 import { getAllPostsAction } from "../../Actions/postAction";
 import LoadMoreBtn from "../../helpers/Pagination/LoadMore";
 
@@ -11,18 +12,24 @@ class Dashboard extends PureComponent {
 		super(props);
 		this.state = {
 			page: 1,
-			hasMorePosts: false
+			hasMorePosts: false,
+			matchInfo: {}
 		}
 	}
 	
 	componentDidMount(){
 		if(!this.props.posts.all.length){
 			this.props.getAllPostsAction();
-		}
+		};
+
+		axios.get("/api/gameinfo/").then((res) =>{
+			this.setState({ matchInfo: {...res.data} });
+		});
 	}
 
 	render() {
 		const { all: posts, loading, hasMorePosts } = this.props.posts;
+		const { matchInfo } = this.state;
 		
 		return (
 			<main id="content_wrapper" className="dashboard">
@@ -30,13 +37,11 @@ class Dashboard extends PureComponent {
 					<div className="dashboard_next-game">
 						<h2>Next Match Starts In...</h2>
 						<p className="dashboard_countdown">
-							<span className="match_hr">24hr</span>:
-							<span className="match_min">12min</span>:
-							<span className="match_sec">33sec</span>
+							<Moment format="D/MM/YYYY HH:mm" fromNow>{matchInfo.event_date}</Moment>
 						</p>
 						<p className="dashboard_match-teams">
-							<span className="team1">Manchester</span> vs 
-							<span className="team2">Chelsea</span>
+							<span className="team1">{matchInfo && matchInfo.homeTeam}</span> vs  
+							<span className="team2"> {matchInfo && matchInfo.awayTeam}</span>
 						</p>
 					</div>
 		  	</div>
