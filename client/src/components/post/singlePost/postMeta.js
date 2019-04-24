@@ -1,19 +1,12 @@
 import React from 'react';
 import Moment from 'react-moment';
 import { Link } from "react-router-dom";
-
-function validateAuth(resource){
-	if(resource !== undefined){
-		return resource.isAuthenticated ? true : false;
-	};
-
-	return false;
-};
+import { isPostAuthor, validateAuth } from "../../../helpers/helpersFN";
 
 const PostMeta = ({ post, likePost, unlikePost, currentuser }) => {
 	const isAuthenticated = validateAuth(currentuser);
 	const hasLikedPost = isAuthenticated ? (post.like && post.like.users.includes(currentuser.user.id)) : "";
-
+	
   return (
   	<>
 	  	<ul className="list-inline post-actions pull-right">
@@ -33,7 +26,7 @@ const PostMeta = ({ post, likePost, unlikePost, currentuser }) => {
 					<span className="badge">{post.like && post.like.count}</span>
 				</li>
 				
-				{isAuthenticated ? <li><Link to={`/posts/${post._id}/edit`}><i className="fa fa-pencil"></i></Link></li> : null}
+				{isAuthenticated && isPostAuthor(currentuser, post) ? <li><Link to={`/posts/${post._id}/edit`}><i className="fa fa-pencil"></i></Link></li> : null}
 				<li><a href="#"><i className="fa fa-share-alt"></i> Share</a></li>
 			</ul>
 

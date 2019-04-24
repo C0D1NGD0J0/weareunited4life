@@ -37,7 +37,7 @@ class Dashboard extends PureComponent {
 					<div className="dashboard_next-game">
 						<h2>Next Match Starts In...</h2>
 						<p className="dashboard_countdown">
-							<Moment format="D/MM/YYYY HH:mm" fromNow>{matchInfo.event_date}</Moment>
+							<Moment fromNow>{matchInfo.event_date}</Moment>
 						</p>
 						<p className="dashboard_match-teams">
 							<span className="team1">{matchInfo && matchInfo.homeTeam}</span> vs  
