@@ -4,17 +4,15 @@ const Schema = mongoose.Schema;
 const User = require("./User");
 
 const MessageSchema = new Schema({
-	body: {
+	text: {
 		type: String,
 		trim: true,
 		minlength: 2,
 		maxlength: 150,
 		required: [true, "message can't be blank"]
 	},
-	user: {
-		type: Schema.Types.ObjectId,
-		ref: "User"
-	}
+	receiver: {type: Schema.Types.ObjectId, ref: "User", required: true},
+	sender: {type: Schema.Types.ObjectId, ref: "User", required: true}
 }, {timestamps: true});
 
 MessageSchema.pre('remove', async function(next){

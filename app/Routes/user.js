@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require("passport");
 const userCntrl = require("../Controllers/userController");
+const msgCntrl = require("../Controllers/messageController");
 
 router.get("/", userCntrl.index);
 
@@ -15,6 +16,8 @@ router.put("/:userId", passport.authenticate('jwt', {session: false}), userCntrl
 router.put("/:userId/follow", passport.authenticate('jwt', {session: false}), userCntrl.follow);
 
 router.put("/:userId/unfollow", passport.authenticate('jwt', {session: false}), userCntrl.unfollow);
+
+router.post("/:userId/messages", passport.authenticate('jwt', {session: false}), msgCntrl.create);
 
 router.delete("/:userId", passport.authenticate('jwt', {session: false}), userCntrl.deleteAcct);
 
