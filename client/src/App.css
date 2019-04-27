@@ -624,3 +624,50 @@ button:focus {
   font-weight: bold;
   text-decoration: none;
 }
+
+/*===== PVT. MESSAGING=====*/
+.message_form{
+  text-align: center;
+}
+
+.message_input input[type='text']{
+  width: 80%;
+  margin: 0 auto;
+  font-size: 1.4rem;
+  border: 1px solid rgba(199, 1, 1, 0.2);
+}
+
+.panel.messages{
+  height: 55rem; 
+  overflow-y: scroll;
+  border: 1px solid #eee;
+}
+
+.messages_list{
+  padding: 0;
+  list-style: none;
+}
+
+.messages_list-item{
+  border: 1px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: .3rem;
+  margin: 1rem 0;
+  padding: 1rem;
+  width: 80%;
+}
+
+.messages_list-item.sender{
+  float: right;
+  background-color: #fff;
+  border: 1px solid rgba(199, 1, 1, 0.2);
+}
+
+.chat_name{
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.chat_text{
+  font-weight: 300;
+}
