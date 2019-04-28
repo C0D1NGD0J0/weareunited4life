@@ -1,22 +1,26 @@
 import React, { PureComponent } from 'react';
 import { connect } from "react-redux";
-import { getCurrentUserPostsAction } from "../../Actions/userAction";
+import { getCurrentUserPostsAction, getUserPostsFeedAction } from "../../Actions/userAction";
 import { Link } from "react-router-dom";
 
 class Pagination extends PureComponent {
-	state = {
-		page: 1
+	constructor(props){
+		super(props);
+		this.state = {
+			page: 1
+		};
 	}
 
 	setPage = (page) =>{
-		const { getCurrentUserPostsAction } = this.props;
-		
-		return getCurrentUserPostsAction(page);
+		const { getCurrentUserPostsAction, getUserPostsFeedAction, type } = this.props;
+		if(type === 'feed') return getUserPostsFeedAction(page);
+		if(type === 'userposts') return getCurrentUserPostsAction(page);
 	}
 
 	render() {
 		const { pagination } = this.props;
 		const { page } = this.state;
+
 		const pageNumbers = Array(pagination.pageCount).fill(Math.random()).map((item, index) => {
 			return ( 
 				<li className={index + 1 === pagination.currentPage ? "active": null} key={index}>
@@ -59,7 +63,8 @@ class Pagination extends PureComponent {
 };
 
 const mapDispatchToProps = {
-	getCurrentUserPostsAction	
+	getCurrentUserPostsAction,
+	getUserPostsFeedAction
 };
 
 export default connect(null, mapDispatchToProps)(Pagination);

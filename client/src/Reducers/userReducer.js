@@ -1,11 +1,13 @@
-import { GET_CURRENT_USER, GET_USER_POSTS, LOADING, DELETE_USER_POST, CLEAR_CURRENT_USER, UPDATE_CURRENT_USER } from "../Actions/types";
+import { GET_CURRENT_USER, GET_USER_POSTS, LOADING, DELETE_USER_POST, CLEAR_CURRENT_USER, UPDATE_CURRENT_USER, GET_USER_POSTS_FEED } from "../Actions/types";
 
 const initialState = {
 	info: {},
 	posts: [],
+	feed: [],
 	comments: [],
 	loading: false,
-	pagination: null
+	postPagination: null,
+	feedPagination: null
 };
 
 export default function(state = initialState, action){
@@ -15,6 +17,12 @@ export default function(state = initialState, action){
 				...state, 
 				loading: true
 			};
+		case GET_USER_POSTS_FEED:
+			return{
+				...state,
+				feed: [...action.payload.feeds],
+				feedPagination: action.payload.pagination
+			}
 		case GET_CURRENT_USER:
 			return{
 				...state,
@@ -22,13 +30,13 @@ export default function(state = initialState, action){
 				posts:[...action.payload.posts, ...state.posts],
 				comments: [...action.payload.comments, ...state.comments],
 				loading: false,
-				pagination: action.payload.pagination
+				postPagination: action.payload.pagination
 			}
 		case GET_USER_POSTS:
 			return{
 				...state,
 				loading: false,
-				pagination: action.payload.pagination,
+				postPagination: action.payload.pagination,
 				posts:[...action.payload.posts]
 			}
 		case CLEAR_CURRENT_USER:

@@ -55,10 +55,10 @@ const postCntrl = {
 		
 		const user = await User.findById(req.user.id).exec();
 		const count = await Post.countDocuments({author: { $in: user.following }}).exec();
-		const posts = await Post.find({author: { $in: user.following }}).skip((page - 1) * limit).limit(limit).populate('author').sort({createdAt: -1}).exec();
+		const feeds = await Post.find({author: { $in: user.following }}).skip((page - 1) * limit).limit(limit).populate('author', "username").populate('category', "name").sort({createdAt: -1}).exec();
 		const pagination = paginateResult(count, offset, limit);
 
-		return res.status(200).json({posts, pagination});
+		return res.status(200).json({feeds, pagination});
 	},
 
 	create: async (req, res, next) =>{

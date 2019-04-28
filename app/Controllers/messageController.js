@@ -32,7 +32,7 @@ const messsageCntrl = {
 				}).save();
 
 				socket.emit("PRIVATE_MESSAGE", message);
-				return res.json(message);
+				return res.send('success');
 			};
 		} catch(e) {
 			errors.msg = e;

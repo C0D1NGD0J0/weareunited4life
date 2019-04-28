@@ -10,8 +10,9 @@ import Sidebar from "../layouts/Sidebar/";
 import SidebarUser from "../layouts/Sidebar/userDetails";
 import SidebarPostPhotos from "../layouts/Sidebar/postPhotos";
 import ProfileSettingPanel from "./settingPanel";
+import PostFeeds from "./feedPanel";
 import CommentsPanel from "./commentsPanel";
-import { getCurrentUserAction, updateUserAction, deleteUserAccountAction } from "../../Actions/userAction";
+import { getCurrentUserAction, updateUserAction, deleteUserAccountAction, getUserPostsFeedAction } from "../../Actions/userAction";
 import { clearCurrentUser } from "../../Actions/utilAction";
 import { deleteUserPostAction } from "../../Actions/postAction";
 
@@ -22,6 +23,7 @@ class Profile extends PureComponent {
 
 	componentDidMount(){
 		this.props.getCurrentUserAction();
+		this.props.getUserPostsFeedAction();
 	}
 
 	componentWillUnmount(){
@@ -48,7 +50,7 @@ class Profile extends PureComponent {
 	}
 
 	render() {
-		const { info: user, loading, posts, comments: userComments, pagination } = this.props.currentuser;
+		const { info: user, loading, posts, comments: userComments, feedPagination, postPagination, feed } = this.props.currentuser;
 		const { errors } = this.props;
 
 		return (
@@ -75,8 +77,10 @@ class Profile extends PureComponent {
 												handleAcctDelete={this.handleAccountDelete}
 												updateUser={this.handleUpdateUserForm}
 											/>
-				        			<UserPostsPanel posts={posts} deletePost={this.handleDeletePost} pagination={pagination}/>
+				        			<UserPostsPanel posts={posts} deletePost={this.handleDeletePost} pagination={postPagination}/>
 				        			<CommentsPanel comments={userComments}/>
+
+				        			<PostFeeds pagination={feedPagination} posts={feed} />
 			        			</Fragment>
 			        		}
 								</div>
@@ -103,6 +107,7 @@ const mapStateToProps = (state) =>({
 const mapDispatchToProps = {
 	getCurrentUserAction,
 	updateUserAction,
+	getUserPostsFeedAction,
 	clearCurrentUser,
 	deleteUserPostAction,
 	deleteUserAccountAction
