@@ -4,31 +4,39 @@ const User = require('../Models/User');
 const Filter = require("bad-words");
 const customFilter = new Filter({ placeholder: '!'});
 const socketIOClient = require("socket.io-client");
-const socket = socketIOClient("http://localhost:5000")
+const socket = socketIOClient(process.env.LOCALHOST);
 
 const messsageCntrl = {
-	create: async (req, res, next) =>{
+	index: async (req, res, next) =>{
+		const { receiverId } = req.params;
 		const errors = {};
-		const { userId } = req.params;
 
 		try {
-			const message = new Message({
-				text: req.body.text,
-				sender: req.user.id,
-				receiver: userId
-			});
+			const messages = await Message.find({ '$or': [{'sender': req.user._id, 'receiver': receiverId }, { 'sender': receiverId, 'receiver': req.user._id }] }).populate("sender receiver", "username");
+			return res.status(200).json(messages);
+		} catch(error) {
+			return res.status(404).json(error);
+		};
+	},
 
-			await message.save();
-			const user = await User.findById(req.params.userId);
-			user.messages.push(message.id);
-			await user.save();
+	create: async (req, res, next) =>{
+		const errors = {};
+		const { receiverId } = req.params;
 
-			const createdMsg = await Message.findById(message._id).populate("user", "username avatar");
-			return res.status(200).json(createdMsg);
+		try {
+			if(user.isFollowing(receiverId)){
+				const message = await new Message({
+					text: req.body.text,
+					sender: req.user.id,
+					receiver: receiverId
+				}).save();
+
+				socket.emit("PRIVATE_MESSAGE", message);
+				return res.json(message);
+			};
 		} catch(e) {
 			errors.msg = e;
-			console.log(e);
-			// return res.status(400).json(errors);
+			return res.status(400).json(errors);
 		};
 	}
 };

@@ -5,7 +5,7 @@ const validate = require("../Util/validations");
 const Filter = require("bad-words");
 const customFilter = new Filter({ placeholder: '!'});
 const socketIOClient = require("socket.io-client");
-const socket = socketIOClient("http://localhost:5000")
+const socket = socketIOClient("http://localhost:5000");
 
 const commentCntrl = {
 	create: async (req, res, next) =>{
@@ -31,7 +31,8 @@ const commentCntrl = {
 			const savedComment = await comment.save();
 			post.comments.push(savedComment);
 			const savedPost = await post.save();
-			socket.emit("notifyCommentAdded",savedPost)
+			
+			socket.emit("COMMENT_ACTION", savedPost);
 			return res.json(savedPost);
 		} catch(err){
 			errors.msg = err.message;
@@ -60,7 +61,7 @@ const commentCntrl = {
 						let filteredComments = post.comments.filter(item => item._id.toString() !== commentId.toString());
 						post.comments = filteredComments;
 						return post.save().then(post =>{
-							socket.emit("notifyCommentAdded", post);
+							socket.emit("COMMENT_ACTION", post);
 							return res.json(post);
 						});
 				}).catch((err) => res.status(400).json(err));

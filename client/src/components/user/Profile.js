@@ -82,7 +82,9 @@ class Profile extends PureComponent {
 								</div>
 
 								<div className="col-sm-2">
-									<Followers currentuser={user}/>
+									<Sidebar>
+										<Followers currentuser={user} title="Followers"/>
+									</Sidebar>
 								</div>
 							</div>
 						</div>

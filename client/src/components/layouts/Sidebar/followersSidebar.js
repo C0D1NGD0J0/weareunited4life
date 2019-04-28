@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
-const Followers = ({ currentuser }) => {
+const Followers = ({ title, currentuser }) => {
 	const followers = (currentuser && currentuser.following) ? currentuser.following.map((follower, i) =>{
 		return(
 			<li key={i}>
@@ -14,12 +14,12 @@ const Followers = ({ currentuser }) => {
 			</li>
 		);
 	}) : null;
-
+	
   return (
   	<div className="sidebar">
 			<div className="sidebar_box">
 				<div className="followers">
-					<h4 className="text-center">Followers:</h4><hr/>
+					<h4 className="text-center">{title}:</h4><hr/>
 					<ul className="followers_list">
 						{followers}
 					</ul>

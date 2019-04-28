@@ -1,6 +1,7 @@
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
+import { Link } from "react-router-dom";
 
-//use react hook to keep track of if loggedin user is following post author
+//use to keep track of if loggedin user is following post author
 const _isFollowing = (user, followId) =>{
 	return user.following.includes(followId);
 };
@@ -11,7 +12,8 @@ const UserDetails = (props) => {
   return (
   	<div className="sidebar_box">
 			<div className="sidebar_user-avatar text-center">
-				<img src={author && author.avatar} alt="" className="img-responsive img-circle" />
+				<img src={author && author.avatar} alt="" className="img-responsive img-circle" style={{marginBottom: '1rem'}} />
+				
 				{ isAuthenticated && ((author && author._id) !== (currentuser.id || currentuser._id)) ? 
 					<Fragment>
 						<button 
@@ -21,7 +23,9 @@ const UserDetails = (props) => {
 							{ _isFollowing(currentuser, (author && author._id)) ? 'Unfollow' : 'Follow' }
 						</button>
 					
-						<span className="btn btn-sm btn-info">Message</span>
+						{ _isFollowing(currentuser, (author && author._id)) ? null :
+							<Link to={`/messages/${(author && author._id)}`} className="btn btn-sm btn-info" style={{marginLeft: '1rem'}}>Message</Link> 
+						}
 					</Fragment> : null
 				}
 			</div>

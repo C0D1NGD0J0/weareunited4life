@@ -630,7 +630,7 @@ button:focus {
   text-align: center;
 }
 
-.message_input input[type='text']{
+.message_input textarea{
   width: 80%;
   margin: 0 auto;
   font-size: 1.4rem;

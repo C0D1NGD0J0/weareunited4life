@@ -75,8 +75,12 @@ io.set("origins", "*:*");
 io.on("connection", (socket) =>{
 	console.log('User connected to socket');
 
-	socket.on('notifyCommentAdded', (post) => {
+	socket.on('COMMENT_ACTION', (post) => {
 		io.emit("commentAdded", post)
+	});
+
+	socket.on('PRIVATE_MESSAGE', (message) => {
+		io.emit("MESSAGE_ADDED", message);
 	});
 
 	socket.on('disconnect', () =>{

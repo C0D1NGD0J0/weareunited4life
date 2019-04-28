@@ -43,7 +43,7 @@ class App extends Component {
                   <PrivateRoute path="/:username/profile" component={UserProfile} />
                   <Route exact path="/reset/:token" component={ResetPassword} />
                   <Route exact path="/forgot_password" component={ForgotPassword} />
-                  <PrivateRoute exact path="/messages" component={Messages} />
+                  <PrivateRoute exact path="/messages/:receiverId?" component={Messages} />
 
                   <Route component={ErrorPage} />
                 </Switch>
