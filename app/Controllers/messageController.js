@@ -12,7 +12,7 @@ const messsageCntrl = {
 		const errors = {};
 
 		try {
-			const messages = await Message.find({ '$or': [{'sender': req.user._id, 'receiver': receiverId }, { 'sender': receiverId, 'receiver': req.user._id }] }).populate("sender receiver", "username");
+			const messages = await Message.find({ '$or': [{'sender': req.user._id, 'receiver': receiverId }, { 'sender': receiverId, 'receiver': req.user._id }] }).populate("sender receiver", "username avatar");
 			return res.status(200).json(messages);
 		} catch(error) {
 			return res.status(404).json(error);
@@ -32,7 +32,7 @@ const messsageCntrl = {
 				}).save();
 
 				socket.emit("PRIVATE_MESSAGE", message);
-				return res.send('success');
+				return res.json(message);
 			};
 		} catch(e) {
 			errors.msg = e;

@@ -23,8 +23,7 @@ const UserDetails = (props) => {
 							{ _isFollowing(currentuser, (author && author._id)) ? 'Unfollow' : 'Follow' }
 						</button>
 					
-						{ _isFollowing(currentuser, (author && author._id)) ? null :
-							<Link to={`/messages/${(author && author._id)}`} className="btn btn-sm btn-info" style={{marginLeft: '1rem'}}>Message</Link> 
+						{ _isFollowing(currentuser, (author && author._id)) ? <Link to={`/messages/${(author && author._id)}`} className="btn btn-sm btn-info" style={{marginLeft: '1rem'}}>Message</Link> : null
 						}
 					</Fragment> : null
 				}

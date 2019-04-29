@@ -1,19 +1,27 @@
 import React from 'react';
+import classnames from "classnames";
 
-const MessagesList = ({ className }) => {
+const isSender = (userId, msg) =>{
+	if(userId && userId.toString() === msg.sender._id.toString()) return true;
+
+	return false;
+};
+
+const MessagesList = ({ currentuserId, messages }) => {
+	const displayMsg = messages && messages.map((msg, i) =>{
+		return (
+			<li className={classnames("messages_list-item", {sender: isSender(currentuserId, msg)})} key={i}>
+				<p className='clearfix'><small className='pull-right'>12/04/2019</small></p>
+				<p className="chat_text">{msg.text}</p>
+			</li>
+		);
+	});
+
   return (
     <div className="panel messages">
 			<div className="panel-body">
 				<ul className="messages_list">
-					<li className="messages_list-item">
-						<p className="chat_name clearfix">USERNAME <small className='pull-right'>12/04/2019</small></p>
-						<p className="chat_text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit repudiandae, nesciunt ab aut nostrum, dignissimos sapiente ipsum fugiat harum dolores. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores natus, quia. Maxime molestias fugit minus?</p>
-					</li>
-
-					<li className="messages_list-item sender">
-						<p className='clearfix'><small className='pull-right'>12/04/2019</small></p>
-						<p className="chat_text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit repudiandae, nesciunt ab aut nostrum, dignissimos sapiente ipsum fugiat harum dolores. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores natus, quia. Maxime molestias fugit minus?</p>
-					</li>
+					{messages.length > 0 ? displayMsg : <h1 className='page-header text-center'>Select a Contact to Message</h1>}
 				</ul>
 			</div>
 		</div>
