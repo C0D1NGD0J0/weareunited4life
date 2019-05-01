@@ -1,8 +1,10 @@
 export const LOADING = "LOADING";
 export const GET_POSTS = "GET_POSTS";
+export const SET_ALERT = "SET_ALERT";
 export const LOGIN_USER = "LOGIN_USER";
 export const GET_ERRORS = "GET_ERRORS";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
+export const REMOVE_ALERT = "REMOVE_ALERT";
 export const REGISTER_USER = "REGISTER_USER";
 export const USER_NOT_FOUND = "USER_NOT_FOUND";
 export const GET_CATEGORIES = "GET_CATEGORIES";

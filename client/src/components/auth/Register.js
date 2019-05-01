@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { registerAction } from "../../Actions/authAction";
+import { setAlert } from "../../Actions/alertAction";
 import FormInputField from "../../helpers/FormElements/FormInputField";
 import InputSubmitBtn from "../../helpers/FormElements/InputSubmit";
 
@@ -33,6 +34,8 @@ class Register extends Component {
 
 	onFormSubmit = (e) =>{
 		e.preventDefault();
+		const { setAlert } = this.props;
+
 		const user = {
 			username: this.state.username,
 			email: this.state.email,
@@ -135,4 +138,4 @@ const mapStateToProps = (state) =>({
 	errors: state.errors
 });
 
-export default connect(mapStateToProps, { registerAction })(withRouter(Register));
+export default connect(mapStateToProps, { registerAction, setAlert })(withRouter(Register));

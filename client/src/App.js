@@ -7,6 +7,7 @@ import ResetPassword from "./components/auth/ResetPassword";
 import UserProfile from "./components/user/Profile";
 import Navbar from "./components/layouts/Navbar";
 import Footer from "./components/layouts/Footer";
+import Alert from "./components/layouts/Alert";
 import ErrorPage from "./components/layouts/404";
 import ErrorBoundary from "./components/errorBoundary";
 import Category from "./components/category/";
@@ -29,6 +30,7 @@ class App extends Component {
         	<div className="App">
             <Navbar />
               <ErrorBoundary>
+                <Alert />
                 <Switch>
                   <Route exact path="/" component={Dashboard} />
                   <Route exact path="/(login|signup)" component={Auth} />

@@ -671,3 +671,18 @@ button:focus {
 .chat_text{
   font-weight: 300;
 }
+
+
+
+.custom_alert{
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 0;
+  font-size: 2rem;
+}
+
+.custom_alert.hidden{
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 2s, opacity 2s linear;
+}

@@ -66,7 +66,6 @@ export const unlikePostAction = (postid) => (dispatch) =>{
 
 export const updatePostAction = (postid, postdata) => (dispatch) =>{
 	dispatch(setLoadingState());
-	console.log(postdata);
 	axios.put(`/api/posts/${postid}`, postdata).then((res) =>{
 		return dispatch({
 			type: GET_CURRENT_POST,
