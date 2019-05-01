@@ -16,6 +16,8 @@ class Messages extends Component {
 		this.state = {
 			currentuser: null,
 			messages: [],
+			text: "",
+			errors: {},
 			activeContact: null
 		};
 		this.socket = socketIOClient('http://localhost:5000');
@@ -31,13 +33,38 @@ class Messages extends Component {
 	componentDidUpdate(prevProps){
 		const currentContact = prevProps.match.params.receiverId;
 		const nextContact = this.props.match.params.receiverId;
+
 		if(currentContact !== nextContact && nextContact !== undefined){
 			axios.get(`/api/users/${nextContact}/messages`).then((res) =>{
-				this.setState({ messages: [...res.data], activeContact: res.data[0].receiver.username })
+				this.setState({ messages: [...res.data], activeContact: res.data[0].sender.username });
 			}).catch((err) =>{
 				console.log(err);
 			});
 		};	
+	}
+
+	onFormInputChange = (e) =>{
+		this.setState({text: e.target.value});
+	}
+
+	onFormSubmit = (e) =>{
+		e.preventDefault();
+		const { receiverId } = this.props.match.params;
+		const message = {
+			text: this.state.text
+		};
+
+		if(receiverId !== 'undefined' || receiverId !== ''){
+			axios.post(`/api/users/${receiverId}/messages`, message).then((res) =>{
+				return this.setState({
+					messages: [...this.state.messages, res.data]
+				});
+			}).catch((err) =>{
+
+			});
+		};
+
+		return this.setState({text: ""});
 	}
 
 	render() {
@@ -66,7 +93,7 @@ class Messages extends Component {
 										<h3 className="panel-title">Conversation with {activeContact}</h3>
 									</div>
 
-									<MessageForm />
+									<MessageForm onChange={this.onFormInputChange} onFormSubmit={this.onFormSubmit} value={this.state.text} />
 								</div>
 								
 								<MessagesList currentuserId={currentuser._id} messages={messages} />

@@ -10,9 +10,11 @@ const isSender = (userId, msg) =>{
 const MessagesList = ({ currentuserId, messages }) => {
 	const displayMsg = messages && messages.map((msg, i) =>{
 		return (
-			<li className={classnames("messages_list-item", {sender: isSender(currentuserId, msg)})} key={i}>
-				<p className='clearfix'><small className='pull-right'>12/04/2019</small></p>
-				<p className="chat_text">{msg.text}</p>
+			<li className="messages_list-item clearfix" key={i}>
+				<div className={classnames({sender: isSender(currentuserId, msg)})}>
+					<p className='clearfix'><small className='pull-right'>{msg.createdAt}</small></p>
+					<p className="chat_text">{msg.text}</p>
+				</div>
 			</li>
 		);
 	});

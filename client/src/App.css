@@ -652,15 +652,19 @@ button:focus {
   border: 1px solid #dedede;
   background-color: #f1f1f1;
   border-radius: .3rem;
-  margin: 1rem 0;
+  margin: 1rem 0 2rem 0;
   padding: 1rem;
-  width: 80%;
+  width: 90%;
 }
 
-.messages_list-item.sender{
+.sender{
   float: right;
   background-color: #fff;
   border: 1px solid rgba(199, 1, 1, 0.2);
+  border-radius: .3rem;
+  margin: 1rem 0 2rem 0;
+  padding: 1rem;
+  width: 90%;
 }
 
 .chat_name{
@@ -671,8 +675,6 @@ button:focus {
 .chat_text{
   font-weight: 300;
 }
-
-
 
 .custom_alert{
   text-transform: uppercase;

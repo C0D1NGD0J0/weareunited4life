@@ -12,7 +12,7 @@ const messsageCntrl = {
 		const errors = {};
 
 		try {
-			const messages = await Message.find({ '$or': [{'sender': req.user._id, 'receiver': receiverId }, { 'sender': receiverId, 'receiver': req.user._id }] }).populate("sender receiver", "username avatar");
+			const messages = await Message.find({ '$or': [{'sender': req.user._id, 'receiver': receiverId }, { 'sender': receiverId, 'receiver': req.user._id }] }).populate("sender receiver", "username avatar").sort({createdAt: -1});
 			return res.status(200).json(messages);
 		} catch(error) {
 			return res.status(404).json(error);
@@ -22,7 +22,8 @@ const messsageCntrl = {
 	create: async (req, res, next) =>{
 		const errors = {};
 		const { receiverId } = req.params;
-
+		const user = await User.findById(req.user.id);
+		
 		try {
 			if(user.isFollowing(receiverId)){
 				const message = await new Message({
@@ -30,13 +31,14 @@ const messsageCntrl = {
 					sender: req.user.id,
 					receiver: receiverId
 				}).save();
-
-				socket.emit("PRIVATE_MESSAGE", message);
+				
+				// socket.emit("PRIVATE_MESSAGE", message);
 				return res.json(message);
+			} else{
+				return res.status(404).json("Unauthorized action...");
 			};
 		} catch(e) {
-			errors.msg = e;
-			return res.status(400).json(errors);
+			return res.status(400).json(e);
 		};
 	}
 };
