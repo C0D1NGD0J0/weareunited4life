@@ -31,8 +31,9 @@ const messsageCntrl = {
 					sender: req.user.id,
 					receiver: receiverId
 				}).save();
+				message.sender = user;
 				
-				// socket.emit("PRIVATE_MESSAGE", message);
+				socket.emit("PRIVATE_MESSAGE", message);
 				return res.json(message);
 			} else{
 				return res.status(404).json("Unauthorized action...");

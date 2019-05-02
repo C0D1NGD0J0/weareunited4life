@@ -644,27 +644,25 @@ button:focus {
 }
 
 .messages_list{
-  padding: 0;
   list-style: none;
+  padding: 0;
 }
 
-.messages_list-item{
-  border: 1px solid #dedede;
-  background-color: #f1f1f1;
+.msg-wrapper{
   border-radius: .3rem;
   margin: 1rem 0 2rem 0;
   padding: 1rem;
   width: 90%;
+}
+
+.receiver{
+  float: left;
+  border: 1px solid #eee;
 }
 
 .sender{
   float: right;
-  background-color: #fff;
   border: 1px solid rgba(199, 1, 1, 0.2);
-  border-radius: .3rem;
-  margin: 1rem 0 2rem 0;
-  padding: 1rem;
-  width: 90%;
 }
 
 .chat_name{

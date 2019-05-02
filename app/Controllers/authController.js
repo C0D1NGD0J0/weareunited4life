@@ -75,14 +75,15 @@ const authCntrl = {
 						"If you didn't request this, please kindly ignore this email.."
 				};
 				
-				smtpTransport.sendMail(mailOptions, function(err){
-					if(!err){
-						console.log("Mail has been sent");
-						return res.json("Mail sent, kindly check your email for further instructions.");
-					};
+				console.log(mailOptions)
+				// smtpTransport.sendMail(mailOptions, function(err){
+				// 	if(!err){
+				// 		console.log("Mail has been sent");
+				// 		return res.json("Mail sent, kindly check your email for further instructions.");
+				// 	};
 					
-					cb(err);
-				});
+				// 	cb(err);
+				// });
 			}
 		], (err) =>{
 			console.log("ERR: ", err)

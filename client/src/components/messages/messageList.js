@@ -1,8 +1,10 @@
 import React from 'react';
 import classnames from "classnames";
+import Moment from "react-moment";
 
 const isSender = (userId, msg) =>{
-	if(userId && userId.toString() === msg.sender._id.toString()) return true;
+	// console.log(userId, msg.sender);
+	if(userId && userId === msg.sender._id.toString()) return true;
 
 	return false;
 };
@@ -10,11 +12,11 @@ const isSender = (userId, msg) =>{
 const MessagesList = ({ currentuserId, messages }) => {
 	const displayMsg = messages && messages.map((msg, i) =>{
 		return (
-			<li className="messages_list-item clearfix" key={i}>
-				<div className={classnames({sender: isSender(currentuserId, msg)})}>
-					<p className='clearfix'><small className='pull-right'>{msg.createdAt}</small></p>
-					<p className="chat_text">{msg.text}</p>
-				</div>
+			<li className={classnames('clearfix msg-wrapper', {sender: isSender(currentuserId, msg), receiver: !isSender(currentuserId, msg)})} key={i}>
+				<span className='clearfix'>
+					<small className='pull-right'><Moment fromNow>{msg.createdAt}</Moment></small>
+				</span>
+				<p className="chat_text">{msg.text}</p>
 			</li>
 		);
 	});

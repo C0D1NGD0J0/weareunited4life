@@ -25,9 +25,17 @@ class Messages extends Component {
 
 	componentDidMount(){
 		this.props.getCurrentUserAction();
-		// this.socket.on('MESSAGE_ADDED', (msg) => {
-		// 	this.props.updateMessageAction(msg);
-		// });
+		this.socket.on('MESSAGE_ADDED', (msg) => {
+			const currentContact =  this.props.match.params.receiverId;
+			const { info: { _id } } = this.props.currentuser;
+			const isInconversation = (_id === msg.receiver) && (currentContact === msg.sender._id )
+			if (isInconversation){
+				this.setState({
+					messages: [msg, ...this.state.messages]
+				});
+			};
+			
+		});
 	};
 
 	componentDidUpdate(prevProps){
@@ -57,10 +65,10 @@ class Messages extends Component {
 		if(receiverId !== 'undefined' || receiverId !== ''){
 			axios.post(`/api/users/${receiverId}/messages`, message).then((res) =>{
 				return this.setState({
-					messages: [...this.state.messages, res.data]
+					messages: [res.data, ...this.state.messages]
 				});
 			}).catch((err) =>{
-
+				console.log(err);
 			});
 		};
 
