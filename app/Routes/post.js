@@ -9,7 +9,9 @@ router.get("/", postCntrl.index);
 
 router.get("/tags", postCntrl.tags);
 
-router.get("/tags/:tag", postCntrl.postsTag);
+router.get("/tags/:tag", postCntrl.postsByTag);
+
+router.get("/categories", postCntrl.postsByCategories);
 
 router.get("/feed", passport.authenticate('jwt', {session: false}), postCntrl.feed);
 

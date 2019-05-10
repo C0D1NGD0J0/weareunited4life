@@ -32,12 +32,6 @@ const PostSchema = new Schema({
 	comments:[{type: Schema.Types.ObjectId, ref: "Comment"}],
 	allowComments: {type: Boolean, default: false},
 	isMatch: {type: Boolean, default: false},
-	matchInfo:{
-		scores: String,
-		homeTeam: String,
-		awayTeam: String,
-		competition: String
-	},
 	source: {type: String, default: ''},
 	category: {type: Schema.Types.ObjectId, ref: "Category"},
 	type:{type: String, default: 'article', lowercase: true} 

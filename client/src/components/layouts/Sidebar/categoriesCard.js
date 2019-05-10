@@ -4,7 +4,7 @@ const Categories = (props) => {
 	const { all: categories } = props.category;
 	const categoriesList = categories.map((item) =>{
 		return (
-			<li key={item._id}><a href="#!">{item.name}</a></li>
+			<li key={item._id}><a href={`/api/posts/categories/?categoryId=${item._id}`}>{item.name}</a></li>
 		);
 	});
 

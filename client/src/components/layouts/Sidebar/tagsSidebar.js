@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const PostsTags = ({ tags }) => {
-	console.log("TAGS: ", tags);
 	const tagsList = tags && tags.map((tag, i) =>{
 		return(
 			<li key={i}>

@@ -29,16 +29,17 @@ const postCntrl = {
 		let { page, limit } = req.query;
 		page = Number(page) || 1;
 		limit = Number(limit) || 8;
+		const offset = ((limit * page) - limit);
 
 		Post.find({})
-			.skip((page - 1) * limit)
+			.skip(offset)
 			.limit(limit)
 			.populate('author')
 			.populate("comments")
 			.populate('category', "_id name")
 			.sort({createdAt: -1}).then((posts) =>{
 				Post.count().then((count) =>{
-					return res.status(200).json({posts, hasMorePosts: (count - (page + limit) > 0)});
+					return res.status(200).json({posts, hasMorePosts: (count - (page * limit) > 0)});
 				})
 		}).catch((err) =>{
 			errors.msg = err.message;
@@ -51,11 +52,11 @@ const postCntrl = {
 		let { page, limit } = req.query;
 		page = Number(page) || 1;
 		limit = Number(limit) || 5;
-		const offset = (page - 1) * limit;
+		const offset = ((limit * page) - limit);
 		
 		const user = await User.findById(req.user.id).exec();
 		const count = await Post.countDocuments({author: { $in: user.following }}).exec();
-		const feeds = await Post.find({author: { $in: user.following }}).skip((page - 1) * limit).limit(limit).populate('author', "username").populate('category', "name").sort({createdAt: -1}).exec();
+		const feeds = await Post.find({author: { $in: user.following }}).skip(offset).limit(limit).populate('author', "username").populate('category', "name").sort({createdAt: -1}).exec();
 		const pagination = paginateResult(count, offset, limit);
 
 		return res.status(200).json({feeds, pagination});
@@ -75,12 +76,6 @@ const postCntrl = {
 			allowComments: req.body.allowComments,
 			isMatch: req.body.isMatch,
 			type: req.body.postType,
-			matchInfo: {
-				score: req.body.score,
-				homeTeam: req.body.homeTeam,
-				awayTeam: req.body.awayTeam,
-				competition: req.body.competition
-			},
 			category: req.body.category
 		});
 
@@ -124,7 +119,6 @@ const postCntrl = {
 			const { postId } = req.params;
 			const post = await Post.findById(postId).exec();
 			const updatedPost = {
-				matchInfo: {},
 				photos: [...post.photos]
 			};
 
@@ -151,11 +145,7 @@ const postCntrl = {
 			if(req.body.allowComments) updatedPost.allowComments = req.body.allowComments;
 			if(req.body.category) updatedPost.category = req.body.category;
 			if(req.body.postType) updatedPost.type = req.body.postType;
-			if(req.body.score) updatedPost.matchInfo.score = req.body.score;
-			if(req.body.homeTeam) updatedPost.matchInfo.homeTeam = req.body.homeTeam;
-			if(req.body.awayTeam) updatedPost.matchInfo.awayTeam = req.body.awayTeam;
-			if(req.body.competition) updatedPost.matchInfo.competition = req.body.competition;
-		
+			
 			if(post.author._id.equals(req.user.id)){
 				Post.findOneAndUpdate({_id: postId}, {$set: updatedPost}, {new: true}).then((post) =>{
 					return res.json(post);
@@ -223,7 +213,7 @@ const postCntrl = {
 		return res.status(200).json(tags);
 	},
 
-	postsTag: async (req, res, next) =>{
+	postsByTag: async (req, res, next) =>{
 		const { tag } = req.params;
 		
 		Post.find({tags: { "$all": [tag]}}).then((posts) =>{
@@ -243,6 +233,23 @@ const postCntrl = {
 			}).catch((err) =>{
 				return res.status(404).json(err);
 			});
+	},
+
+	postsByCategories: async (req, res, next) =>{
+		const errors = {};
+		let { categoryId, page, limit } = req.query;
+		page = Number(page) || 1;
+		limit = Number(limit) || 8;
+		const offset = ((limit * page) - limit);
+		
+		try {
+			const posts = await Post.find({category: categoryId}).skip(offset).limit(limit).sort({createdAt: -1});
+			const count = await Post.find({category: categoryId}).countDocuments();
+			
+			return res.status(200).json({posts, total: count, hasMorePosts: count - (page * limit) > 0});
+		} catch(e) {
+			return res.status(400).json(e);
+		};
 	}
 };
 
