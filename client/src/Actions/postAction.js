@@ -2,7 +2,7 @@ import { GET_ERRORS, GET_POSTS, DELETE_USER_POST, CREATE_NEW_POST, GET_CURRENT_P
 import { setLoadingState } from "./utilAction";
 import axios from "axios";
 
-export const getAllPostsAction = (page = 1) => (dispatch) =>{
+export const getAllPostsAction = (page) => (dispatch) =>{
 	dispatch(setLoadingState());
 	axios.get(`/api/posts/?page=${page}`).then((res) =>{
 		return dispatch({
@@ -152,11 +152,25 @@ export const getTagPosts = async (tag) =>{
 	};
 };
 
-export const deletePostPhotoAction = (filename, postid) => (dispatch) =>{
-	axios.put(`/api/posts/${postid}/photos/?filename=${filename}`).then((res) =>{
-		console.log("RESZ: ", res);
+export const deletePostPhotoAction = (filename, postid) => async (dispatch) =>{
+	await axios.put(`/api/posts/${postid}/photos/?filename=${filename}`).then((res) =>{
 		return dispatch({
 			type: GET_CURRENT_POST,
+			payload: res.data
+		});
+	}).catch((err) =>{
+		return dispatch({
+			type: GET_ERRORS,
+			payload: err.response.data
+		});
+	});
+};
+
+export const getPostsByCategory = (id, page) => (dispatch) =>{
+	dispatch(setLoadingState());
+	axios.get(`api/posts/category/?categoryId=${id}&page=${page}`).then((res) =>{
+		return dispatch({
+			type: GET_POSTS,
 			payload: res.data
 		});
 	}).catch((err) =>{

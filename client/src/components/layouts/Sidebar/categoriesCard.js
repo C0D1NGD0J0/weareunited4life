@@ -1,10 +1,13 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 const Categories = (props) => {
 	const { all: categories } = props.category;
 	const categoriesList = categories.map((item) =>{
 		return (
-			<li key={item._id}><a href={`/api/posts/categories/?categoryId=${item._id}`}>{item.name}</a></li>
+			<li key={item._id}>
+				<Link to={`/posts/category/${item._id}?name=${item.name}&page=${1}`}>{item.name}</Link>
+			</li>
 		);
 	});
 

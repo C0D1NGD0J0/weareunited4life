@@ -28,7 +28,7 @@ const postCntrl = {
 		const errors = {};
 		let { page, limit } = req.query;
 		page = Number(page) || 1;
-		limit = Number(limit) || 8;
+		limit = Number(limit) || 5;
 		const offset = ((limit * page) - limit);
 
 		Post.find({})
@@ -235,15 +235,14 @@ const postCntrl = {
 			});
 	},
 
-	postsByCategories: async (req, res, next) =>{
-		const errors = {};
+	postsByCategory: async (req, res, next) =>{
 		let { categoryId, page, limit } = req.query;
 		page = Number(page) || 1;
-		limit = Number(limit) || 8;
+		limit = Number(limit) || 5;
 		const offset = ((limit * page) - limit);
 		
 		try {
-			const posts = await Post.find({category: categoryId}).skip(offset).limit(limit).sort({createdAt: -1});
+			const posts = await Post.find({category: categoryId}).skip(offset).limit(limit).sort({createdAt: -1}).populate('category', "_id name");
 			const count = await Post.find({category: categoryId}).countDocuments();
 			
 			return res.status(200).json({posts, total: count, hasMorePosts: count - (page * limit) > 0});

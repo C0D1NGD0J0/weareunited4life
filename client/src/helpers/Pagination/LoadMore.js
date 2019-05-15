@@ -6,18 +6,15 @@ import PropTypes from 'prop-types';
 class LoadMoreBtn extends Component {
 	constructor(props){
 		super(props);
-		this.state = {
-			page: 2,
-		};
 	}
 
 	handleBtnClick = (e) =>{
 		e.preventDefault();
-		this.setState((state, prop) =>({
-			page: state.page + 1
-		}));
-
-		return this.props.getAllPostsAction(this.state.page)
+		this.props.nextPage();
+		// let { page } = this.state;
+		// this.setState({page: page + 1});
+		
+		// return this.props.getAllPostsAction(page);
 	}
 
 	render() {
@@ -35,12 +32,6 @@ class LoadMoreBtn extends Component {
 			</Fragment>
 		);
 	}
-};
-
-LoadMoreBtn.propTypes = {
-  page: PropTypes.number.isRequired,
-  pageLimit: PropTypes.number,
-  hasMoreResources: PropTypes.bool
 };
 
 const mapDispatchToProps = {

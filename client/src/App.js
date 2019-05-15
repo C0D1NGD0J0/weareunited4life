@@ -11,8 +11,9 @@ import Alert from "./components/layouts/Alert";
 import ErrorPage from "./components/layouts/404";
 import ErrorBoundary from "./components/errorBoundary";
 import Category from "./components/category/";
-import AllPosts from "./components/post/allPosts";
 import Post from "./components/post/singlePost/index";
+import AllPosts from "./components/post/allPosts";
+import PostsByCategory from "./components/post/postsByCategory";
 import PostsTags from "./components/tags/index";
 import Messages from "./components/messages/index";
 import NewPost from "./components/post/newPost";
@@ -39,6 +40,7 @@ class App extends Component {
                   <PrivateRoute path="/posts/new" component={NewPost} />
                   <PrivateRoute path="/posts/:postId/edit" component={NewPost} />
                   <Route exact path="/posts/tags/:tag" component={PostsTags} />
+                  <Route exact path="/posts/category/:categoryId" render={ (props) => <AllPosts {...props} key={Math.random()}/>} />
                   <Route path="/posts/:postId" component={Post} />
 
                   <PrivateRoute exact path="/category" component={Category} />

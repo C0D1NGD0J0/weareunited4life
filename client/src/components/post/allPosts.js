@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import Header from "../layouts/pageHeader";
 import { connect } from "react-redux";
-import { getAllPostsAction, getPostsTags } from "../../Actions/postAction";
+import { getAllPostsAction, getPostsTags, getPostsByCategory } from "../../Actions/postAction";
 import { getCategoriesAction } from "../../Actions/categoryAction";
+import { clearPostsAction } from "../../Actions/utilAction";
 import PostListItem from "./postListItem";
 import Sidebar from "../layouts/Sidebar/";
 import Loader from "../../helpers/Loader";
@@ -12,24 +13,56 @@ import LoadMoreBtn from "../../helpers/Pagination/LoadMore";
 
 class AllPosts extends Component {
 	state ={
-		tags: null,
-		page: 1
+		page: 1,
+		tags: null
 	};
 
 	componentDidMount(){
-		if(!this.props.posts.all.length){
-			this.props.getAllPostsAction();
+		const { page } = this.state;
+
+		const { categoryId } = this.props.match.params;
+		this.props.clearPostsAction();
+
+		if(categoryId){
+			this.props.getPostsByCategory(categoryId);
+		}else {
+			this.props.getAllPostsAction(page);
 		}
+
 		this.props.getCategoriesAction();
 	}
+
+	componentDidUpdate(prevProps, prevState){
+		const { categoryId } = this.props.match.params;
+		if(prevState.page !== this.state.page){
+			
+			if(categoryId){
+				// this.props.clearPostsAction();
+				this.props.getPostsByCategory(categoryId, this.state.page);
+			} else {
+				this.props.getAllPostsAction(this.state.page);
+			}
+
+		}
+	}
 	
+	componentWillUnmount(){
+		this.props.clearPostsAction();
+	}
+
+	updatePageCount = () =>{
+		const { page } = this.state;
+
+		return this.setState({page: page + 1});
+	}
+
 	render() {
 		const { all, loading, hasMorePosts } = this.props.posts;
-		const { category } = this.props;
+		const { category, title, allPosts } = this.props;
 
 		return (
 			<main id="content_wrapper" className="bg-img_posts">
-				<Header title="All Posts" />
+				<Header title={ title || "All Posts"} />
 				<section id="posts" className="posts">
 					<div className="container">
 						<div className="row">
@@ -48,7 +81,7 @@ class AllPosts extends Component {
 												<PostListItem allPosts={all} loading={loading}/>
 											</ul>
 											
-											<LoadMoreBtn page={this.state.page} hasmoreposts={hasMorePosts} />
+											<LoadMoreBtn nextPage={this.updatePageCount} hasmoreposts={hasMorePosts} />
 										</Fragment>
 									}
 								</div>
@@ -68,7 +101,9 @@ const mapStateToProps = (state) =>({
 
 const mapDispatchToProps = {
 	getAllPostsAction,
-	getCategoriesAction
+	getCategoriesAction,
+	clearPostsAction,
+	getPostsByCategory
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllPosts);

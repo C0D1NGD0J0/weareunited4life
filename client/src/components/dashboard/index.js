@@ -18,13 +18,21 @@ class Dashboard extends PureComponent {
 	}
 	
 	componentDidMount(){
-		if(!this.props.posts.all.length){
-			this.props.getAllPostsAction();
-		};
-
+		this.props.getAllPostsAction(this.state.page);
 		axios.get("/api/gameinfo/").then((res) =>{
 			this.setState({ matchInfo: {...res.data} });
 		});
+	}
+
+	componentDidUpdate(prevProps, prevState){
+		if(prevState.page !== this.state.page){
+			this.props.getAllPostsAction(this.state.page);
+		}
+	}
+
+	updatePageCount = () =>{
+		const { page } = this.state;
+		return this.setState({page: page + 1});
 	}
 
 	render() {
@@ -55,7 +63,7 @@ class Dashboard extends PureComponent {
 											<PostListItem allPosts={posts} loading={loading} />
 										</ul>
 										
-										<LoadMoreBtn page={this.state.page} hasmoreposts={hasMorePosts} />
+										<LoadMoreBtn nextPage={this.updatePageCount} hasmoreposts={hasMorePosts} />
 									</Fragment>
 							</div>
 						</div>

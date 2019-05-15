@@ -10,6 +10,7 @@
     "jwt-decode": "2.2.0",
     "moment": "^2.24.0",
     "prop-types": "15.7.2",
+    "query-string": "^6.5.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-image-lightbox": "5.1.0",
