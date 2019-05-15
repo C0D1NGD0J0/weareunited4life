@@ -6,7 +6,7 @@ const Categories = (props) => {
 	const categoriesList = categories.map((item) =>{
 		return (
 			<li key={item._id}>
-				<Link to={`/posts/category/${item._id}?name=${item.name}&page=${1}`}>{item.name}</Link>
+				<Link to={`/posts/category/${item._id}?name=${item.name}`}>{item.name}</Link>
 			</li>
 		);
 	});

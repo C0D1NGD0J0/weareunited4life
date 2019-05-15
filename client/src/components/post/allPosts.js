@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Header from "../layouts/pageHeader";
+import qs from "query-string";
 import { connect } from "react-redux";
 import { getAllPostsAction, getPostsTags, getPostsByCategory } from "../../Actions/postAction";
 import { getCategoriesAction } from "../../Actions/categoryAction";
@@ -19,12 +20,12 @@ class AllPosts extends Component {
 
 	componentDidMount(){
 		const { page } = this.state;
-
+		
 		const { categoryId } = this.props.match.params;
 		this.props.clearPostsAction();
 
 		if(categoryId){
-			this.props.getPostsByCategory(categoryId);
+			this.props.getPostsByCategory(categoryId, page);
 		}else {
 			this.props.getAllPostsAction(page);
 		}
@@ -58,11 +59,12 @@ class AllPosts extends Component {
 
 	render() {
 		const { all, loading, hasMorePosts } = this.props.posts;
-		const { category, title, allPosts } = this.props;
+		let query = qs.parse(this.props.location.search);
+		const { category } = this.props;
 
 		return (
 			<main id="content_wrapper" className="bg-img_posts">
-				<Header title={ title || "All Posts"} />
+				<Header title={ query.name || "All Posts"} />
 				<section id="posts" className="posts">
 					<div className="container">
 						<div className="row">
