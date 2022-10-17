@@ -15,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "async-waterfall": "0.1.5",
-    "aws-sdk": "2.423.0",
+    "aws-sdk": "2.814.0",
     "bad-words": "^3.0.2",
     "bcryptjs": "2.4.3",
     "body-parser": "1.18.3",
